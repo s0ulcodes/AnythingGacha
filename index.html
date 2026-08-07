@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-50 text-slate-800">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>kgacha Studio & Binder</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#fff1f2',
+              100: '#ffe4e6',
+              200: '#fecdd3',
+              300: '#fda4af',
+              400: '#fb7185',
+              500: '#f43f5e',
+              600: '#e11d48',
+            },
+            pastel: {
+              blue: '#3b82f6',
+              blueLight: '#eff6ff',
+              bg: '#faf8f9',
+              cardBg: '#ffffff',
+              border: '#e2e8f0',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- External CDNs -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <style>
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+    
+    * {
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    input, select, textarea {
+      -webkit-user-select: text;
+      user-select: text;
+    }
+
+    .photocard-aspect {
+      aspect-ratio: 2.5 / 3.5;
+      container-type: inline-size;
+    }
+    
+    .frame-classic-border {
+      border: 3.8cqw solid var(--frame-color, #ffffff);
+      position: absolute;
+      inset: 0;
+    }
+
+    .frame-starlight-trim {
+      border: 2.5cqw solid var(--frame-color, #ffffff);
+      box-shadow: 
+        inset 0 0 1.5cqw var(--frame-color, #ffffff), 
+        inset 0 0 3cqw rgba(255, 255, 255, 0.6),
+        0 0 2.5cqw var(--frame-color, #ffffff),
+        0 0 4.5cqw var(--frame-color, #ffffff);
+    }
+
+    .frame-double-lace {
+      border: 4.4cqw double var(--frame-color, #ffffff);
+    }
+
+    .sticker-selected {
+      outline: 2px dashed #f43f5e;
+      outline-offset: 4px;
+    }
+    .sticker-control-handle {
+      position: absolute;
+      bottom: -12px;
+      right: -12px;
+      width: 20px;
+      height: 20px;
+      background-color: #f43f5e;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      cursor: se-resize;
+      z-index: 50;
+    }
+    .sticker-delete-handle {
+      position: absolute;
+      top: -12px;
+      right: -12px;
+      width: 20px;
+      height: 20px;
+      background-color: #64748b;
+      color: #ffffff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      cursor: pointer;
+      z-index: 50;
+    }
+
+    .disable-ios-save {
+      -webkit-user-drag: none;
+      -khtml-user-drag: none;
+      -moz-user-drag: none;
+      -o-user-drag: none;
+      pointer-events: none;
+    }
+
+    /* Mobile custom touch dragging utilities */
+    .touch-dragging-active {
+      position: fixed !important;
+      z-index: 9999 !important;
+      pointer-events: none !important;
+      transform: scale(1.05) !important;
+      box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1) !important;
+      opacity: 0.9 !important;
+    }
+
+    .touch-drop-indicator {
+      outline: 2px dashed #f43f5e !important;
+      outline-offset: 2px;
+      opacity: 0.4;
+    }
+
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="h-full flex flex-col font-sans antialiased selection:bg-brand-400 selection:text-white bg-pastel-bg text-slate-700 select-none">
+
+  <!-- Header Section -->
+  <header class="bg-white/90 border-b border-pink-100 sticky top-0 z-50 backdrop-blur-md shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between">
+      <div class="flex items-center space-x-2.5">
+        <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-pink-300 via-rose-300 to-sky-300 flex items-center justify-center text-white shadow-sm">
+          <i class="fa-solid fa-compact-disc text-sm"></i>
+        </div>
+        <span class="font-bold text-base bg-gradient-to-r from-pink-500 via-rose-400 to-sky-400 bg-clip-text text-transparent">
+          kgacha studio
+        </span>
+      </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="flex border-t border-slate-100 overflow-x-auto bg-white/80 backdrop-blur">
+      <button onclick="switchTab('binder')" id="tab-btn-binder" class="nav-tab text-brand-500 border-brand-500 border-b-2 flex-1 min-w-[100px] py-2.5 text-xs font-bold flex items-center justify-center space-x-2 transition-all">
+        <i class="fa-solid fa-book-open"></i>
+        <span>my binder</span>
+      </button>
+      <button onclick="switchTab('studio')" id="tab-btn-studio" class="nav-tab text-slate-400 border-transparent border-b-2 flex-1 min-w-[100px] py-2.5 text-xs font-bold flex items-center justify-center space-x-2 transition-all hover:text-slate-600">
+        <i class="fa-solid fa-wand-magic-sparkles"></i>
+        <span>card studio</span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- Workspace Container -->
+  <main class="flex-1 overflow-y-auto p-4 max-w-5xl w-full mx-auto">
+    
+    <!-- BINDER VIEW -->
+    <section id="view-binder" class="space-y-4">
+      
+      <!-- Dynamic Category Pill Navigation -->
+      <div id="group-pills-bar" class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1 px-0.5">
+        <!-- populated dynamically based purely on owned assets -->
+      </div>
+
+      <!-- Sorting Sub-header Row -->
+      <div class="flex items-center justify-between px-1 py-1 text-xs text-slate-500 font-medium">
+        <div class="flex items-center gap-2">
+          <span class="text-slate-400 font-medium">sort:</span>
+          <select id="sort-select" onchange="handleSortChange(this.value)" class="bg-white border border-slate-200 rounded-lg px-2.5 py-1 text-xs text-slate-700 font-semibold focus:outline-none focus:border-brand-400 cursor-pointer shadow-2xs">
+            <option value="date-desc">earned date (newest)</option>
+            <option value="date-asc">earned date (oldest)</option>
+            <option value="name-asc">card name (a-z)</option>
+            <option value="group-asc">group name (a-z)</option>
+            <option value="custom">custom (drag & drop)</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="drag-hint-banner" class="hidden text-[11px] text-brand-600 bg-brand-50 border border-brand-100 rounded-xl p-2 text-center font-medium">
+        <i class="fa-solid fa-hand-pointer mr-1"></i> drag and drop photocards to reorder your binder layout!
+      </div>
+
+      <!-- Photocard Binder Grid -->
+      <div id="binder-grid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3 sm:gap-4 p-1 relative">
+        <!-- populated dynamically -->
+      </div>
+
+      <div class="flex justify-center pt-4 pb-6">
+        <button onclick="exportBinderScreenshot()" class="px-4 py-2 bg-white hover:bg-slate-50 text-slate-600 rounded-full text-xs font-semibold flex items-center gap-2 border border-slate-200 shadow-xs transition">
+          <i class="fa-solid fa-camera text-brand-400"></i> Snapshot Page
+        </button>
+      </div>
+    </section>
+
+    <!-- CARD STUDIO VIEW -->
+    <section id="view-studio" class="hidden max-w-4xl mx-auto space-y-6">
+      <div class="bg-white p-6 rounded-2xl border border-pink-100 shadow-sm">
+        <h2 class="text-base font-bold text-slate-800 mb-1 flex items-center gap-2">
+          <i class="fa-solid fa-plus-circle text-brand-400"></i> Card Studio Engine
+        </h2>
+        <p class="text-xs text-slate-400 mb-6">process, downsample, and save custom cards directly into local device storage.</p>
+
+        <form id="card-creator-form" class="grid grid-cols-1 md:grid-cols-12 gap-6" onsubmit="handleCardSubmit(event)">
+          <div class="md:col-span-5 flex flex-col items-center">
+            <div id="dropzone" class="w-full photocard-aspect max-w-[240px] bg-slate-50 border-2 border-dashed border-slate-200 hover:border-brand-300 rounded-2xl flex flex-col items-center justify-center p-4 text-center cursor-pointer relative overflow-hidden transition group shadow-inner">
+              <input type="file" id="image-input" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer z-10" onchange="handleFileSelect(event)">
+              <div id="dropzone-placeholder" class="flex flex-col items-center space-y-2 text-slate-400 group-hover:text-brand-400">
+                <i class="fa-solid fa-cloud-arrow-up text-3xl text-brand-300"></i>
+                <span class="text-xs font-medium">select or drop image asset</span>
+              </div>
+              <img id="card-preview-img" class="hidden absolute inset-0 w-full h-full object-cover rounded-xl disable-ios-save" alt="Preview">
+            </div>
+            <div id="compression-stats" class="hidden mt-3 text-center text-[11px] text-slate-500 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200 w-full max-w-[240px]">
+              orig: <span id="stat-orig-size" class="text-slate-700">0 kb</span> &rarr; webp: <span id="stat-webp-size" class="text-brand-500 font-semibold">0 kb</span>
+            </div>
+          </div>
+
+          <div class="md:col-span-7 space-y-4">
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 mb-1">character / artist name</label>
+              <input type="text" id="input-name" required placeholder="e.g. Seonghwa" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:outline-none focus:border-brand-400">
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-semibold text-slate-600 mb-1">group / series name</label>
+                <input type="text" id="input-group" required placeholder="e.g. ATEEZ" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:outline-none focus:border-brand-400">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-600 mb-1">genre</label>
+                <select id="input-genre" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:outline-none focus:border-brand-400">
+                  <option value="K-Pop">K-Pop</option>
+                  <option value="J-Pop">J-Pop</option>
+                  <option value="Vkei">Vkei</option>
+                  <option value="Vocaloid">Vocaloid</option>
+                  <option value="Anime">Anime</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 mb-1">accent border tone</label>
+              <div class="flex items-center gap-2">
+                <input type="color" id="input-accent" value="#fb7185" class="h-8 w-10 bg-slate-50 border border-slate-200 rounded-lg p-0.5 cursor-pointer">
+                <span id="accent-hex-label" class="text-xs font-mono text-slate-400">#fb7185</span>
+              </div>
+            </div>
+            <button type="submit" id="save-card-btn" disabled class="w-full mt-2 py-2.5 bg-slate-100 text-slate-400 rounded-xl text-xs font-bold flex items-center justify-center space-x-2 cursor-not-allowed border border-slate-200 transition">
+              <i class="fa-solid fa-save"></i>
+              <span>commit photocard into storage</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- DECORATOR CANVAS VIEW -->
+    <section id="view-decorator" class="hidden max-w-5xl mx-auto space-y-4">
+      <div class="mb-2">
+        <button onclick="switchTab('binder')" class="text-xs font-semibold text-brand-500 hover:text-brand-600 flex items-center gap-2">
+          <i class="fa-solid fa-arrow-left"></i> back to my binder collection
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div class="lg:col-span-5 bg-white p-4 rounded-2xl border border-pink-100 shadow-sm space-y-4 h-fit">
+          <div>
+            <h3 class="font-bold text-sm text-slate-800">Toploader Canvas Workspace</h3>
+            <p class="text-[11px] text-slate-400">apply specialized frames, tweak stickers, or edit metadata properties instantly below.</p>
+          </div>
+
+          <div class="pt-2 border-t border-slate-100 space-y-3">
+            <h4 class="text-xs font-bold text-slate-600">modify photocard information</h4>
+            <div>
+              <label class="block text-[11px] font-semibold text-slate-500 mb-1">character / artist name</label>
+              <input type="text" id="edit-card-name" oninput="updateLiveTextPreview()" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:border-brand-400">
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-500 mb-1">group / series</label>
+                <input type="text" id="edit-card-group" oninput="updateLiveTextPreview()" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:border-brand-400">
+              </div>
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-500 mb-1">genre tag</label>
+                <select id="edit-card-genre" onchange="updateLiveTextPreview()" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:border-brand-400">
+                  <option value="K-Pop">K-Pop</option>
+                  <option value="J-Pop">J-Pop</option>
+                  <option value="Vkei">Vkei</option>
+                  <option value="Vocaloid">Vocaloid</option>
+                  <option value="Anime">Anime</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          
+          <div class="pt-3 border-t border-slate-100 space-y-3">
+            <label class="block text-xs font-semibold text-slate-500">apply overlay profile / frame</label>
+            <div class="grid grid-cols-2 gap-2">
+              <button onclick="applyFrameStyle('none')" class="p-2 bg-slate-50 hover:bg-slate-100 rounded-xl text-xs border border-slate-200 text-slate-600 font-medium">clear style</button>
+              <button onclick="applyFrameStyle('frame-classic-border')" class="p-2 bg-slate-50 hover:bg-slate-100 rounded-xl text-xs border border-slate-200 text-slate-600 font-medium">classic border</button>
+              <button onclick="applyFrameStyle('frame-starlight-trim')" class="p-2 bg-slate-50 hover:bg-slate-100 rounded-xl text-xs border border-slate-200 text-slate-600 font-medium">starlight trim</button>
+              <button onclick="applyFrameStyle('frame-double-lace')" class="p-2 bg-slate-50 hover:bg-slate-100 rounded-xl text-xs border border-slate-200 text-slate-600 font-medium">double lace</button>
+            </div>
+            
+            <div id="frame-color-picker-container" class="hidden space-y-1.5 pt-1">
+              <label class="block text-[11px] font-semibold text-slate-500">frame custom color</label>
+              <div class="flex items-center gap-2">
+                <input type="color" id="frame-color-input" value="#ffffff" oninput="updateFrameColor(this.value)" class="h-7 w-9 bg-slate-50 border border-slate-200 rounded cursor-pointer p-0.5">
+                <span id="frame-color-hex-label" class="text-xs font-mono text-slate-400">#ffffff</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-3 border-t border-slate-100 space-y-2">
+            <div class="flex items-center justify-between">
+              <label class="block text-xs font-semibold text-slate-500">custom sticker drawer</label>
+              <label class="text-[11px] font-bold text-brand-500 bg-pink-50 hover:bg-pink-100 border border-pink-200 px-2 py-1 rounded-md cursor-pointer transition">
+                + upload stickers
+                <input type="file" id="sticker-upload-input" accept="image/*" multiple class="hidden" onchange="handleStickerUpload(event)">
+              </label>
+            </div>
+            
+            <div id="sticker-horizontal-bar" class="flex gap-3 overflow-x-auto py-2 px-1 bg-slate-50 border border-slate-200 rounded-xl min-h-[72px] scroll-smooth">
+              <div class="text-[11px] text-slate-400 w-full text-center py-3 flex items-center justify-center">no custom stickers loaded. upload above.</div>
+            </div>
+          </div>
+          
+          <div class="pt-4 border-t border-slate-100 flex flex-col gap-2">
+            <button onclick="saveDecorationsToDB()" class="w-full py-2.5 bg-brand-500 hover:bg-brand-600 text-white rounded-xl text-xs font-bold transition shadow-xs">
+              <i class="fa-solid fa-cloud-arrow-up mr-1"></i> save layer & info changes
+            </button>
+            <button onclick="deleteActiveCardFromDecorator()" class="w-full py-2 bg-white hover:bg-rose-50 text-rose-500 rounded-xl text-xs font-semibold border border-rose-200 transition">
+              <i class="fa-solid fa-trash mr-1"></i> delete card entirely
+            </button>
+          </div>
+        </div>
+
+        <div class="lg:col-span-7 flex justify-center items-center bg-white p-6 rounded-2xl border border-pink-100 shadow-sm min-h-[440px]">
+          <div id="decorator-workspace-container" class="relative photocard-aspect w-full max-w-[280px] bg-slate-100 rounded-2xl shadow-md border border-slate-200 overflow-visible" style="touch-action: none;">
+            <div id="decorator-frame-layer" class="absolute inset-0 z-20 pointer-events-none rounded-2xl"></div>
+            <div id="decorator-sticker-layer" class="absolute inset-0 z-35 rounded-2xl overflow-hidden"></div>
+            <img id="decorator-base-img" src="" class="absolute inset-0 w-full h-full object-cover hidden rounded-2xl disable-ios-save" alt="Studio Target Context">
+            
+            <div id="decorator-text-overlay" class="absolute bottom-0 left-0 right-0 z-30 px-3 pb-3 pt-8 bg-gradient-to-t from-slate-900/80 via-slate-900/40 to-transparent rounded-b-2xl pointer-events-none hidden flex flex-col gap-0.5">
+              <div class="flex items-center justify-between gap-1">
+                <span id="preview-lbl-group" class="text-[10px] uppercase tracking-wider text-slate-200 font-semibold truncate">GROUP</span>
+                <span id="preview-lbl-genre" class="text-[9px] font-bold text-brand-300 bg-slate-900/60 px-1.5 py-0.5 rounded border border-brand-300/30">TAG</span>
+              </div>
+              <div id="preview-lbl-name" class="text-xs font-bold text-white truncate">Name</div>
+            </div>
+
+            <div id="decorator-empty-state" class="absolute inset-0 flex flex-col items-center justify-center p-6 text-center text-slate-400">
+              <i class="fa-solid fa-layer-group text-3xl mb-2 text-slate-300"></i>
+              <p class="text-xs">no target card selected. load a card from your binder.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    console.log = () => {};
+    console.info = () => {};
+    console.warn = () => {};
+    console.error = () => {};
+
+    const DB_NAME = 'PhotocardBinderDB';
+    const DB_VERSION = 1;
+    let dbInstance = null;
+    let activeCompressedWebP = null;
+    let decoratorActiveCard = null;
+    let activeStickers = [];
+    let runtimeStickerInventory = [];
+
+    let activeGroupFilter = 'All';
+    let activeSortMode = 'date-desc';
+    
+    // global variables handling hybrid mouse/touch grid sorting
+    let activeDisplayedCardsData = [];
+    let touchSortTargetNode = null;
+    let touchSortPlaceholderIndex = -1;
+    let touchSortInitialX = 0;
+    let touchSortInitialY = 0;
+    let touchSortCurrentIndex = -1;
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      await initIndexedDB();
+      await loadBinderCards();
+      renderStickerBar();
+
+      document.getElementById('input-accent').addEventListener('input', (e) => {
+        document.getElementById('accent-hex-label').innerText = e.target.value;
+      });
+
+      const container = document.getElementById('decorator-workspace-container');
+      container.addEventListener('mousedown', (e) => {
+        if(e.target.id === 'decorator-workspace-container' || e.target.id === 'decorator-base-img') {
+          clearStickerSelection();
+        }
+      });
+
+      const preventScroll = (e) => { e.preventDefault(); };
+      container.addEventListener('touchstart', preventScroll, { passive: false });
+      container.addEventListener('touchmove', preventScroll, { passive: false });
+    });
+
+    function switchTab(tabName) {
+      document.querySelectorAll('main > section').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.nav-tab').forEach(btn => {
+        btn.classList.remove('text-brand-500', 'border-brand-500');
+        btn.classList.add('text-slate-400', 'border-transparent');
+      });
+      document.getElementById(`view-${tabName}`).classList.remove('hidden');
+      
+      const targetTabBtn = document.getElementById(`tab-btn-${tabName}`);
+      if (targetTabBtn) targetTabBtn.classList.add('text-brand-500', 'border-brand-500');
+      
+      if (tabName === 'binder') loadBinderCards();
+    }
+
+    function initIndexedDB() {
+      return new Promise((resolve) => {
+        const request = indexedDB.open(DB_NAME, DB_VERSION);
+        request.onupgradeneeded = (e) => {
+          const db = e.target.result;
+          if (!db.objectStoreNames.contains('cards')) {
+            db.createObjectStore('cards', { keyPath: 'id' });
+          }
+        };
+        request.onsuccess = (e) => { dbInstance = e.target.result; resolve(dbInstance); };
+      });
+    }
+
+    function compressImageOnUpload(file) {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = 600;
+            canvas.height = 900;
+            const ctx = canvas.getContext('2d');
+            const scale = Math.max(600 / img.width, 900 / img.height);
+            const x = (600 / 2) - (img.width / 2) * scale;
+            const y = (900 / 2) - (img.height / 2) * scale;
+            ctx.fillStyle = '#f8fafc';
+            ctx.fillRect(0, 0, 600, 900);
+            ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
+            const webpBase64 = canvas.toDataURL('image/webp', 0.80);
+            resolve({
+              webpBase64,
+              origSizeKB: (file.size / 1024).toFixed(1),
+              webpSizeKB: (Math.round((webpBase64.length * 3) / 4) / 1024).toFixed(1)
+            });
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function handleFileSelect(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const { webpBase64, origSizeKB, webpSizeKB } = await compressImageOnUpload(file);
+      activeCompressedWebP = webpBase64;
+      
+      const previewImg = document.getElementById('card-preview-img');
+      previewImg.src = webpBase64;
+      previewImg.classList.remove('hidden');
+      document.getElementById('dropzone-placeholder').classList.add('hidden');
+      
+      document.getElementById('stat-orig-size').innerText = `${origSizeKB} KB`;
+      document.getElementById('stat-webp-size').innerText = `${webpSizeKB} KB`;
+      document.getElementById('compression-stats').classList.remove('hidden');
+
+      const saveBtn = document.getElementById('save-card-btn');
+      saveBtn.disabled = false;
+      saveBtn.className = 'w-full mt-2 py-2.5 bg-brand-500 hover:bg-brand-600 text-white rounded-xl text-xs font-bold transition flex items-center justify-center space-x-2 shadow-xs cursor-pointer';
+    }
+
+    async function handleCardSubmit(event) {
+      event.preventDefault();
+      if (!activeCompressedWebP || !dbInstance) return;
+
+      const existingCards = await getAllLocalCards();
+      const cardData = {
+        id: `card_${Date.now()}_${Math.random().toString(36).substr(2, 4)}`,
+        name: document.getElementById('input-name').value.trim(),
+        group: document.getElementById('input-group').value.trim(),
+        genre: document.getElementById('input-genre').value,
+        accentColor: document.getElementById('input-accent').value,
+        imageData: activeCompressedWebP,
+        decorations: { toploaderFrame: 'none', frameColor: '#ffffff', stickers: [] },
+        createdAt: Date.now(),
+        customOrder: existingCards.length
+      };
+
+      const tx = dbInstance.transaction('cards', 'readwrite');
+      tx.objectStore('cards').add(cardData);
+      tx.oncomplete = async () => {
+        document.getElementById('card-creator-form').reset();
+        document.getElementById('card-preview-img').classList.add('hidden');
+        document.getElementById('dropzone-placeholder').classList.remove('hidden');
+        document.getElementById('compression-stats').classList.add('hidden');
+        activeCompressedWebP = null;
+        switchTab('binder');
+      };
+    }
+
+    function getAllLocalCards() {
+      return new Promise((resolve) => {
+        if (!dbInstance) return resolve([]);
+        const tx = dbInstance.transaction('cards', 'readonly');
+        const req = tx.objectStore('cards').getAll();
+        req.onsuccess = () => resolve(req.result);
+      });
+    }
+
+    function handleSortChange(newMode) {
+      activeSortMode = newMode;
+      loadBinderCards();
+    }
+
+    function setGroupFilter(groupName) {
+      activeGroupFilter = groupName;
+      loadBinderCards();
+    }
+
+    async function loadBinderCards() {
+      const cards = await getAllLocalCards();
+      
+      cards.forEach((c, idx) => {
+        if (typeof c.customOrder !== 'number') {
+          c.customOrder = idx;
+        }
+      });
+
+      const dynamicGroups = Array.from(new Set(cards.map(c => c.group).filter(g => g && g.trim() !== '')));
+      dynamicGroups.sort((a, b) => a.localeCompare(b));
+      
+      const allGroupOptions = ['All', ...dynamicGroups];
+
+      if (!allGroupOptions.includes(activeGroupFilter)) {
+        activeGroupFilter = 'All';
+      }
+
+      const pillsContainer = document.getElementById('group-pills-bar');
+      pillsContainer.innerHTML = '';
+      
+      if (cards.length > 0) {
+        allGroupOptions.forEach(grp => {
+          const btn = document.createElement('button');
+          btn.onclick = () => setGroupFilter(grp);
+          const isActive = activeGroupFilter === grp;
+          
+          btn.className = isActive
+            ? 'px-4 py-1.5 rounded-full text-xs font-semibold bg-blue-500 text-white shadow-xs transition flex-shrink-0'
+            : 'px-4 py-1.5 rounded-full text-xs font-semibold bg-white text-slate-500 border border-slate-200 hover:border-slate-300 transition flex-shrink-0';
+          
+          btn.innerText = grp;
+          pillsContainer.appendChild(btn);
+        });
+      }
+
+      let displayedCards = cards;
+      if (activeGroupFilter !== 'All') {
+        displayedCards = cards.filter(c => c.group?.toLowerCase() === activeGroupFilter.toLowerCase());
+      }
+
+      const hintBanner = document.getElementById('drag-hint-banner');
+      if (activeSortMode === 'custom') {
+        hintBanner.classList.remove('hidden');
+        displayedCards.sort((a, b) => a.customOrder - b.customOrder);
+      } else {
+        hintBanner.classList.add('hidden');
+        if (activeSortMode === 'date-desc') {
+          displayedCards.sort((a, b) => b.createdAt - a.createdAt);
+        } else if (activeSortMode === 'date-asc') {
+          displayedCards.sort((a, b) => a.createdAt - b.createdAt);
+        } else if (activeSortMode === 'name-asc') {
+          displayedCards.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+        } else if (activeSortMode === 'group-asc') {
+          displayedCards.sort((a, b) => (a.group || '').localeCompare(b.group || ''));
+        }
+      }
+
+      activeDisplayedCardsData = [...displayedCards];
+
+      const grid = document.getElementById('binder-grid');
+      grid.innerHTML = '';
+
+      if (!displayedCards.length) {
+        grid.innerHTML = `<div class="col-span-full py-12 text-center text-slate-400 text-xs">no photocard assets found. studio upload available above.</div>`;
+        return;
+      }
+
+      const isCustomSort = activeSortMode === 'custom';
+
+      displayedCards.forEach((card, index) => {
+        const slotContainer = document.createElement('div');
+        slotContainer.dataset.cardId = card.id;
+        slotContainer.dataset.index = index;
+        slotContainer.className = 'bg-white p-1 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col items-center justify-center relative overflow-visible transition transform cursor-pointer card-grid-item';
+
+        let frameClass = card.decorations?.toploaderFrame || '';
+        let frameColor = card.decorations?.frameColor || '#ffffff';
+
+        let stickerMarkup = '';
+        if (card.decorations?.stickers) {
+          card.decorations.stickers.forEach(stk => {
+            stickerMarkup += `
+              <div class="absolute select-none pointer-events-none origin-center flex items-center justify-center" style="left:${stk.x}%; top:${stk.y}%; transform: translate(-50%, -50%) scale(${stk.scale || 1.0}) rotate(${stk.rotation || 0}deg); width: 20%; height: 20%;">
+                <img src="${stk.imageSrc}" class="max-w-full max-h-full object-contain disable-ios-save">
+              </div>`;
+          });
+        }
+
+        slotContainer.innerHTML = `
+          <div class="photocard-aspect w-full relative rounded-xl overflow-hidden bg-slate-100 pointer-events-none">
+            ${isCustomSort ? '<div class="absolute top-1.5 left-1.5 z-30 bg-slate-900/60 text-white rounded p-1 text-[9px] flex items-center justify-center pointer-events-none"><i class="fa-solid fa-grip-vertical"></i></div>' : ''}
+            <img src="${card.imageData}" class="absolute inset-0 w-full h-full object-cover disable-ios-save">
+            <div class="absolute inset-0 pointer-events-none z-20 ${frameClass} rounded-xl" style="--frame-color: ${frameColor}"></div>
+            <div class="absolute inset-0 overflow-hidden pointer-events-none z-20">${stickerMarkup}</div>
+          </div>
+        `;
+
+        if (isCustomSort) {
+          // unified pointer event implementation handles mouse dragging and true iOS touch coordinates simultaneously
+          slotContainer.addEventListener('pointerdown', (e) => {
+            // bypass sorting behaviors if user interacts with dynamic custom elements inside slots
+            if(e.target.tagName === 'BUTTON' || e.target.tagName === 'INPUT') return;
+            setupUnifiedGridSorting(e, slotContainer, index);
+          });
+        } else {
+          slotContainer.addEventListener('click', () => {
+            openDecoratorForCard(card.id);
+          });
+        }
+
+        grid.appendChild(slotContainer);
+      });
+    }
+
+    // unified custom layout coordinator framework bypasses HTML5 layout limits
+    function setupUnifiedGridSorting(e, node, index) {
+      e.preventDefault();
+      
+      const isTouch = e.pointerType === 'touch';
+      
+      // if it's touch, let short taps open the decorator, but long presses/slides drag
+      let hasMovedSignificantly = false;
+      
+      const grid = document.getElementById('binder-grid');
+      const items = Array.from(grid.querySelectorAll('.card-grid-item'));
+      const originalRect = node.getBoundingClientRect();
+      
+      touchSortTargetNode = node;
+      touchSortCurrentIndex = index;
+      touchSortPlaceholderIndex = index;
+      
+      touchSortInitialX = e.clientX;
+      touchSortInitialY = e.clientY;
+
+      function pointerMoveHandler(moveEvent) {
+        const deltaX = moveEvent.clientX - touchSortInitialX;
+        const deltaY = moveEvent.clientY - touchSortInitialY;
+        
+        if (!hasMovedSignificantly && Math.hypot(deltaX, deltaY) > 8) {
+          hasMovedSignificantly = true;
+          
+          // lift element out of the grid context flow
+          node.classList.add('touch-dragging-active');
+          node.style.width = `${originalRect.width}px`;
+          node.style.height = `${originalRect.height}px`;
+          
+          // style initial source position indicator placeholder
+          items.forEach((item, idx) => {
+            if (idx === touchSortPlaceholderIndex) {
+              item.classList.add('touch-drop-indicator');
+            }
+          });
+        }
+        
+        if (!hasMovedSignificantly) return;
+
+        // position floating card relative to live mouse/touch position pointers
+        node.style.left = `${originalRect.left + deltaX}px`;
+        node.style.top = `${originalRect.top + deltaY}px`;
+        
+        // determine the structural intersection box targets
+        let targetIndex = touchSortPlaceholderIndex;
+        let closestDistance = Infinity;
+        
+        const dragCenterX = originalRect.left + deltaX + originalRect.width / 2;
+        const dragCenterY = originalRect.top + deltaY + originalRect.height / 2;
+        
+        items.forEach((item, idx) => {
+          if (item === node) return;
+          const r = item.getBoundingClientRect();
+          const itemCenterX = r.left + r.width / 2;
+          const itemCenterY = r.top + r.height / 2;
+          
+          const dist = Math.hypot(dragCenterX - itemCenterX, dragCenterY - itemCenterY);
+          if (dist < closestDistance && dist < Math.max(r.width, r.height) * 1.2) {
+            closestDistance = dist;
+            targetIndex = idx;
+          }
+        });
+        
+        if (targetIndex !== touchSortPlaceholderIndex) {
+          items.forEach(item => item.classList.remove('touch-drop-indicator'));
+          touchSortPlaceholderIndex = targetIndex;
+          items[touchSortPlaceholderIndex].classList.add('touch-drop-indicator');
+        }
+      }
+
+      async function pointerUpHandler() {
+        window.removeEventListener('pointermove', pointerMoveHandler);
+        window.removeEventListener('pointerup', pointerUpHandler);
+        
+        if (!hasMovedSignificantly) {
+          // handle fallback clean tap gestures cleanly
+          openDecoratorForCard(activeDisplayedCardsData[index].id);
+          return;
+        }
+        
+        // reset applied inline styling elements
+        node.classList.remove('touch-dragging-active');
+        node.style.position = '';
+        node.style.zClass = '';
+        node.style.width = '';
+        node.style.height = '';
+        node.style.left = '';
+        node.style.top = '';
+        
+        items.forEach(item => item.classList.remove('touch-drop-indicator'));
+
+        if (touchSortPlaceholderIndex !== touchSortCurrentIndex) {
+          await executeCardIndexShift(touchSortCurrentIndex, touchSortPlaceholderIndex);
+        } else {
+          loadBinderCards();
+        }
+        
+        touchSortTargetNode = null;
+      }
+
+      window.addEventListener('pointermove', pointerMoveHandler);
+      window.addEventListener('pointerup', pointerUpHandler);
+    }
+
+    async function executeCardIndexShift(fromIndex, toIndex) {
+      if (fromIndex === -1 || toIndex === -1 || fromIndex === toIndex) return;
+
+      const [movedCard] = activeDisplayedCardsData.splice(fromIndex, 1);
+      activeDisplayedCardsData.splice(toIndex, 0, movedCard);
+
+      const allCards = await getAllLocalCards();
+      
+      activeDisplayedCardsData.forEach((c, idx) => {
+        const found = allCards.find(item => item.id === c.id);
+        if (found) {
+          found.customOrder = idx;
+        }
+      });
+
+      const tx = dbInstance.transaction('cards', 'readwrite');
+      const store = tx.objectStore('cards');
+      allCards.forEach(card => store.put(card));
+
+      tx.oncomplete = () => {
+        loadBinderCards();
+      };
+    }
+
+    async function openDecoratorForCard(cardId) {
+      document.querySelectorAll('main > section').forEach(el => el.classList.add('hidden'));
+      document.getElementById('view-decorator').classList.remove('hidden');
+      document.querySelectorAll('.nav-tab').forEach(btn => {
+        btn.classList.remove('text-brand-500', 'border-brand-500');
+        btn.classList.add('text-slate-400', 'border-transparent');
+      });
+      loadCardIntoDecorator(cardId);
+    }
+
+    async function loadCardIntoDecorator(cardId) {
+      if (!cardId) return;
+      const cards = await getAllLocalCards();
+      decoratorActiveCard = cards.find(c => c.id === cardId);
+      if (!decoratorActiveCard) return;
+
+      document.getElementById('decorator-empty-state').classList.add('hidden');
+      const baseImg = document.getElementById('decorator-base-img');
+      baseImg.src = decoratorActiveCard.imageData;
+      baseImg.classList.remove('hidden');
+      document.getElementById('decorator-text-overlay').classList.remove('hidden');
+
+      document.getElementById('edit-card-name').value = decoratorActiveCard.name || '';
+      document.getElementById('edit-card-group').value = decoratorActiveCard.group || '';
+      document.getElementById('edit-card-genre').value = decoratorActiveCard.genre || 'K-Pop';
+
+      updateLiveTextPreview();
+
+      const targetFrame = decoratorActiveCard.decorations?.toploaderFrame || 'none';
+      const targetColor = decoratorActiveCard.decorations?.frameColor || '#ffffff';
+      
+      document.getElementById('frame-color-input').value = targetColor;
+      document.getElementById('frame-color-hex-label').innerText = targetColor;
+
+      applyFrameStyle(targetFrame);
+      updateFrameColor(targetColor);
+      
+      document.getElementById('decorator-sticker-layer').innerHTML = '';
+      activeStickers = [];
+
+      if (decoratorActiveCard.decorations?.stickers) {
+        decoratorActiveCard.decorations.stickers.forEach(s => instantiateStickerNode(s.imageSrc, s.x, s.y, s.scale || 1.0, s.rotation || 0));
+      }
+    }
+
+    function updateLiveTextPreview() {
+      const nameVal = document.getElementById('edit-card-name').value.trim() || 'Name';
+      const groupVal = document.getElementById('edit-card-group').value.trim() || 'GROUP';
+      const genreVal = document.getElementById('edit-card-genre').value;
+
+      document.getElementById('preview-lbl-name').innerText = nameVal;
+      document.getElementById('preview-lbl-group').innerText = groupVal;
+      document.getElementById('preview-lbl-genre').innerText = genreVal;
+
+      if (decoratorActiveCard) {
+        decoratorActiveCard.name = nameVal;
+        decoratorActiveCard.group = groupVal;
+        decoratorActiveCard.genre = genreVal;
+      }
+    }
+
+    function applyFrameStyle(styleName) {
+      const layer = document.getElementById('decorator-frame-layer');
+      const picker = document.getElementById('frame-color-picker-container');
+      
+      layer.className = 'absolute inset-0 z-20 pointer-events-none rounded-2xl';
+      
+      if (styleName !== 'none') {
+        layer.classList.add(styleName);
+        if (picker) picker.classList.remove('hidden');
+      } else {
+        if (picker) picker.classList.add('hidden');
+      }
+      
+      if (decoratorActiveCard) {
+        decoratorActiveCard.decorations.toploaderFrame = styleName;
+      }
+    }
+
+    function updateFrameColor(colorHex) {
+      const layer = document.getElementById('decorator-frame-layer');
+      if(layer) layer.style.setProperty('--frame-color', colorHex);
+      document.getElementById('frame-color-hex-label').innerText = colorHex;
+      if (decoratorActiveCard) {
+        if(!decoratorActiveCard.decorations) decoratorActiveCard.decorations = {};
+        decoratorActiveCard.decorations.frameColor = colorHex;
+      }
+    }
+
+    function handleStickerUpload(event) {
+      const files = Array.from(event.target.files);
+      files.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const stickerObj = {
+            id: `stk_inv_${Date.now()}_${Math.random().toString(36).substr(2,4)}`,
+            src: e.target.result
+          };
+          runtimeStickerInventory.push(stickerObj);
+          renderStickerBar();
+        };
+        reader.readAsDataURL(file);
+      });
+      event.target.value = '';
+    }
+
+    function renderStickerBar() {
+      const bar = document.getElementById('sticker-horizontal-bar');
+      bar.innerHTML = '';
+      
+      if (runtimeStickerInventory.length === 0) {
+        bar.innerHTML = `<div class="text-[11px] text-slate-400 w-full text-center py-3 flex items-center justify-center">no custom stickers loaded. upload above.</div>`;
+        return;
+      }
+
+      runtimeStickerInventory.forEach(stk => {
+        const container = document.createElement('div');
+        container.className = 'relative flex-shrink-0 w-12 h-12 bg-white border border-slate-200 rounded-lg p-1 flex items-center justify-center cursor-pointer hover:border-brand-300 group shadow-2xs';
+        container.onclick = () => addStickerToCanvas(stk.src);
+
+        const img = document.createElement('img');
+        img.src = stk.src;
+        img.className = 'max-w-full max-h-full object-contain pointer-events-none disable-ios-save';
+        
+        const delBtn = document.createElement('button');
+        delBtn.className = 'absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-slate-200 text-slate-600 hover:text-rose-500 border border-slate-300 flex items-center justify-center text-[9px] opacity-100 transition-opacity';
+        delBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+        delBtn.onclick = (e) => {
+          e.stopPropagation();
+          runtimeStickerInventory = runtimeStickerInventory.filter(item => item.id !== stk.id);
+          renderStickerBar();
+        };
+
+        container.appendChild(img);
+        container.appendChild(delBtn);
+        bar.appendChild(container);
+      });
+    }
+
+    function addStickerToCanvas(imageSrc) {
+      if (!decoratorActiveCard) return;
+      instantiateStickerNode(imageSrc, 50, 50, 1.0, 0);
+    }
+
+    function clearStickerSelection() {
+      document.querySelectorAll('#decorator-sticker-layer > div').forEach(el => {
+        el.classList.remove('sticker-selected');
+        const handles = el.querySelectorAll('.sticker-control-handle, .sticker-delete-handle');
+        handles.forEach(h => h.classList.add('hidden'));
+      });
+    }
+
+    function instantiateStickerNode(imageSrc, x, y, scale, rotation) {
+      const stickerId = `stk_${Date.now()}_${Math.random().toString(36).substr(2,4)}`;
+      const node = document.createElement('div');
+      node.id = stickerId;
+      node.className = 'absolute select-none z-30 p-1 origin-center flex items-center justify-center cursor-move';
+      node.style.left = `${x}%`;
+      node.style.top = `${y}%`;
+      node.style.width = '20%';
+      node.style.height = '20%';
+      node.style.transform = `translate(-50%, -50%) scale(${scale}) rotate(${rotation}deg)`;
+      
+      const img = document.createElement('img');
+      img.src = imageSrc;
+      img.className = 'max-w-full max-h-full object-contain pointer-events-none disable-ios-save';
+      node.appendChild(img);
+
+      const metadata = { id: stickerId, imageSrc, x, y, scale, rotation };
+      activeStickers.push(metadata);
+
+      const transformHandle = document.createElement('div');
+      transformHandle.className = 'sticker-control-handle hidden';
+      transformHandle.innerHTML = '<i class="fa-solid fa-arrows-up-down-left-right"></i>';
+      node.appendChild(transformHandle);
+
+      const deleteHandle = document.createElement('div');
+      deleteHandle.className = 'sticker-delete-handle hidden';
+      deleteHandle.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+      node.appendChild(deleteHandle);
+
+      const selectAction = (e) => {
+        if(e.target.closest('.sticker-control-handle') || e.target.closest('.sticker-delete-handle')) return;
+        clearStickerSelection();
+        node.classList.add('sticker-selected');
+        transformHandle.classList.remove('hidden');
+        deleteHandle.classList.remove('hidden');
+        startStickerDrag(e, node, metadata);
+      };
+
+      node.addEventListener('mousedown', selectAction);
+      node.addEventListener('touchstart', selectAction, { passive: false });
+
+      transformHandle.addEventListener('mousedown', (e) => { e.stopPropagation(); startStickerTransform(e, node, metadata); });
+      transformHandle.addEventListener('touchstart', (e) => { e.stopPropagation(); startStickerTransform(e, node, metadata); }, { passive: false });
+
+      const triggerRemoveSticker = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        node.remove();
+        activeStickers = activeStickers.filter(s => s.id !== stickerId);
+      };
+
+      deleteHandle.addEventListener('click', triggerRemoveSticker);
+      deleteHandle.addEventListener('touchstart', triggerRemoveSticker, { passive: false });
+
+      document.getElementById('decorator-sticker-layer').appendChild(node);
+    }
+
+    function startStickerDrag(e, node, metadata) {
+      const container = document.getElementById('decorator-workspace-container');
+      const rect = container.getBoundingClientRect();
+      
+      function moveHandler(moveEvent) {
+        const clientX = moveEvent.touches ? moveEvent.touches[0].clientX : moveEvent.clientX;
+        const clientY = moveEvent.touches ? moveEvent.touches[0].clientY : moveEvent.clientY;
+        
+        let pctX = ((clientX - rect.left) / rect.width) * 100;
+        let pctY = ((clientY - rect.top) / rect.height) * 100;
+        
+        pctX = Math.max(0, Math.min(100, pctX));
+        pctY = Math.max(0, Math.min(100, pctY));
+        
+        node.style.left = `${pctX}%`;
+        node.style.top = `${pctY}%`;
+        metadata.x = pctX;
+        metadata.y = pctY;
+      }
+
+      function endHandler() {
+        window.removeEventListener('mousemove', moveHandler);
+        window.removeEventListener('mouseup', endHandler);
+        window.removeEventListener('touchmove', moveHandler);
+        window.removeEventListener('touchend', endHandler);
+      }
+
+      window.addEventListener('mousemove', moveHandler);
+      window.addEventListener('mouseup', endHandler);
+      window.addEventListener('touchmove', moveHandler, { passive: false });
+      window.addEventListener('touchend', endHandler);
+    }
+
+    function startStickerTransform(e, node, metadata) {
+      const container = document.getElementById('decorator-workspace-container');
+      const containerRect = container.getBoundingClientRect();
+      
+      const centerX = containerRect.left + (metadata.x / 100) * containerRect.width;
+      const centerY = containerRect.top + (metadata.y / 100) * containerRect.height;
+
+      const initialClientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const initialClientY = e.touches ? e.touches[0].clientY : e.clientY;
+      
+      const initialRadius = Math.hypot(initialClientX - centerX, initialClientY - centerY);
+      const initialAngle = Math.atan2(initialClientY - centerY, initialClientX - centerX);
+      
+      const startScale = metadata.scale;
+      const startRotation = metadata.rotation;
+
+      function transformMoveHandler(moveEvent) {
+        const clientX = moveEvent.touches ? moveEvent.touches[0].clientX : moveEvent.clientX;
+        const clientY = moveEvent.touches ? moveEvent.touches[0].clientY : moveEvent.clientY;
+        
+        const currentRadius = Math.hypot(clientX - centerX, clientY - centerY);
+        const currentAngle = Math.atan2(clientY - centerY, clientX - centerX);
+        
+        let newScale = startScale * (currentRadius / initialRadius);
+        newScale = Math.max(0.4, Math.min(4.0, newScale));
+        
+        let angleDiff = currentAngle - initialAngle;
+        let newRotation = startRotation + (angleDiff * 180 / Math.PI);
+        
+        metadata.scale = newScale;
+        metadata.rotation = newRotation;
+        
+        node.style.transform = `translate(-50%, -50%) scale(${newScale}) rotate(${newRotation}deg)`;
+      }
+
+      function transformEndHandler() {
+        window.removeEventListener('mousemove', transformMoveHandler);
+        window.removeEventListener('mouseup', transformEndHandler);
+        window.removeEventListener('touchmove', transformMoveHandler);
+        window.removeEventListener('touchend', transformEndHandler);
+      }
+
+      window.addEventListener('mousemove', transformMoveHandler);
+      window.addEventListener('mouseup', transformEndHandler);
+      window.addEventListener('touchmove', transformMoveHandler, { passive: false });
+      window.addEventListener('touchend', transformEndHandler);
+    }
+
+    async function saveDecorationsToDB() {
+      if (!decoratorActiveCard) return;
+      clearStickerSelection();
+      
+      decoratorActiveCard.decorations.stickers = activeStickers;
+      const tx = dbInstance.transaction('cards', 'readwrite');
+      tx.objectStore('cards').put(decoratorActiveCard);
+      tx.oncomplete = () => { 
+        confetti({ particleCount: 30, spread: 50, origin: { y: 0.8 } }); 
+      };
+    }
+
+    function deleteActiveCardFromDecorator() {
+      if (!decoratorActiveCard || !dbInstance) return;
+      if (!confirm('are you sure you want to completely delete this photocard?')) return;
+
+      const tx = dbInstance.transaction('cards', 'readwrite');
+      tx.objectStore('cards').delete(decoratorActiveCard.id);
+      
+      tx.oncomplete = () => {
+        decoratorActiveCard = null;
+        document.getElementById('decorator-empty-state').classList.remove('hidden');
+        document.getElementById('decorator-base-img').classList.add('hidden');
+        document.getElementById('decorator-text-overlay').classList.add('hidden');
+        switchTab('binder');
+      };
+    }
+
+    function exportBinderScreenshot() {
+      const target = document.getElementById('binder-grid');
+      html2canvas(target, { useCORS: true, backgroundColor: '#faf8f9' }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = `binder_page_snapshot_${Date.now()}.png`;
+        link.href = canvas.toDataURL();
+        link.click();
+      });
+    }
+  </script>
+
+</body>
+</html>
