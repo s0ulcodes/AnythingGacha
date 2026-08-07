@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>kgacha Studio & Binder</title>
+  <title>myBinder</title>
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -62,22 +62,25 @@
     }
     
     .frame-classic-border {
-      border: 3.8cqw solid var(--frame-color, #ffffff);
+      outline: 0.66rem solid var(--frame-color);
+      outline-offset: -0.66rem;
       position: absolute;
       inset: 0;
     }
 
     .frame-starlight-trim {
-      border: 2.5cqw solid var(--frame-color, #ffffff);
-      box-shadow: 
-        inset 0 0 1.5cqw var(--frame-color, #ffffff), 
-        inset 0 0 3cqw rgba(255, 255, 255, 0.6),
-        0 0 2.5cqw var(--frame-color, #ffffff),
-        0 0 4.5cqw var(--frame-color, #ffffff);
+      outline: 0.44rem solid var(--frame-color, #ffffff);
+      outline-offset: -0.44rem;
+      box-shadow:
+        inset 0 0 0.26rem var(--frame-color, #ffffff),
+        inset 0 0 0.52rem rgba(255, 255, 255, 0.6),
+        0 0 0.43rem var(--frame-color, #ffffff),
+        0 0 0.78rem var(--frame-color, #ffffff);
     }
 
     .frame-double-lace {
-      border: 4.4cqw double var(--frame-color, #ffffff);
+      outline: 0.77rem double var(--frame-color, #ffffff);
+      outline-offset: -0.77rem;
     }
 
     .sticker-selected {
@@ -155,7 +158,7 @@
           <i class="fa-solid fa-compact-disc text-sm"></i>
         </div>
         <span class="font-bold text-base bg-gradient-to-r from-pink-500 via-rose-400 to-sky-400 bg-clip-text text-transparent">
-          kgacha studio
+          myBinder studio
         </span>
       </div>
     </div>
@@ -1118,7 +1121,7 @@
 
     function exportBinderScreenshot() {
       const target = document.getElementById('binder-grid');
-      html2canvas(target, { useCORS: true, backgroundColor: '#faf8f9' }).then(canvas => {
+      html2canvas(target, { useCORS: true, backgroundColor: '#faf8f9', scale: window.devicePixelRatio }).then(canvas => {
         const link = document.createElement('a');
         link.download = `binder_page_snapshot_${Date.now()}.png`;
         link.href = canvas.toDataURL();
