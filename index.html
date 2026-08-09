@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#f43f5e">
+  <meta name="theme-color" content="#f472b6">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkFueXRoaW5nR2FjaGEgU3R1ZGlvIiwKICAic2hvcnRfbmFtZSI6ICJHYWNoYSBTdHVkaW8iLAogICJkZXNjcmlwdGlvbiI6ICJHYWNoYSBhbmQgY29sbGVjdCBwaG90b2NhcmRzIiwKICAic3RhcnRfdXJsIjogIi4iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiNmNDNmNWUiLAogICJ0aGVtZV9jb2xvciI6ICIjZjQzZjVlIiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sLDxzdmcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJyB2aWV3Qm94PScwIDAgNTEyIDUxMic+PHJlY3Qgd2lkdGg9JzUxMicgaGVpZ2h0PSc1MTInIHJ4PSc2MCcgZmlsbD0nI2Y0M2Y1ZScvPjx0ZXh0IHg9JzI1NicgeT0nMzQwJyBmb250LXNpemU9JzI4MCcgdGV4dC1hbmNob3I9J21pZGRsZScgZmlsbD0nd2hpdGUnIGZvbnQtZmFtaWx5PSdzYW5zLXNlcmlmJz7imqA8L3RleHQ+PC9zdmc+IgogICAgfQogIF0KfQ==">
-  <title>AnythingGacha Studio</title>
+  <title>AnythingGacha</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -15,13 +15,14 @@
       theme: {
         extend: {
           colors: {
-            brand: { 50: '#fff1f2', 100: '#ffe4e6', 200: '#fecdd3', 300: '#fda4af', 400: '#fb7185', 500: '#f43f5e', 600: '#e11d48' },
+            brand: { 50: '#fdf2f8', 100: '#fce7f3', 200: '#fbcfe8', 300: '#f9a8d4', 400: '#f9a8d4', 500: '#f472b6', 600: '#ec4899' },
             pastel: { blue: '#3b82f6', blueLight: '#eff6ff', bg: '#faf8f9', cardBg: '#ffffff', border: '#e2e8f0' }
           }
         }
       }
     }
   </script>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z' fill='%23f472b6'/></svg>">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <style>
@@ -38,52 +39,53 @@
     .frame-glowing-trim { --frame-thickness: 3.2cqw; border: 0 !important; box-sizing: border-box !important; position: absolute !important; inset: 0 !important; overflow: hidden; background: var(--frame-color, #ffffff); box-shadow: inset 0 0 0.4cqw color-mix(in srgb, var(--frame-color, #ffffff) 76%, transparent), inset 0 0 0.9cqw color-mix(in srgb, var(--frame-color, #ffffff) 67%, transparent), 0 0 3.5cqw color-mix(in srgb, var(--frame-color, #ffffff) 50%, transparent), 0 0 5.5cqw color-mix(in srgb, var(--frame-color, #ffffff) 70%, transparent); }
     .frame-glowing-trim::after { content: ""; position: absolute; inset: 0; z-index: 20; pointer-events: none; box-sizing: border-box; border: max(1px, 0.3cqw) solid color-mix(in srgb, var(--frame-color, #ffffff) 90%, white); border-radius: inherit; box-shadow: inset 0 0 0.35cqw color-mix(in srgb, var(--frame-color, #ffffff) 62%, transparent), 0 0 0.35cqw color-mix(in srgb, var(--frame-color, #ffffff) 42%, transparent); }
     .photocard-aspect:has(.frame-glowing-trim) { overflow: visible; }
-    .sticker-selected { outline: 2px dashed #f43f5e; outline-offset: 4px; }
-    .sticker-control-handle { position: absolute; bottom: -12px; right: -12px; width: 20px; height: 20px; background-color: #f43f5e; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; cursor: se-resize; z-index: 50; }
+    .sticker-selected { outline: 2px dashed #f472b6; outline-offset: 4px; }
+    .sticker-control-handle { position: absolute; bottom: -12px; right: -12px; width: 20px; height: 20px; background-color: #f472b6; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; cursor: se-resize; z-index: 50; }
     .sticker-delete-handle { position: absolute; top: -12px; right: -12px; width: 20px; height: 20px; background-color: #64748b; color: #ffffff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; cursor: pointer; z-index: 50; }
     .disable-ios-save { -webkit-user-drag: none; -khtml-user-drag: none; -moz-user-drag: none; -o-user-drag: none; pointer-events: none; }
     .touch-dragging-active { position: fixed !important; z-index: 9999 !important; pointer-events: none !important; transform: scale(1.05) !important; box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1) !important; opacity: 0.9 !important; }
-    .touch-drop-indicator { outline: 2px dashed #f43f5e !important; outline-offset: 2px; opacity: 0.4; }
+    .touch-drop-indicator { outline: 2px dashed #f472b6 !important; outline-offset: 2px; opacity: 0.4; }
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     #delete-confirm-modal { position: fixed; inset: 0; z-index: 10000; display: none; align-items: center; justify-content: center; padding: 20px; background: rgba(15, 23, 42, 0.45); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
     #delete-confirm-modal.show { display: flex; }
-    .delete-confirm-card { width: min(100%, 340px); background: #ffffff; border: 1px solid #fecdd3; border-radius: 22px; padding: 22px; box-shadow: 0 20px 45px rgba(15, 23, 42, 0.18); text-align: center; animation: deleteModalIn 0.18s ease-out; }
+    .delete-confirm-card { width: min(100%, 340px); background: #ffffff; border: 1px solid #fbcfe8; border-radius: 22px; padding: 22px; box-shadow: 0 20px 45px rgba(15, 23, 42, 0.18); text-align: center; animation: deleteModalIn 0.18s ease-out; }
     @keyframes deleteModalIn { from { opacity: 0; transform: scale(0.94) translateY(8px); } to { opacity: 1; transform: scale(1) translateY(0); } }
-    .delete-confirm-icon { width: 52px; height: 52px; margin: 0 auto 12px; border-radius: 16px; display: flex; align-items: center; justify-content: center; background: #fff1f2; color: #f43f5e; font-size: 20px; }
+    .delete-confirm-icon { width: 52px; height: 52px; margin: 0 auto 12px; border-radius: 16px; display: flex; align-items: center; justify-content: center; background: #fff1f2; color: #f472b6; font-size: 20px; }
     .delete-confirm-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
     .delete-confirm-actions button { min-height: 44px; border-radius: 12px; font-size: 12px; font-weight: 700; cursor: pointer; -webkit-tap-highlight-color: transparent; }
     .delete-confirm-cancel { background: #ffffff; color: #64748b; border: 1px solid #e2e8f0; }
-    .delete-confirm-delete { background: #f43f5e; color: #ffffff; border: 1px solid #f43f5e; }
+    .delete-confirm-delete { background: #f472b6; color: #ffffff; border: 1px solid #f472b6; }
     .delete-confirm-delete:active { transform: scale(0.98); }
     @keyframes gachaCardReveal { 0% { transform: rotateY(180deg) scale(0.8); opacity: 0; } 50% { opacity: 0.5; } 100% { transform: rotateY(0deg) scale(1); opacity: 1; } }
     .gacha-card-reveal { animation: gachaCardReveal 0.6s cubic-bezier(0.4, 0, 0.2, 1); transform-origin: center; }
     @keyframes gachaShimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
     .gacha-shimmer-effect { background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); background-size: 200% 100%; animation: gachaShimmer 1.5s ease-in-out; }
-    .bulk-select-checkbox { position: absolute; top: 0.5rem; left: 0.5rem; z-index: 30; width: 20px; height: 20px; accent-color: #f43f5e; }
-    .selected-for-bulk { outline: 2px solid #f43f5e; outline-offset: 2px; }
+    .bulk-select-checkbox { position: absolute; top: 0.5rem; left: 0.5rem; z-index: 30; width: 20px; height: 20px; accent-color: #f472b6; }
+    .selected-for-bulk { outline: 2px solid #f472b6; outline-offset: 2px; }
     .server-status-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 4px; }
-    #pwa-banner { position: fixed; bottom: 0; left: 0; right: 0; z-index: 9999; background: #ffffff; border-top: 2px solid #fecdd3; padding: 16px 20px; box-shadow: 0 -4px 20px rgba(0,0,0,0.1); display: none; animation: slideUp 0.3s ease-out; }
+    #pwa-banner { position: fixed; bottom: 0; left: 0; right: 0; z-index: 9999; background: #ffffff; border-top: 2px solid #fbcfe8; padding: 16px 20px; box-shadow: 0 -4px 20px rgba(0,0,0,0.1); display: none; animation: slideUp 0.3s ease-out; }
     @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
     #pwa-banner.show { display: block; }
     .pwa-banner-content { max-width: 500px; margin: 0 auto; display: flex; align-items: center; gap: 12px; }
-    .pwa-banner-icon { flex-shrink: 0; width: 44px; height: 44px; background: #f43f5e; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px; }
+    .pwa-banner-icon { flex-shrink: 0; width: 44px; height: 44px; background: #f472b6; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px; }
     .pwa-banner-text { flex: 1; font-size: 12px; color: #475569; }
     .pwa-banner-text strong { color: #1e293b; display: block; font-size: 14px; }
     .pwa-banner-actions { display: flex; gap: 8px; flex-shrink: 0; }
     .pwa-banner-actions button { padding: 8px 16px; border-radius: 10px; font-size: 11px; font-weight: 700; cursor: pointer; border: none; transition: all 0.2s; }
-    .pwa-btn-install { background: #f43f5e; color: white; }
-    .pwa-btn-install:hover { background: #e11d48; }
+    .pwa-btn-install { background: #f472b6; color: white; }
+    .pwa-btn-install:hover { background: #ec4899; }
     .pwa-btn-dismiss { background: #f1f5f9; color: #64748b; }
     .pwa-btn-dismiss:hover { background: #e2e8f0; }
     #desktop-dl-bar { position: fixed; bottom: 20px; right: 20px; z-index: 100; display: none; align-items: center; gap: 6px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 8px 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); font-size: 10px; font-weight: 600; color: #475569; }
     #desktop-dl-bar button { padding: 6px 10px; border-radius: 10px; border: none; cursor: pointer; font-size: 10px; font-weight: 600; transition: all 0.2s; display: flex; align-items: center; gap: 4px; background: #f8fafc; color: #475569; border: 1px solid #e2e8f0; }
-    #desktop-dl-bar button:hover { border-color: #f43f5e; color: #f43f5e; background: #fff1f2; }
+    #desktop-dl-bar button:hover { border-color: #f472b6; color: #f472b6; background: #fff1f2; }
     .dl-label { margin-right: 4px; }
     .favorite-star { display: none; }
     @media (max-width: 640px) { #bulk-actions-bar { gap: 4px; } #bulk-actions-bar button { padding: 4px 8px; font-size: 10px; } .delete-confirm-card { margin: 0 10px; } }
-    #toast-container { position: fixed; top: 80px; right: 20px; z-index: 99999; display: flex; flex-direction: column; gap: 10px; max-width: 360px; width: 100%; pointer-events: none; }
-    .toast { background: #ffffff; border-radius: 14px; padding: 14px 18px; box-shadow: 0 8px 30px rgba(0,0,0,0.12); border-left: 4px solid #f43f5e; display: flex; align-items: center; gap: 12px; animation: toastIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); pointer-events: auto; transition: all 0.3s ease; backdrop-filter: blur(10px); background: rgba(255,255,255,0.95); }
+    /* Toast notifications - moved to bottom-right */
+    #toast-container { position: fixed; bottom: 80px; right: 20px; z-index: 99999; display: flex; flex-direction: column-reverse; gap: 10px; max-width: 360px; width: 100%; pointer-events: none; }
+    .toast { background: #ffffff; border-radius: 14px; padding: 14px 18px; box-shadow: 0 8px 30px rgba(0,0,0,0.12); border-left: 4px solid #f472b6; display: flex; align-items: center; gap: 12px; animation: toastIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); pointer-events: auto; transition: all 0.3s ease; backdrop-filter: blur(10px); background: rgba(255,255,255,0.95); }
     .toast.removing { animation: toastOut 0.3s ease-in forwards; }
     @keyframes toastIn { from { opacity: 0; transform: translateX(40px) scale(0.95); } to { opacity: 1; transform: translateX(0) scale(1); } }
     @keyframes toastOut { from { opacity: 1; transform: translateX(0) scale(1); } to { opacity: 0; transform: translateX(40px) scale(0.95); } }
@@ -95,15 +97,27 @@
     .toast-content { flex: 1; font-size: 13px; color: #1e293b; line-height: 1.4; }
     .toast-close { flex-shrink: 0; width: 24px; height: 24px; border-radius: 50%; border: none; background: #f1f5f9; color: #94a3b8; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 10px; transition: all 0.2s; }
     .toast-close:hover { background: #e2e8f0; color: #64748b; }
-    @media (max-width: 640px) { #toast-container { top: 70px; right: 10px; left: 10px; max-width: none; width: auto; } .toast { padding: 12px 14px; font-size: 12px; } .toast-icon { width: 28px; height: 28px; font-size: 12px; } }
+    @media (max-width: 640px) { #toast-container { bottom: 70px; right: 10px; left: 10px; max-width: none; width: auto; } .toast { padding: 12px 14px; font-size: 12px; } .toast-icon { width: 28px; height: 28px; font-size: 12px; } }
   </style>
 </head>
 <body class="h-full flex flex-col font-sans antialiased selection:bg-brand-400 selection:text-white bg-pastel-bg text-slate-700 select-none">
+  <!-- Loading Screen for Electron -->
+  <div id="app-loading" style="position:fixed;inset:0;z-index:99999;background:#faf8f9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;">
+      <div style="width:48px;height:48px;border-radius:16px;background:linear-gradient(135deg,#f9a8d4,#fbcfe8,#7dd3fc);display:flex;align-items:center;justify-content:center;">
+        <svg width="32" height="29" viewBox="0 0 24 24" fill="white">
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+        </svg>
+      </div>
+        <div style="font-size:14px;font-weight:700;background:linear-gradient(to right,#f472b6,#f472b6,#38bdf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">AnythingGacha Studio</div>      <div style="width:120px;height:4px;background:#e2e8f0;border-radius:2px;overflow:hidden;">
+        <div id="loading-bar" style="width:0%;height:100%;background:#f472b6;border-radius:2px;transition:width 0.3s;"></div>
+      </div>
+    </div>
+
   <div id="toast-container"></div>
   <div id="pwa-banner">
     <div class="pwa-banner-content">
       <div class="pwa-banner-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
-      <div class="pwa-banner-text"><strong>📱 Install AnythingGacha Studio</strong>Install this app on your device to save your cards safely and play offline!</div>
+      <div class="pwa-banner-text"><strong>Install AnythingGacha Studio</strong>Install this app on your device to save your cards safely and play offline!</div>
       <div class="pwa-banner-actions">
         <button class="pwa-btn-install" onclick="installPWA()"><i class="fa-solid fa-download"></i> Install</button>
         <button class="pwa-btn-dismiss" onclick="dismissPWABanner()"><i class="fa-solid fa-xmark"></i></button>
@@ -131,8 +145,12 @@
   <header class="bg-white/90 border-b border-pink-100 sticky top-0 z-50 backdrop-blur-md shadow-xs">
     <div class="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between">
       <div class="flex items-center space-x-2.5">
-        <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-pink-300 via-rose-300 to-sky-300 flex items-center justify-center text-white shadow-sm"><i class="fa-solid fa-compact-disc text-sm"></i></div>
-        <span class="font-bold text-base bg-gradient-to-r from-pink-500 via-rose-400 to-sky-400 bg-clip-text text-transparent">AnythingGacha studio</span>
+        <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-pink-300 via-pink-200 to-sky-300 flex items-center justify-center shadow-sm">
+          <svg width="27" height="22" viewBox="0 0 24 24" fill="white">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+        </div>
+        <span class="font-bold text-base bg-gradient-to-r from-pink-500 via-pink-400 to-sky-400 bg-clip-text text-transparent">AnythingGacha studio</span>
       </div>
     </div>
     <nav class="flex border-t border-slate-100 overflow-x-auto bg-white/80 backdrop-blur">
@@ -157,7 +175,7 @@
         </div>
         <div id="bulk-actions-bar" class="hidden flex items-center gap-1 sm:gap-2 flex-wrap">
           <button onclick="toggleBulkSelectMode()" class="text-[10px] sm:text-[11px] font-bold text-brand-500 hover:text-brand-600 bg-brand-50 px-2 sm:px-2.5 py-1 rounded-lg border border-brand-200 whitespace-nowrap"><span id="bulk-btn-text">select</span></button>
-          <button onclick="bulkDeleteSelected()" id="bulk-delete-btn" class="hidden text-[10px] sm:text-[11px] font-bold text-red-500 hover:text-red-600 bg-red-50 px-2 sm:px-2.5 py-1 rounded-lg border border-red-200 whitespace-nowrap"><i class="fa-solid fa-trash mr-1"></i> delete</button>
+          <button onclick="bulkDeleteSelected()" id="bulk-delete-btn" class="hidden text-[10px] sm:text-[11px] font-bold text-pink-500 hover:text-pink-600 bg-pink-50 px-2 sm:px-2.5 py-1 rounded-lg border border-pink-200 whitespace-nowrap"><i class="fa-solid fa-trash mr-1"></i> delete</button>
         </div>
       </div>
       <div id="drag-hint-banner" class="hidden text-[11px] text-brand-600 bg-brand-50 border border-brand-100 rounded-xl p-2 text-center font-medium"><i class="fa-solid fa-hand-pointer mr-1"></i> drag and drop photocards to reorder your binder layout!</div>
@@ -233,7 +251,7 @@
           </div>
           <div class="pt-4 border-t border-slate-100 flex flex-col gap-2">
             <button onclick="saveDecorationsToDB()" class="w-full py-2.5 bg-brand-500 hover:bg-brand-600 text-white rounded-xl text-xs font-bold transition shadow-xs"><i class="fa-solid fa-cloud-arrow-up mr-1"></i> save layer & info changes</button>
-            <button onclick="deleteActiveCardFromDecorator()" class="w-full py-2 bg-white hover:bg-rose-50 text-rose-500 rounded-xl text-xs font-semibold border border-rose-200 transition"><i class="fa-solid fa-trash mr-1"></i> delete card entirely</button>
+            <button onclick="deleteActiveCardFromDecorator()" class="w-full py-2 bg-white hover:bg-pink-50 text-pink-500 rounded-xl text-xs font-semibold border border-pink-200 transition"><i class="fa-solid fa-trash mr-1"></i> delete card entirely</button>
           </div>
         </div>
         <div class="lg:col-span-7 flex justify-center items-center bg-white p-6 rounded-2xl border border-pink-100 shadow-sm min-h-[440px]">
@@ -252,6 +270,28 @@
   </main>
   <script>
     (function() {
+      // Loading screen animation
+      let loadProgress = 0;
+      const loadingBar = document.getElementById('loading-bar');
+      const loadingScreen = document.getElementById('app-loading');
+      const loadInterval = setInterval(() => {
+        loadProgress += Math.random() * 30;
+        if (loadProgress > 90) loadProgress = 90;
+        if (loadingBar) loadingBar.style.width = loadProgress + '%';
+      }, 300);
+
+      window.addEventListener('load', () => {
+        clearInterval(loadInterval);
+        if (loadingBar) loadingBar.style.width = '100%';
+        setTimeout(() => {
+          if (loadingScreen) {
+            loadingScreen.style.opacity = '0';
+            loadingScreen.style.transition = 'opacity 0.3s';
+            setTimeout(() => loadingScreen.remove(), 300);
+          }
+        }, 400);
+      });
+
       // Toast system
       function showToast(m, t='info', d=3000) {
         const c = document.getElementById('toast-container');
@@ -359,16 +399,11 @@
           setTimeout(() => document.getElementById('pwa-banner').classList.add('show'), 3000);
         }
         
-        // Only show Windows download button if:
-        // 1. User is on Windows PC
-        // 2. User is NOT already running the Electron app
-        // 3. User is NOT on mobile
         if (!isMobile && isWindowsPC() && !isRunningInElectron()) {
           document.getElementById('desktop-dl-bar').style.display = 'flex';
         }
       }
 
-      // Windows-only download function
       window.downloadWindowsApp = () => {
         showToast('Downloading AnythingGacha.exe for Windows...', 'info', 3000);
         setTimeout(() => {
@@ -389,7 +424,7 @@
         try {
           const r = await fetch(`${GACHA_URL}/api/stats`);
           serverOnline = r.ok;
-          document.getElementById('status-dot').className = 'server-status-dot ' + (serverOnline ? 'bg-green-500' : 'bg-red-500');
+          document.getElementById('status-dot').className = 'server-status-dot ' + (serverOnline ? 'bg-green-500' : 'bg-pink-500');
           document.getElementById('status-text').textContent = serverOnline ? 'server connected' : 'server offline';
         } catch { serverOnline = false; }
       }
@@ -451,7 +486,7 @@
         const c = document.getElementById('saved-packs-list');
         if (!c) return;
         if (!savedGachaPacks.length) { c.innerHTML = '<div class="text-[11px] text-slate-400 italic">no saved packs yet</div>'; return; }
-        c.innerHTML = savedGachaPacks.map(p => `<div class="flex-shrink-0 bg-white border border-slate-200 rounded-lg px-3 py-2 flex items-center gap-2 cursor-pointer hover:border-brand-300"><div onclick="loadGachaPack(${JSON.stringify(p).replace(/"/g, '&quot;')})"><p class="text-xs font-semibold text-slate-700">${p.name ? p.name + ' (' + p.group + ')' : p.group}</p><p class="text-[10px] text-slate-400">${p.genre}</p></div><button onclick="deleteGachaPack('${p.id}')" class="text-slate-400 hover:text-red-500"><i class="fa-solid fa-xmark text-[10px]"></i></button></div>`).join('');
+        c.innerHTML = savedGachaPacks.map(p => `<div class="flex-shrink-0 bg-white border border-slate-200 rounded-lg px-3 py-2 flex items-center gap-2 cursor-pointer hover:border-brand-300"><div onclick="loadGachaPack(${JSON.stringify(p).replace(/"/g, '&quot;')})"><p class="text-xs font-semibold text-slate-700">${p.name ? p.name + ' (' + p.group + ')' : p.group}</p><p class="text-[10px] text-slate-400">${p.genre}</p></div><button onclick="deleteGachaPack('${p.id}')" class="text-slate-400 hover:text-pink-500"><i class="fa-solid fa-xmark text-[10px]"></i></button></div>`).join('');
       }
 
       window.handleSortChange = (m) => { activeSortMode = m; loadBinder(); };
@@ -596,7 +631,7 @@
       window.updateFrameColor = updateFrameColor;
 
       window.handleStickerUpload = (e) => { Array.from(e.target.files).forEach(f => { const r = new FileReader(); r.onload = (ev) => { runtimeStickerInventory.push({ id: 's' + Date.now(), src: ev.target.result }); renderStickerBar(); }; r.readAsDataURL(f); }); e.target.value = ''; showToast('Stickers uploaded!', 'success', 1500); };
-      function renderStickerBar() { const b = document.getElementById('sticker-horizontal-bar'); if (!b) return; if (!runtimeStickerInventory.length) { b.innerHTML = '<div class="text-[11px] text-slate-400 w-full text-center py-3">no stickers loaded.</div>'; return; } b.innerHTML = runtimeStickerInventory.map(s => `<div class="relative flex-shrink-0 w-12 h-12 bg-white border border-slate-200 rounded-lg p-1 flex items-center justify-center cursor-pointer hover:border-brand-300" onclick="addSticker('${s.src}')"><img src="${s.src}" class="block max-w-full max-h-full object-contain disable-ios-save"><button class="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-slate-200 text-slate-600 hover:text-rose-500 text-[9px]" onclick="event.stopPropagation();runtimeStickerInventory=runtimeStickerInventory.filter(i=>i.id!=='${s.id}');renderStickerBar();"><i class="fa-solid fa-xmark"></i></button></div>`).join(''); }
+      function renderStickerBar() { const b = document.getElementById('sticker-horizontal-bar'); if (!b) return; if (!runtimeStickerInventory.length) { b.innerHTML = '<div class="text-[11px] text-slate-400 w-full text-center py-3">no stickers loaded.</div>'; return; } b.innerHTML = runtimeStickerInventory.map(s => `<div class="relative flex-shrink-0 w-12 h-12 bg-white border border-slate-200 rounded-lg p-1 flex items-center justify-center cursor-pointer hover:border-brand-300" onclick="addSticker('${s.src}')"><img src="${s.src}" class="block max-w-full max-h-full object-contain disable-ios-save"><button class="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-slate-200 text-slate-600 hover:text-pink-500 text-[9px]" onclick="event.stopPropagation();runtimeStickerInventory=runtimeStickerInventory.filter(i=>i.id!=='${s.id}');renderStickerBar();"><i class="fa-solid fa-xmark"></i></button></div>`).join(''); }
       window.addStickerToCanvas = (src) => { if (!decoratorActiveCard) return; makeSticker(src, 50, 50, 1, 0); showToast('Sticker added!', 'success', 1200); };
       window.addSticker = window.addStickerToCanvas;
       function clearSel() { document.querySelectorAll('#decorator-sticker-layer > div').forEach(el => { el.classList.remove('sticker-selected'); el.querySelectorAll('.sticker-control-handle, .sticker-delete-handle').forEach(h => h.classList.add('hidden')); }); }

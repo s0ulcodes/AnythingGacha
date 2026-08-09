@@ -28,10 +28,12 @@
     "files": [
       "index.html",
       "main.js",
-      "package.json"
+      "package.json",
+      "icon.ico"
     ],
     "win": {
-      "target": "portable"
+      "target": "portable",
+      "icon": "icon.ico"
     }
   },
   "devDependencies": {
