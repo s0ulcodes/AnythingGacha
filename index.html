@@ -10,7 +10,8 @@
   <title>AnythingGacha Studio & Binder</title>
 
   <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
   <script>
     tailwind.config = {
       darkMode: 'class',
@@ -41,7 +42,8 @@
 
   <!-- External CDNs -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js">
+  </script>
 
   <style>
     ::-webkit-scrollbar { width: 6px; height: 6px; }
@@ -59,7 +61,6 @@
       user-select: text;
     }
 
-    /* Prevent broken image icon from showing */
     img:not([src]), img[src=""], img[src="#"] {
       opacity: 0;
     }
@@ -308,7 +309,6 @@
       margin-right: 4px;
     }
 
-    /* PWA Install Banner */
     #pwa-banner {
       position: fixed;
       bottom: 0;
@@ -399,7 +399,6 @@
       background: #e2e8f0;
     }
 
-    /* Desktop Backup Button */
     #desktop-backup-btn {
       position: fixed;
       bottom: 20px;
@@ -446,19 +445,11 @@
       background: #94a3b8;
     }
 
-    /* Favorite star */
+    /* Favorite star completely removed via code, but style left harmless */
     .favorite-star {
-      position: absolute;
-      top: 0.5rem;
-      right: 0.5rem;
-      z-index: 25;
-      font-size: 16px;
-      color: #fbbf24;
-      text-shadow: 0 0 4px rgba(0,0,0,0.3);
-      pointer-events: none;
+      display: none;
     }
 
-    /* Fix mobile UI cutoff */
     @media (max-width: 640px) {
       #bulk-actions-bar {
         gap: 4px;
@@ -472,7 +463,6 @@
       }
     }
 
-    /* Folder setup modal */
     #folder-modal {
       position: fixed;
       inset: 0;
@@ -561,7 +551,6 @@
       margin-right: 6px;
     }
 
-    /* Toast Notification System */
     #toast-container {
       position: fixed;
       top: 80px;
@@ -596,25 +585,13 @@
     }
 
     @keyframes toastIn {
-      from {
-        opacity: 0;
-        transform: translateX(40px) scale(0.95);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0) scale(1);
-      }
+      from { opacity: 0; transform: translateX(40px) scale(0.95); }
+      to { opacity: 1; transform: translateX(0) scale(1); }
     }
 
     @keyframes toastOut {
-      from {
-        opacity: 1;
-        transform: translateX(0) scale(1);
-      }
-      to {
-        opacity: 0;
-        transform: translateX(40px) scale(0.95);
-      }
+      from { opacity: 1; transform: translateX(0) scale(1); }
+      to { opacity: 0; transform: translateX(40px) scale(0.95); }
     }
 
     .toast-icon {
@@ -626,16 +603,6 @@
       align-items: center;
       justify-content: center;
       font-size: 14px;
-    }
-
-    .toast-icon.favorite {
-      background: #fef3c7;
-      color: #f59e0b;
-    }
-
-    .toast-icon.favorite-remove {
-      background: #fef3c7;
-      color: #f59e0b;
     }
 
     .toast-icon.delete {
@@ -718,7 +685,7 @@
         <i class="fa-solid fa-mobile-screen-button"></i>
       </div>
       <div class="pwa-banner-text">
-        <strong>📱 Install AnythingGacha Studio</strong>
+        <strong>Install AnythingGacha Studio</strong>
         Install this app on your device to save your cards safely and play offline!
       </div>
       <div class="pwa-banner-actions">
@@ -793,7 +760,6 @@
       </div>
     </div>
 
-    <!-- Navigation Bar -->
     <nav class="flex border-t border-slate-100 overflow-x-auto bg-white/80 backdrop-blur">
       <button onclick="switchTab('binder')" id="tab-btn-binder" class="nav-tab text-brand-500 border-brand-500 border-b-2 flex-1 min-w-[100px] py-2.5 text-xs font-bold flex items-center justify-center space-x-2 transition-all">
         <i class="fa-solid fa-book-open"></i>
@@ -810,10 +776,8 @@
     </nav>
   </header>
 
-  <!-- Workspace Container -->
   <main class="flex-1 overflow-y-auto p-4 max-w-5xl w-full mx-auto pb-24">
     
-    <!-- BINDER VIEW -->
     <section id="view-binder" class="space-y-4">
       <div id="group-pills-bar" class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1 px-0.5"></div>
 
@@ -825,7 +789,6 @@
             <option value="date-asc">earned date (oldest)</option>
             <option value="name-asc">card name (a-z)</option>
             <option value="group-asc">group name (a-z)</option>
-            <option value="favorites">favorites first</option>
             <option value="custom">custom (drag & drop)</option>
           </select>
         </div>
@@ -835,12 +798,6 @@
           </button>
           <button onclick="bulkDeleteSelected()" id="bulk-delete-btn" class="hidden text-[10px] sm:text-[11px] font-bold text-red-500 hover:text-red-600 bg-red-50 px-2 sm:px-2.5 py-1 rounded-lg border border-red-200 whitespace-nowrap">
             <i class="fa-solid fa-trash mr-1"></i> delete
-          </button>
-          <button onclick="bulkFavoriteSelected()" id="bulk-fav-btn" class="hidden text-[10px] sm:text-[11px] font-bold text-yellow-500 hover:text-yellow-600 bg-yellow-50 px-2 sm:px-2.5 py-1 rounded-lg border border-yellow-200 whitespace-nowrap">
-            <i class="fa-solid fa-star mr-1"></i> fav
-          </button>
-          <button onclick="bulkExportSelected()" id="bulk-export-btn" class="hidden text-[10px] sm:text-[11px] font-bold text-blue-500 hover:text-blue-600 bg-blue-50 px-2 sm:px-2.5 py-1 rounded-lg border border-blue-200 whitespace-nowrap">
-            <i class="fa-solid fa-download mr-1"></i> export
           </button>
         </div>
       </div>
@@ -852,7 +809,6 @@
       <div id="binder-grid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3 sm:gap-4 p-1 relative"></div>
     </section>
 
-    <!-- GACHA VIEW -->
     <section id="view-gacha" class="hidden max-w-4xl mx-auto space-y-6">
       <div class="bg-white p-6 rounded-2xl border border-pink-100 shadow-sm">
         <h2 class="text-base font-bold text-slate-800 mb-1 flex items-center gap-2">
@@ -860,13 +816,11 @@
         </h2>
         <p class="text-xs text-slate-400 mb-2">pull real photocards from pinterest!</p>
         
-        <!-- Server Status -->
         <div id="server-status" class="text-[10px] mb-4 flex items-center">
           <span class="server-status-dot bg-yellow-400" id="status-dot"></span>
           <span id="status-text" class="text-slate-500">checking server...</span>
         </div>
 
-        <!-- Daily Limit Display -->
         <div class="mb-4 p-3 bg-blue-50 border border-blue-100 rounded-xl flex items-center justify-between">
           <span class="text-xs font-semibold text-blue-700">
             <i class="fa-solid fa-calendar-check mr-1"></i> daily pulls remaining
@@ -874,7 +828,6 @@
           <span id="daily-pulls-remaining" class="text-lg font-bold text-blue-600">10</span>
         </div>
 
-        <!-- Saved Gacha Packs -->
         <div class="mb-4 p-3 bg-slate-50 border border-slate-200 rounded-xl">
           <div class="flex items-center justify-between mb-2">
             <span class="text-xs font-semibold text-slate-600">saved gacha packs</span>
@@ -913,7 +866,6 @@
           </button>
         </form>
 
-        <!-- Gacha Results Display -->
         <div id="gacha-result-container" class="hidden mt-4 p-4 bg-slate-50 border border-slate-200 rounded-xl">
           <h3 class="text-xs font-bold text-slate-600 mb-3">latest pull result</h3>
           <div id="gacha-result-card" class="flex items-center justify-center"></div>
@@ -921,7 +873,6 @@
       </div>
     </section>
 
-    <!-- CARD STUDIO VIEW -->
     <section id="view-studio" class="hidden max-w-4xl mx-auto space-y-6">
       <div class="bg-white p-6 rounded-2xl border border-pink-100 shadow-sm">
         <h2 class="text-base font-bold text-slate-800 mb-1 flex items-center gap-2">
@@ -937,7 +888,6 @@
                 <i class="fa-solid fa-cloud-arrow-up text-3xl text-brand-300"></i>
                 <span class="text-xs font-medium">select or drop image asset</span>
               </div>
-              <!-- Fixed: Added transparent data URI to prevent broken image icon -->
               <img id="card-preview-img" class="hidden absolute inset-0 block w-full h-full object-cover rounded-xl disable-ios-save" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="">
             </div>
             <div id="compression-stats" class="hidden mt-3 text-center text-[11px] text-slate-500 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200 w-full max-w-[240px]">
@@ -976,7 +926,6 @@
       </div>
     </section>
 
-    <!-- DECORATOR CANVAS VIEW -->
     <section id="view-decorator" class="hidden max-w-5xl mx-auto space-y-4">
       <div class="mb-2">
         <button onclick="switchTab('binder')" class="text-xs font-semibold text-brand-500 hover:text-brand-600 flex items-center gap-2">
@@ -1013,12 +962,6 @@
                   <option value="Other">Other</option>
                 </select>
               </div>
-            </div>
-            <div class="flex items-center gap-2">
-              <label class="flex items-center gap-2 text-[11px] font-semibold text-slate-500 cursor-pointer">
-                <input type="checkbox" id="edit-card-favorite" onchange="updateLiveTextPreview()" class="accent-yellow-500 w-4 h-4">
-                <i class="fa-solid fa-star text-yellow-400"></i> Favorite
-              </label>
             </div>
           </div>
           
@@ -1076,7 +1019,6 @@
                 <span id="preview-lbl-genre" class="text-[9px] font-bold text-brand-300 bg-slate-900/60 px-1.5 py-0.5 rounded border border-brand-300/30">TAG</span>
               </div>
               <div id="preview-lbl-name" class="text-xs font-bold text-white truncate">Name</div>
-              <div id="preview-lbl-fav" class="text-[9px] text-yellow-400 hidden"><i class="fa-solid fa-star"></i> Favorite</div>
             </div>
 
             <div id="decorator-empty-state" class="absolute inset-0 flex flex-col items-center justify-center p-6 text-center text-slate-400">
@@ -1091,1583 +1033,853 @@
   </main>
 
   <script>
-    // ============ TOAST NOTIFICATION SYSTEM ============
-    function showToast(message, type = 'info', duration = 3000) {
-      const container = document.getElementById('toast-container');
-      const toast = document.createElement('div');
-      toast.className = 'toast';
-      
-      let iconHtml = '';
-      let iconClass = '';
-      
-      switch(type) {
-        case 'favorite':
-          iconClass = 'favorite';
-          iconHtml = '<i class="fa-solid fa-star"></i>';
-          break;
-        case 'favorite-remove':
-          iconClass = 'favorite-remove';
-          iconHtml = '<i class="fa-solid fa-star"></i>';
-          break;
-        case 'delete':
-          iconClass = 'delete';
-          iconHtml = '<i class="fa-solid fa-trash"></i>';
-          break;
-        case 'success':
-          iconClass = 'success';
-          iconHtml = '<i class="fa-solid fa-check"></i>';
-          break;
-        case 'info':
-        default:
-          iconClass = 'info';
-          iconHtml = '<i class="fa-solid fa-info"></i>';
-          break;
-      }
-      
-      toast.innerHTML = `
-        <div class="toast-icon ${iconClass}">${iconHtml}</div>
-        <div class="toast-content">${message}</div>
-        <button class="toast-close" onclick="this.closest('.toast').remove()">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
-      `;
-      
-      container.appendChild(toast);
-      
-      setTimeout(() => {
-        toast.classList.add('removing');
-        setTimeout(() => {
-          if (toast.parentNode) toast.remove();
-        }, 300);
-      }, duration);
-      
-      toast.addEventListener('click', (e) => {
-        if (e.target.closest('.toast-close')) return;
-        toast.classList.add('removing');
-        setTimeout(() => {
-          if (toast.parentNode) toast.remove();
-        }, 300);
-      });
-    }
-
-    // ============ CONFIGURATION ============
-    const GACHA_SERVER_URL = 'https://s0ulcodes-pinterest-gacha-app.hf.space';
-    
-    // ============ CORE STATE ============
-    const DB_NAME = 'PhotocardBinderDB';
-    const DB_VERSION = 3;
-    let dbInstance = null;
-    let activeCompressedWebP = null;
-    let decoratorActiveCard = null;
-    let activeStickers = [];
-    let runtimeStickerInventory = [];
-    let activeGroupFilter = 'All';
-    let activeSortMode = 'date-desc';
-    let activeDisplayedCardsData = [];
-    let touchSortTargetNode = null;
-    let touchSortPlaceholderIndex = -1;
-    let touchSortInitialX = 0;
-    let touchSortInitialY = 0;
-    let touchSortCurrentIndex = -1;
-    
-    // Gacha state
-    let dailyPullsRemaining = 15;
-    let lastPullDate = '';
-    let savedGachaPacks = [];
-    let isBulkSelectMode = false;
-    let selectedCardIds = new Set();
-    let pendingBulkDeleteIds = [];
-    let serverOnline = false;
-
-    // PWA state
-    let deferredPrompt = null;
-    let isMobile = false;
-    let isPWA = false;
-
-    // Backup folder state
-    let backupFolderHandle = null;
-    let backupFolderPath = '';
-    let isBackupEnabled = false;
-
-    // Genre-based search query templates
-    const GENRE_QUERY_TEMPLATES = {
-      'K-Pop': (name, group) => name ? `${name} ${group} photocard` : `${group} photocard`,
-      'J-Pop': (name, group) => name ? `${name} ${group}` : group,
-      'Vkei': (name, group) => name ? `${name} ${group} cheki` : `${group} visual kei`,
-      'Vocaloid': (name, group) => name ? `${name} ${group} card` : `${group} card illustration`,
-      'Anime': (name, group) => name ? `${name} ${group} official art` : `${group} anime art`,
-      'Other': (name, group) => name ? `${name} ${group}` : group
-    };
-
-    // Generate persistent client ID
-    function getClientId() {
-      let clientId = localStorage.getItem('kgacha_client_id');
-      if (!clientId) {
-        clientId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-        localStorage.setItem('kgacha_client_id', clientId);
-      }
-      return clientId;
-    }
-
-    // ============ ENCRYPTION HELPERS ============
-    function encryptData(data) {
-      const key = 'AnythingGacha2024SecureKey';
-      const str = JSON.stringify(data);
-      let encrypted = '';
-      for (let i = 0; i < str.length; i++) {
-        encrypted += String.fromCharCode(str.charCodeAt(i) ^ key.charCodeAt(i % key.length));
-      }
-      return btoa(encrypted);
-    }
-
-    function decryptData(encrypted) {
-      const key = 'AnythingGacha2024SecureKey';
-      const str = atob(encrypted);
-      let decrypted = '';
-      for (let i = 0; i < str.length; i++) {
-        decrypted += String.fromCharCode(str.charCodeAt(i) ^ key.charCodeAt(i % key.length));
-      }
-      return JSON.parse(decrypted);
-    }
-
-    // ============ BACKUP FOLDER SYSTEM ============
-    function updateBackupStatus() {
-      const dot = document.getElementById('backup-status-dot');
-      const text = document.getElementById('backup-btn-text');
-      
-      if (isBackupEnabled && backupFolderPath) {
-        dot.className = 'backup-status-dot active';
-        text.textContent = `Auto Backup: ${backupFolderPath}`;
-      } else {
-        dot.className = 'backup-status-dot inactive';
-        text.textContent = 'Set Auto Backup';
-      }
-    }
-
-    function openFolderModal() {
-      document.getElementById('folder-modal').classList.add('show');
-      if (backupFolderPath) {
-        document.getElementById('folder-path-display').innerHTML = 
-          `<i class="fa-solid fa-folder-open"></i> ${backupFolderPath}`;
-      }
-    }
-
-    function closeFolderModal() {
-      document.getElementById('folder-modal').classList.remove('show');
-    }
-
-    async function setupBackupFolder() {
-      try {
-        if (!window.showDirectoryPicker) {
-          showToast('Your browser does not support the File System Access API. Please use Chrome, Edge, or Opera.', 'info');
-          return;
-        }
-
-        const handle = await window.showDirectoryPicker();
-        backupFolderHandle = handle;
-        backupFolderPath = handle.name;
-        isBackupEnabled = true;
+    (function() {
+      // ============ TOAST NOTIFICATION SYSTEM ============
+      function showToast(message, type = 'info', duration = 3000) {
+        const container = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = 'toast';
         
-        localStorage.setItem('kgacha_backup_folder', handle.name);
+        let iconHtml = '';
+        let iconClass = '';
         
-        document.getElementById('folder-path-display').innerHTML = 
-          `<i class="fa-solid fa-folder-open"></i> ${backupFolderPath}`;
-        
-        updateBackupStatus();
-        closeFolderModal();
-        
-        await performBackup();
-        
-        showToast(`✅ Backup folder "${backupFolderPath}" set successfully!`, 'success');
-        
-      } catch (err) {
-        if (err.name !== 'AbortError' && err.name !== 'SecurityError') {
-          console.error('Folder selection error:', err);
-          showToast('Could not set up backup folder: ' + err.message, 'info');
-        }
-      }
-    }
-
-    async function performBackup() {
-      if (!isBackupEnabled || !backupFolderHandle) {
-        return;
-      }
-
-      try {
-        const cards = await getAllLocalCards();
-        const gachaState = {
-          dailyPullsRemaining: dailyPullsRemaining,
-          lastPullDate: lastPullDate,
-          savedPacks: savedGachaPacks
-        };
-
-        const backupData = {
-          version: 1,
-          timestamp: Date.now(),
-          cards: cards,
-          gachaState: gachaState
-        };
-
-        const encrypted = encryptData(backupData);
-        
-        let fileHandle;
-        try {
-          fileHandle = await backupFolderHandle.getFileHandle('kgacha_backup.dat', { create: true });
-        } catch (e) {
-          fileHandle = await backupFolderHandle.getFileHandle('kgacha_backup.dat', { create: true });
+        switch(type) {
+          case 'delete':
+            iconClass = 'delete';
+            iconHtml = '<i class="fa-solid fa-trash"></i>';
+            break;
+          case 'success':
+            iconClass = 'success';
+            iconHtml = '<i class="fa-solid fa-check"></i>';
+            break;
+          case 'info':
+          default:
+            iconClass = 'info';
+            iconHtml = '<i class="fa-solid fa-info"></i>';
+            break;
         }
         
-        const writable = await fileHandle.createWritable({ keepExistingData: false });
-        await writable.write(encrypted);
-        await writable.close();
-        
-      } catch (err) {
-        console.error('Backup failed:', err);
-        if (err.name === 'NotAllowedError' || err.name === 'SecurityError') {
-          isBackupEnabled = false;
-          backupFolderHandle = null;
-          updateBackupStatus();
-          showToast('⚠️ Backup folder access was lost. Please re-select your backup folder.', 'info');
-        }
-      }
-    }
-
-    // ============ PWA DETECTION & INSTALL ============
-    function detectMobileAndPWA() {
-      isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-      isPWA = window.matchMedia('(display-mode: standalone)').matches || 
-              window.navigator.standalone === true;
-      
-      if (isMobile && !isPWA) {
-        setTimeout(() => {
-          document.getElementById('pwa-banner').classList.add('show');
-        }, 3000);
-      }
-      
-      if (!isMobile) {
-        document.getElementById('desktop-backup-btn').style.display = 'flex';
-        
-        const savedFolder = localStorage.getItem('kgacha_backup_folder');
-        if (savedFolder) {
-          backupFolderPath = savedFolder;
-          isBackupEnabled = true;
-          updateBackupStatus();
-        }
-      }
-    }
-
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      if (isMobile && !isPWA) {
-        document.getElementById('pwa-banner').classList.add('show');
-      }
-    });
-
-    function installPWA() {
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then((choiceResult) => {
-          if (choiceResult.outcome === 'accepted') {
-            document.getElementById('pwa-banner').classList.remove('show');
-          }
-          deferredPrompt = null;
-        });
-      } else {
-        showToast('To install: Tap "Add to Home Screen" in your browser menu.', 'info', 4000);
-        document.getElementById('pwa-banner').classList.remove('show');
-      }
-    }
-
-    function dismissPWABanner() {
-      document.getElementById('pwa-banner').classList.remove('show');
-      localStorage.setItem('pwa_banner_dismissed', 'true');
-    }
-
-    // ============ INITIALIZATION ============
-    document.addEventListener('DOMContentLoaded', async () => {
-      detectMobileAndPWA();
-      await initIndexedDB();
-      await loadGachaState();
-      await loadBinderCards();
-      renderStickerBar();
-      renderSavedPacks();
-      checkServerStatus();
-
-      const container = document.getElementById('decorator-workspace-container');
-      container.addEventListener('mousedown', (e) => {
-        if(e.target.id === 'decorator-workspace-container' || e.target.id === 'decorator-base-img') {
-          clearStickerSelection();
-        }
-      });
-
-      const preventScroll = (e) => { e.preventDefault(); };
-      container.addEventListener('touchstart', preventScroll, { passive: false });
-      container.addEventListener('touchmove', preventScroll, { passive: false });
-    });
-
-    // ============ SERVER STATUS CHECK ============
-    async function checkServerStatus() {
-      const statusDot = document.getElementById('status-dot');
-      const statusText = document.getElementById('status-text');
-      
-      try {
-        const response = await fetch(`${GACHA_SERVER_URL}/api/stats`);
-        if (response.ok) {
-          serverOnline = true;
-          if (statusDot) statusDot.className = 'server-status-dot bg-green-500';
-          if (statusText) statusText.textContent = 'server connected (gacha active)';
-        } else {
-          throw new Error('Server error');
-        }
-      } catch (e) {
-        serverOnline = false;
-        if (statusDot) statusDot.className = 'server-status-dot bg-red-500';
-        if (statusText) statusText.textContent = 'server offline - pulls unavailable';
-      }
-    }
-
-    function switchTab(tabName) {
-      document.querySelectorAll('main > section').forEach(el => el.classList.add('hidden'));
-      document.querySelectorAll('.nav-tab').forEach(btn => {
-        btn.classList.remove('text-brand-500', 'border-brand-500');
-        btn.classList.add('text-slate-400', 'border-transparent');
-      });
-      document.getElementById(`view-${tabName}`).classList.remove('hidden');
-      
-      const targetTabBtn = document.getElementById(`tab-btn-${tabName}`);
-      if (targetTabBtn) targetTabBtn.classList.add('text-brand-500', 'border-brand-500');
-      
-      if (tabName === 'binder') loadBinderCards();
-      if (tabName === 'gacha') {
-        updateDailyPullsDisplay();
-        checkServerStatus();
-      }
-    }
-
-    // ============ INDEXEDDB ============
-    function initIndexedDB() {
-      return new Promise((resolve) => {
-        const request = indexedDB.open(DB_NAME, DB_VERSION);
-        request.onupgradeneeded = (e) => {
-          const db = e.target.result;
-          if (!db.objectStoreNames.contains('cards')) {
-            const store = db.createObjectStore('cards', { keyPath: 'id' });
-            store.createIndex('favorite', 'favorite', { unique: false });
-          }
-          if (!db.objectStoreNames.contains('gachaState')) {
-            db.createObjectStore('gachaState', { keyPath: 'key' });
-          }
-        };
-        request.onsuccess = (e) => { dbInstance = e.target.result; resolve(dbInstance); };
-      });
-    }
-
-    // ============ GACHA STATE MANAGEMENT ============
-    async function loadGachaState() {
-      if (!dbInstance) await initIndexedDB();
-      
-      const tx = dbInstance.transaction('gachaState', 'readonly');
-      const store = tx.objectStore('gachaState');
-      
-      const dailyState = await new Promise((resolve) => {
-        const req = store.get('dailyPulls');
-        req.onsuccess = () => resolve(req.result);
-        req.onerror = () => resolve(null);
-      });
-      
-      const packsData = await new Promise((resolve) => {
-        const req = store.get('savedPacks');
-        req.onsuccess = () => resolve(req.result);
-        req.onerror = () => resolve(null);
-      });
-
-      const today = new Date().toDateString();
-      
-      if (dailyState && dailyState.date === today) {
-        dailyPullsRemaining = dailyState.remaining;
-        lastPullDate = dailyState.date;
-      } else {
-        dailyPullsRemaining = 15;
-        lastPullDate = today;
-        await saveGachaState();
-      }
-      
-      if (packsData) {
-        savedGachaPacks = packsData.packs || [];
-      }
-      
-      updateDailyPullsDisplay();
-    }
-
-    async function saveGachaState() {
-      if (!dbInstance) await initIndexedDB();
-      
-      const tx = dbInstance.transaction('gachaState', 'readwrite');
-      const store = tx.objectStore('gachaState');
-      
-      store.put({
-        key: 'dailyPulls',
-        date: new Date().toDateString(),
-        remaining: dailyPullsRemaining
-      });
-      
-      store.put({
-        key: 'savedPacks',
-        packs: savedGachaPacks
-      });
-      
-      return new Promise((resolve) => {
-        tx.oncomplete = resolve;
-      });
-    }
-
-    function updateDailyPullsDisplay() {
-      const display = document.getElementById('daily-pulls-remaining');
-      if (display) {
-        display.textContent = dailyPullsRemaining;
-      }
-      
-      const pullBtn = document.getElementById('gacha-pull-btn');
-      if (pullBtn) {
-        if (dailyPullsRemaining <= 0 || !serverOnline) {
-          pullBtn.disabled = true;
-          pullBtn.classList.add('opacity-50', 'cursor-not-allowed');
-        } else {
-          pullBtn.disabled = false;
-          pullBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-        }
-      }
-    }
-
-    // ============ MAIN GACHA PULL ============
-    async function performGachaPull(event) {
-      event.preventDefault();
-      
-      if (!serverOnline) {
-        showToast('Server is offline. Please try again later.', 'info');
-        return;
-      }
-      
-      if (dailyPullsRemaining <= 0) {
-        showToast('No daily pulls remaining! Come back tomorrow.', 'info');
-        return;
-      }
-      
-      const name = document.getElementById('gacha-name').value.trim();
-      const group = document.getElementById('gacha-group').value.trim();
-      const genre = document.getElementById('gacha-genre').value;
-      
-      if (!group) {
-        showToast('Please enter at least a group/series name.', 'info');
-        return;
-      }
-      
-      const pullBtn = document.getElementById('gacha-pull-btn');
-      pullBtn.disabled = true;
-      pullBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i><span>pulling card...</span>';
-      
-      try {
-        const existingCards = await getAllLocalCards();
-        const excludedHashes = existingCards
-          .filter(card => card.sourceHash)
-          .map(card => card.sourceHash);
-        
-        const response = await fetch(`${GACHA_SERVER_URL}/api/pull`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            name: name,
-            group: group,
-            genre: genre,
-            client_id: getClientId(),
-            excluded_hashes: excludedHashes
-          })
-        });
-        
-        const data = await response.json();
-        
-        if (!data.success) {
-          showToast(data.error || 'Pull failed!', 'info');
-          return;
-        }
-        
-        dailyPullsRemaining--;
-        await saveGachaState();
-        
-        const cardData = {
-          id: `card_${Date.now()}_${Math.random().toString(36).substr(2, 4)}`,
-          name: name || group,
-          group: group,
-          genre: genre,
-          imageData: data.image,
-          decorations: { 
-            toploaderFrame: 'none', 
-            frameColor: '#ffffff', 
-            stickers: [] 
-          },
-          createdAt: Date.now(),
-          customOrder: existingCards.length,
-          sourceHash: data.hash,
-          sourceQuery: data.query,
-          favorite: false
-        };
-        
-        if (!dbInstance) await initIndexedDB();
-        const tx = dbInstance.transaction('cards', 'readwrite');
-        tx.objectStore('cards').add(cardData);
-        
-        await new Promise((resolve) => {
-          tx.oncomplete = resolve;
-        });
-        
-        await performBackup();
-        
-        showGachaResult(cardData);
-        showToast(`✨ New card "${cardData.name}" added to your binder!`, 'success');
-        
-        confetti({
-          particleCount: 100,
-          spread: 90,
-          origin: { y: 0.6 },
-          colors: ['#f43f5e', '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6']
-        });
-        
-      } catch (error) {
-        console.error('Gacha pull failed:', error);
-        showToast('Could not connect to server. Please try again.', 'info');
-        await checkServerStatus();
-      } finally {
-        pullBtn.disabled = false;
-        pullBtn.innerHTML = '<i class="fa-solid fa-gift"></i><span>pull 1 card (gacha)</span>';
-        updateDailyPullsDisplay();
-      }
-    }
-
-    // ============ GACHA UI HELPERS ============
-    function showGachaResult(cardData) {
-      const container = document.getElementById('gacha-result-container');
-      const cardDiv = document.getElementById('gacha-result-card');
-      
-      container.classList.remove('hidden');
-      cardDiv.innerHTML = `
-        <div class="text-center space-y-3">
-          <div class="gacha-card-reveal photocard-aspect w-48 mx-auto rounded-xl shadow-2xl overflow-hidden bg-white relative">
-            <div class="gacha-shimmer-effect absolute inset-0 z-10 pointer-events-none"></div>
-            <img src="${cardData.imageData}" class="block w-full h-full object-cover disable-ios-save">
-            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900/90 to-transparent p-3">
-              <p class="text-xs font-bold text-white">${cardData.name}</p>
-              <p class="text-[10px] text-slate-300">${cardData.group} • ${cardData.genre}</p>
-            </div>
-          </div>
-          <button onclick="switchTab('binder')" class="text-xs font-bold text-brand-500 hover:text-brand-600">
-            <i class="fa-solid fa-book-open mr-1"></i> view in binder
+        toast.innerHTML = `
+          <div class="toast-icon ${iconClass}">${iconHtml}</div>
+          <div class="toast-content">${message}</div>
+          <button class="toast-close" onclick="this.closest('.toast').remove()">
+            <i class="fa-solid fa-xmark"></i>
           </button>
-        </div>
-      `;
-    }
-
-    // ============ SAVED GACHA PACKS ============
-    async function saveCurrentGachaPack() {
-      const name = document.getElementById('gacha-name').value.trim();
-      const group = document.getElementById('gacha-group').value.trim();
-      const genre = document.getElementById('gacha-genre').value;
-      
-      if (!group) {
-        showToast('Please enter at least a group/series name to save.', 'info');
-        return;
-      }
-      
-      const pack = {
-        id: `pack_${Date.now()}`,
-        name: name,
-        group: group,
-        genre: genre,
-        createdAt: Date.now()
-      };
-      
-      savedGachaPacks.push(pack);
-      await saveGachaState();
-      renderSavedPacks();
-      showToast(`📦 Saved pack: ${group}`, 'success');
-    }
-
-    function loadGachaPack(pack) {
-      document.getElementById('gacha-name').value = pack.name || '';
-      document.getElementById('gacha-group').value = pack.group || '';
-      document.getElementById('gacha-genre').value = pack.genre || 'K-Pop';
-      showToast(`📋 Loaded pack: ${pack.group}`, 'info', 1500);
-    }
-
-    async function deleteGachaPack(packId) {
-      savedGachaPacks = savedGachaPacks.filter(p => p.id !== packId);
-      await saveGachaState();
-      renderSavedPacks();
-    }
-
-    function renderSavedPacks() {
-      const container = document.getElementById('saved-packs-list');
-      if (!container) return;
-      
-      if (savedGachaPacks.length === 0) {
-        container.innerHTML = '<div class="text-[11px] text-slate-400 italic">no saved packs yet</div>';
-        return;
-      }
-      
-      container.innerHTML = savedGachaPacks.map(pack => `
-        <div class="flex-shrink-0 bg-white border border-slate-200 rounded-lg px-3 py-2 flex items-center gap-2 cursor-pointer hover:border-brand-300 group">
-          <div onclick="loadGachaPack(${JSON.stringify(pack).replace(/"/g, '&quot;')})">
-            <p class="text-xs font-semibold text-slate-700">${pack.group}</p>
-            <p class="text-[10px] text-slate-400">${pack.genre}</p>
-          </div>
-          <button onclick="deleteGachaPack('${pack.id}')" class="text-slate-400 hover:text-red-500">
-            <i class="fa-solid fa-xmark text-[10px]"></i>
-          </button>
-        </div>
-      `).join('');
-    }
-
-    // ============ BULK ACTIONS ============
-    function toggleBulkSelectMode() {
-      isBulkSelectMode = !isBulkSelectMode;
-      selectedCardIds.clear();
-      
-      const bulkBtn = document.getElementById('bulk-btn-text');
-      const bulkDeleteBtn = document.getElementById('bulk-delete-btn');
-      const bulkFavBtn = document.getElementById('bulk-fav-btn');
-      const bulkExportBtn = document.getElementById('bulk-export-btn');
-      
-      if (isBulkSelectMode) {
-        bulkBtn.textContent = 'cancel';
-        bulkDeleteBtn.classList.remove('hidden');
-        bulkFavBtn.classList.remove('hidden');
-        bulkExportBtn.classList.remove('hidden');
-        showToast('Select cards to manage', 'info', 1500);
-      } else {
-        bulkBtn.textContent = 'select';
-        bulkDeleteBtn.classList.add('hidden');
-        bulkFavBtn.classList.add('hidden');
-        bulkExportBtn.classList.add('hidden');
-      }
-      
-      loadBinderCards();
-    }
-
-    function toggleCardSelection(cardId, checkbox) {
-      if (checkbox.checked) {
-        selectedCardIds.add(cardId);
-      } else {
-        selectedCardIds.delete(cardId);
-      }
-      
-      const bulkDeleteBtn = document.getElementById('bulk-delete-btn');
-      if (bulkDeleteBtn) {
-        bulkDeleteBtn.textContent = selectedCardIds.size > 0 
-          ? `delete (${selectedCardIds.size})` 
-          : 'delete';
-      }
-    }
-
-    function bulkDeleteSelected() {
-      if (selectedCardIds.size === 0) {
-        showToast('No cards selected for deletion.', 'info');
-        return;
-      }
-      
-      pendingBulkDeleteIds = Array.from(selectedCardIds);
-      
-      const modal = document.getElementById('delete-confirm-modal');
-      const title = document.getElementById('delete-confirm-title');
-      if (title) {
-        title.textContent = `delete ${pendingBulkDeleteIds.length} photocards?`;
-      }
-      if (modal) {
-        modal.classList.add('show');
-      }
-    }
-
-    async function bulkFavoriteSelected() {
-      if (selectedCardIds.size === 0) {
-        showToast('No cards selected.', 'info');
-        return;
-      }
-      
-      if (!dbInstance) await initIndexedDB();
-      
-      const tx = dbInstance.transaction('cards', 'readwrite');
-      const store = tx.objectStore('cards');
-      
-      const allFavorited = Array.from(selectedCardIds).every(id => {
-        const card = activeDisplayedCardsData.find(c => c.id === id);
-        return card && card.favorite;
-      });
-      
-      const newFavoriteState = !allFavorited;
-      const action = newFavoriteState ? 'added to' : 'removed from';
-      const toastType = newFavoriteState ? 'favorite' : 'favorite-remove';
-      
-      for (const cardId of selectedCardIds) {
-        const card = await new Promise((resolve) => {
-          const req = store.get(cardId);
-          req.onsuccess = () => resolve(req.result);
-        });
-        if (card) {
-          card.favorite = newFavoriteState;
-          store.put(card);
-        }
-      }
-      
-      tx.oncomplete = async () => {
-        showToast(`${selectedCardIds.size} card(s) ${action} favorites!`, toastType);
-        await performBackup();
-        selectedCardIds.clear();
-        toggleBulkSelectMode();
-        loadBinderCards();
-      };
-    }
-
-    async function confirmDeleteCard() {
-      const cardIds = pendingBulkDeleteIds.length > 0 
-        ? pendingBulkDeleteIds 
-        : (decoratorActiveCard ? [decoratorActiveCard.id] : []);
-      
-      closeDeleteConfirm();
-      
-      if (cardIds.length === 0) return;
-      
-      try {
-        if (!dbInstance) await initIndexedDB();
-        
-        const tx = dbInstance.transaction(['cards'], 'readwrite');
-        const store = tx.objectStore('cards');
-        
-        for (const cardId of cardIds) {
-          store.delete(cardId);
-        }
-        
-        await new Promise((resolve, reject) => {
-          tx.oncomplete = resolve;
-          tx.onerror = reject;
-        });
-        
-        await performBackup();
-        
-        showToast(`${cardIds.length} card(s) deleted`, 'delete');
-        
-        if (decoratorActiveCard && cardIds.includes(decoratorActiveCard.id)) {
-          decoratorActiveCard = null;
-          activeStickers = [];
-          
-          const baseImg = document.getElementById('decorator-base-img');
-          const textOverlay = document.getElementById('decorator-text-overlay');
-          const emptyState = document.getElementById('decorator-empty-state');
-          
-          if (baseImg) baseImg.classList.add('hidden');
-          if (textOverlay) textOverlay.classList.add('hidden');
-          if (emptyState) emptyState.classList.remove('hidden');
-        }
-        
-        selectedCardIds.clear();
-        pendingBulkDeleteIds = [];
-        
-        if (isBulkSelectMode) {
-          toggleBulkSelectMode();
-        }
-        
-        switchTab('binder');
-        
-      } catch (error) {
-        console.error('Delete failed:', error);
-        showToast('Delete operation failed.', 'info');
-      }
-    }
-
-    function bulkExportSelected() {
-      if (selectedCardIds.size === 0) {
-        showToast('No cards selected for export.', 'info');
-        return;
-      }
-      
-      const selectedCards = activeDisplayedCardsData.filter(card => selectedCardIds.has(card.id));
-      
-      if (selectedCards.length === 0) {
-        showToast('No matching cards found.', 'info');
-        return;
-      }
-      
-      const exportData = {
-        exportedAt: new Date().toISOString(),
-        cardCount: selectedCards.length,
-        cards: selectedCards.map(card => ({
-          name: card.name,
-          group: card.group,
-          genre: card.genre,
-          createdAt: card.createdAt,
-          favorite: card.favorite || false
-        }))
-      };
-      
-      const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `kgacha-export-${Date.now()}.json`;
-      a.click();
-      URL.revokeObjectURL(url);
-      showToast(`${selectedCards.length} card(s) exported`, 'success');
-    }
-
-    function closeDeleteConfirm() {
-      const modal = document.getElementById('delete-confirm-modal');
-      if (modal) modal.classList.remove('show');
-    }
-
-    // ============ COMPRESSION & CARD CREATION ============
-    function compressImageOnUpload(file) {
-      return new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          const img = new Image();
-          img.onload = () => {
-            const canvas = document.createElement('canvas');
-            const targetWidth = 600;
-            const targetHeight = 840;
-            canvas.width = targetWidth;
-            canvas.height = targetHeight;
-            const ctx = canvas.getContext('2d');
-            
-            const scale = Math.max(targetWidth / img.width, targetHeight / img.height);
-            const x = (targetWidth - img.width * scale) / 2;
-            const y = (targetHeight - img.height * scale) / 2;
-            
-            ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
-            const webpBase64 = canvas.toDataURL('image/webp', 0.80);
-            resolve({
-              webpBase64,
-              origSizeKB: (file.size / 1024).toFixed(1),
-              webpSizeKB: (Math.round((webpBase64.length * 3) / 4) / 1024).toFixed(1)
-            });
-          };
-          img.src = e.target.result;
-        };
-        reader.readAsDataURL(file);
-      });
-    }
-
-    async function handleFileSelect(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-      const { webpBase64, origSizeKB, webpSizeKB } = await compressImageOnUpload(file);
-      activeCompressedWebP = webpBase64;
-      
-      const previewImg = document.getElementById('card-preview-img');
-      previewImg.src = webpBase64;
-      previewImg.classList.remove('hidden');
-      document.getElementById('dropzone-placeholder').classList.add('hidden');
-      
-      document.getElementById('stat-orig-size').innerText = `${origSizeKB} KB`;
-      document.getElementById('stat-webp-size').innerText = `${webpSizeKB} KB`;
-      document.getElementById('compression-stats').classList.remove('hidden');
-
-      const saveBtn = document.getElementById('save-card-btn');
-      saveBtn.disabled = false;
-      saveBtn.className = 'w-full mt-2 py-2.5 bg-brand-500 hover:bg-brand-600 text-white rounded-xl text-xs font-bold transition flex items-center justify-center space-x-2 shadow-xs cursor-pointer';
-      
-      showToast('Image loaded! Ready to save.', 'success', 1500);
-    }
-
-    async function handleCardSubmit(event) {
-      event.preventDefault();
-      if (!activeCompressedWebP) return;
-      if (!dbInstance) await initIndexedDB();
-
-      const existingCards = await getAllLocalCards();
-      const cardData = {
-        id: `card_${Date.now()}_${Math.random().toString(36).substr(2, 4)}`,
-        name: document.getElementById('input-name').value.trim(),
-        group: document.getElementById('input-group').value.trim(),
-        genre: document.getElementById('input-genre').value,
-        imageData: activeCompressedWebP,
-        decorations: { toploaderFrame: 'none', frameColor: '#ffffff', stickers: [] },
-        createdAt: Date.now(),
-        customOrder: existingCards.length,
-        favorite: false
-      };
-
-      const tx = dbInstance.transaction('cards', 'readwrite');
-      tx.objectStore('cards').add(cardData);
-      tx.oncomplete = async () => {
-        document.getElementById('card-creator-form').reset();
-        document.getElementById('card-preview-img').classList.add('hidden');
-        document.getElementById('dropzone-placeholder').classList.remove('hidden');
-        document.getElementById('compression-stats').classList.add('hidden');
-        activeCompressedWebP = null;
-        await performBackup();
-        showToast(`Custom card "${cardData.name}" created!`, 'success');
-        switchTab('binder');
-      };
-    }
-
-    function getAllLocalCards() {
-      return new Promise((resolve) => {
-        if (!dbInstance) return resolve([]);
-        const tx = dbInstance.transaction('cards', 'readonly');
-        const req = tx.objectStore('cards').getAll();
-        req.onsuccess = () => resolve(req.result || []);
-        req.onerror = () => resolve([]);
-      });
-    }
-
-    function handleSortChange(newMode) {
-      activeSortMode = newMode;
-      loadBinderCards();
-    }
-
-    function setGroupFilter(groupName) {
-      activeGroupFilter = groupName;
-      loadBinderCards();
-    }
-
-    async function loadBinderCards() {
-      const cards = await getAllLocalCards();
-      
-      cards.forEach((c, idx) => {
-        if (typeof c.customOrder !== 'number') {
-          c.customOrder = idx;
-        }
-        if (typeof c.favorite !== 'boolean') {
-          c.favorite = false;
-        }
-      });
-
-      const dynamicGroups = Array.from(new Set(cards.map(c => c.group).filter(g => g && g.trim() !== '')));
-      dynamicGroups.sort((a, b) => a.localeCompare(b));
-      
-      const allGroupOptions = ['All', ...dynamicGroups];
-
-      if (!allGroupOptions.includes(activeGroupFilter)) {
-        activeGroupFilter = 'All';
-      }
-
-      const pillsContainer = document.getElementById('group-pills-bar');
-      pillsContainer.innerHTML = '';
-      
-      if (cards.length > 0) {
-        allGroupOptions.forEach(grp => {
-          const btn = document.createElement('button');
-          btn.onclick = () => setGroupFilter(grp);
-          const isActive = activeGroupFilter === grp;
-          
-          btn.className = isActive
-            ? 'px-4 py-1.5 rounded-full text-xs font-semibold bg-blue-500 text-white shadow-xs transition flex-shrink-0'
-            : 'px-4 py-1.5 rounded-full text-xs font-semibold bg-white text-slate-500 border border-slate-200 hover:border-slate-300 transition flex-shrink-0';
-          
-          btn.innerText = grp;
-          pillsContainer.appendChild(btn);
-        });
-      }
-
-      let displayedCards = cards;
-      if (activeGroupFilter !== 'All') {
-        displayedCards = cards.filter(c => c.group?.toLowerCase() === activeGroupFilter.toLowerCase());
-      }
-
-      const hintBanner = document.getElementById('drag-hint-banner');
-      if (activeSortMode === 'custom') {
-        hintBanner.classList.remove('hidden');
-        displayedCards.sort((a, b) => a.customOrder - b.customOrder);
-      } else {
-        hintBanner.classList.add('hidden');
-        if (activeSortMode === 'favorites') {
-          displayedCards.sort((a, b) => {
-            if (a.favorite && !b.favorite) return -1;
-            if (!a.favorite && b.favorite) return 1;
-            return b.createdAt - a.createdAt;
-          });
-        } else if (activeSortMode === 'date-desc') {
-          displayedCards.sort((a, b) => b.createdAt - a.createdAt);
-        } else if (activeSortMode === 'date-asc') {
-          displayedCards.sort((a, b) => a.createdAt - b.createdAt);
-        } else if (activeSortMode === 'name-asc') {
-          displayedCards.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
-        } else if (activeSortMode === 'group-asc') {
-          displayedCards.sort((a, b) => (a.group || '').localeCompare(b.group || ''));
-        }
-      }
-
-      activeDisplayedCardsData = [...displayedCards];
-
-      const grid = document.getElementById('binder-grid');
-      grid.innerHTML = '';
-
-      const bulkBar = document.getElementById('bulk-actions-bar');
-      if (displayedCards.length > 0) {
-        bulkBar.classList.remove('hidden');
-      } else {
-        bulkBar.classList.add('hidden');
-        grid.innerHTML = `<div class="col-span-full py-12 text-center text-slate-400 text-xs">no photocard assets found. try pulling from gacha or upload in studio!</div>`;
-        return;
-      }
-
-      if (!displayedCards.length) {
-        grid.innerHTML = `<div class="col-span-full py-12 text-center text-slate-400 text-xs">no matching cards in this category.</div>`;
-        return;
-      }
-
-      const isCustomSort = activeSortMode === 'custom';
-
-      displayedCards.forEach((card, index) => {
-        const slotContainer = document.createElement('div');
-        slotContainer.dataset.cardId = card.id;
-        slotContainer.dataset.index = index;
-        
-        slotContainer.className = 'w-full rounded-xl shadow-xs relative overflow-visible transition transform cursor-pointer card-grid-item';
-
-        if (isBulkSelectMode && selectedCardIds.has(card.id)) {
-          slotContainer.classList.add('selected-for-bulk');
-        }
-
-        let frameClass = card.decorations?.toploaderFrame || '';
-        if (frameClass === 'none') frameClass = '';
-        let frameColor = card.decorations?.frameColor || '#ffffff';
-
-        let stickerMarkup = '';
-        if (card.decorations?.stickers) {
-          card.decorations.stickers.forEach(stk => {
-            stickerMarkup += `
-              <div class="absolute select-none pointer-events-none origin-center flex items-center justify-center" style="left:${stk.x}%; top:${stk.y}%; transform: translate(-50%, -50%) scale(${stk.scale || 1.0}) rotate(${stk.rotation || 0}deg); width: 20%; height: 20%;">
-                <img src="${stk.imageSrc}" class="block max-w-full max-h-full object-contain disable-ios-save">
-              </div>`;
-          });
-        }
-
-        let bulkCheckboxHTML = '';
-        if (isBulkSelectMode) {
-          bulkCheckboxHTML = `<input type="checkbox" class="bulk-select-checkbox" ${selectedCardIds.has(card.id) ? 'checked' : ''} onclick="event.stopPropagation(); toggleCardSelection('${card.id}', this)">`;
-        }
-
-        let favoriteStarHTML = '';
-        if (card.favorite) {
-          favoriteStarHTML = `<div class="favorite-star"><i class="fa-solid fa-star"></i></div>`;
-        }
-
-        slotContainer.innerHTML = `
-          ${bulkCheckboxHTML}
-          ${favoriteStarHTML}
-          <div class="photocard-aspect w-full relative rounded-xl overflow-hidden bg-transparent pointer-events-none">
-            <div class="absolute inset-0 rounded-xl ${frameClass}" style="--frame-color: ${frameColor}; background-color: ${frameColor}; padding: var(--frame-thickness, 0px); box-sizing: border-box;">
-              <img src="${card.imageData}" class="block w-full h-full object-cover rounded-[inherit] disable-ios-save">
-            </div>
-            ${isCustomSort && !isBulkSelectMode ? '<div class="absolute top-1.5 left-1.5 z-30 bg-slate-900/60 text-white rounded p-1 text-[9px] flex items-center justify-center pointer-events-none"><i class="fa-solid fa-grip-vertical"></i></div>' : ''}
-            <div class="absolute inset-0 overflow-hidden pointer-events-none z-20">${stickerMarkup}</div>
-          </div>
         `;
-
-        if (isBulkSelectMode) {
-          slotContainer.addEventListener('click', (e) => {
-            if (e.target.tagName === 'INPUT') return;
-            const checkbox = slotContainer.querySelector('.bulk-select-checkbox');
-            checkbox.checked = !checkbox.checked;
-            toggleCardSelection(card.id, checkbox);
-            if (checkbox.checked) {
-              slotContainer.classList.add('selected-for-bulk');
-            } else {
-              slotContainer.classList.remove('selected-for-bulk');
-            }
-          });
-        } else if (isCustomSort) {
-          slotContainer.addEventListener('pointerdown', (e) => {
-            if(e.target.tagName === 'BUTTON' || e.target.tagName === 'INPUT') return;
-            setupUnifiedGridSorting(e, slotContainer, index);
-          });
-        } else {
-          slotContainer.addEventListener('click', () => {
-            openDecoratorForCard(card.id);
-          });
-        }
-
-        grid.appendChild(slotContainer);
-      });
-    }
-
-    // ============ DRAG & DROP SORTING ============
-    function setupUnifiedGridSorting(e, node, index) {
-      e.preventDefault();
-      
-      let hasMovedSignificantly = false;
-      const grid = document.getElementById('binder-grid');
-      const items = Array.from(grid.querySelectorAll('.card-grid-item'));
-      const originalRect = node.getBoundingClientRect();
-      
-      touchSortTargetNode = node;
-      touchSortCurrentIndex = index;
-      touchSortPlaceholderIndex = index;
-      
-      touchSortInitialX = e.clientX;
-      touchSortInitialY = e.clientY;
-
-      function pointerMoveHandler(moveEvent) {
-        const deltaX = moveEvent.clientX - touchSortInitialX;
-        const deltaY = moveEvent.clientY - touchSortInitialY;
         
-        if (!hasMovedSignificantly && Math.hypot(deltaX, deltaY) > 8) {
-          hasMovedSignificantly = true;
-          
-          node.classList.add('touch-dragging-active');
-          node.style.width = `${originalRect.width}px`;
-          node.style.height = `${originalRect.height}px`;
-          
-          items.forEach((item, idx) => {
-            if (idx === touchSortPlaceholderIndex) {
-              item.classList.add('touch-drop-indicator');
-            }
-          });
-        }
+        container.appendChild(toast);
         
-        if (!hasMovedSignificantly) return;
-
-        node.style.left = `${originalRect.left + deltaX}px`;
-        node.style.top = `${originalRect.top + deltaY}px`;
+        setTimeout(() => {
+          toast.classList.add('removing');
+          setTimeout(() => {
+            if (toast.parentNode) toast.remove();
+          }, 300);
+        }, duration);
         
-        let targetIndex = touchSortPlaceholderIndex;
-        let closestDistance = Infinity;
-        
-        const dragCenterX = originalRect.left + deltaX + originalRect.width / 2;
-        const dragCenterY = originalRect.top + deltaY + originalRect.height / 2;
-        
-        items.forEach((item, idx) => {
-          if (item === node) return;
-          const r = item.getBoundingClientRect();
-          const itemCenterX = r.left + r.width / 2;
-          const itemCenterY = r.top + r.height / 2;
-          
-          const dist = Math.hypot(dragCenterX - itemCenterX, dragCenterY - itemCenterY);
-          if (dist < closestDistance && dist < Math.max(r.width, r.height) * 1.2) {
-            closestDistance = dist;
-            targetIndex = idx;
-          }
+        toast.addEventListener('click', (e) => {
+          if (e.target.closest('.toast-close')) return;
+          toast.classList.add('removing');
+          setTimeout(() => {
+            if (toast.parentNode) toast.remove();
+          }, 300);
         });
-        
-        if (targetIndex !== touchSortPlaceholderIndex) {
-          items.forEach(item => item.classList.remove('touch-drop-indicator'));
-          touchSortPlaceholderIndex = targetIndex;
-          items[touchSortPlaceholderIndex].classList.add('touch-drop-indicator');
-        }
       }
 
-      async function pointerUpHandler() {
-        window.removeEventListener('pointermove', pointerMoveHandler);
-        window.removeEventListener('pointerup', pointerUpHandler);
-        
-        if (!hasMovedSignificantly) {
-          openDecoratorForCard(activeDisplayedCardsData[index].id);
-          return;
-        }
-        
-        node.classList.remove('touch-dragging-active');
-        node.style.position = '';
-        node.style.zClass = '';
-        node.style.width = '';
-        node.style.height = '';
-        node.style.left = '';
-        node.style.top = '';
-        
-        items.forEach(item => item.classList.remove('touch-drop-indicator'));
+      // ============ CONFIGURATION ============
+      const GACHA_SERVER_URL = 'https://s0ulcodes-pinterest-gacha-app.hf.space';
+      
+      const DB_NAME = 'PhotocardBinderDB';
+      const DB_VERSION = 3;
+      let dbInstance = null;
+      let activeCompressedWebP = null;
+      let decoratorActiveCard = null;
+      let activeStickers = [];
+      let runtimeStickerInventory = [];
+      let activeGroupFilter = 'All';
+      let activeSortMode = 'date-desc';
+      let activeDisplayedCardsData = [];
+      let touchSortTargetNode = null;
+      let touchSortPlaceholderIndex = -1;
+      let touchSortInitialX = 0;
+      let touchSortInitialY = 0;
+      let touchSortCurrentIndex = -1;
+      
+      let dailyPullsRemaining = 15;
+      let lastPullDate = '';
+      let savedGachaPacks = [];
+      let isBulkSelectMode = false;
+      let selectedCardIds = new Set();
+      let pendingBulkDeleteIds = [];
+      let serverOnline = false;
 
-        if (touchSortPlaceholderIndex !== touchSortCurrentIndex) {
-          await executeCardIndexShift(touchSortCurrentIndex, touchSortPlaceholderIndex);
+      let deferredPrompt = null;
+      let isMobile = false;
+      let isPWA = false;
+
+      let backupFolderHandle = null;
+      let backupFolderPath = '';
+      let isBackupEnabled = false;
+
+      function getClientId() {
+        let clientId = localStorage.getItem('kgacha_client_id');
+        if (!clientId) {
+          clientId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+          localStorage.setItem('kgacha_client_id', clientId);
+        }
+        return clientId;
+      }
+
+      function encryptData(data) {
+        const key = 'AnythingGacha2024SecureKey';
+        const str = JSON.stringify(data);
+        let encrypted = '';
+        for (let i = 0; i < str.length; i++) {
+          encrypted += String.fromCharCode(str.charCodeAt(i) ^ key.charCodeAt(i % key.length));
+        }
+        return btoa(encrypted);
+      }
+
+      function decryptData(encrypted) {
+        const key = 'AnythingGacha2024SecureKey';
+        const str = atob(encrypted);
+        let decrypted = '';
+        for (let i = 0; i < str.length; i++) {
+          decrypted += String.fromCharCode(str.charCodeAt(i) ^ key.charCodeAt(i % key.length));
+        }
+        return JSON.parse(decrypted);
+      }
+
+      function updateBackupStatus() {
+        const dot = document.getElementById('backup-status-dot');
+        const text = document.getElementById('backup-btn-text');
+        if (isBackupEnabled && backupFolderPath) {
+          dot.className = 'backup-status-dot active';
+          text.textContent = `Auto Backup: ${backupFolderPath}`;
         } else {
-          loadBinderCards();
+          dot.className = 'backup-status-dot inactive';
+          text.textContent = 'Set Auto Backup';
         }
-        
-        touchSortTargetNode = null;
       }
 
-      window.addEventListener('pointermove', pointerMoveHandler);
-      window.addEventListener('pointerup', pointerUpHandler);
-    }
-
-    async function executeCardIndexShift(fromIndex, toIndex) {
-      if (fromIndex === -1 || toIndex === -1 || fromIndex === toIndex) return;
-
-      const [movedCard] = activeDisplayedCardsData.splice(fromIndex, 1);
-      activeDisplayedCardsData.splice(toIndex, 0, movedCard);
-
-      const allCards = await getAllLocalCards();
-      
-      activeDisplayedCardsData.forEach((c, idx) => {
-        const found = allCards.find(item => item.id === c.id);
-        if (found) {
-          found.customOrder = idx;
+      window.openFolderModal = function() {
+        document.getElementById('folder-modal').classList.add('show');
+        if (backupFolderPath) {
+          document.getElementById('folder-path-display').innerHTML = `<i class="fa-solid fa-folder-open"></i> ${backupFolderPath}`;
         }
-      });
-
-      const tx = dbInstance.transaction('cards', 'readwrite');
-      const store = tx.objectStore('cards');
-      allCards.forEach(card => store.put(card));
-
-      tx.oncomplete = async () => {
-        await performBackup();
-        loadBinderCards();
       };
-    }
 
-    // ============ DECORATOR ============
-    async function openDecoratorForCard(cardId) {
-      document.querySelectorAll('main > section').forEach(el => el.classList.add('hidden'));
-      document.getElementById('view-decorator').classList.remove('hidden');
-      document.querySelectorAll('.nav-tab').forEach(btn => {
-        btn.classList.remove('text-brand-500', 'border-brand-500');
-        btn.classList.add('text-slate-400', 'border-transparent');
-      });
-      loadCardIntoDecorator(cardId);
-    }
+      window.closeFolderModal = function() {
+        document.getElementById('folder-modal').classList.remove('show');
+      };
 
-    async function loadCardIntoDecorator(cardId) {
-      if (!cardId) return;
-      const cards = await getAllLocalCards();
-      decoratorActiveCard = cards.find(c => c.id === cardId);
-      if (!decoratorActiveCard) return;
-
-      document.getElementById('decorator-empty-state').classList.add('hidden');
-      const baseImg = document.getElementById('decorator-base-img');
-      baseImg.src = decoratorActiveCard.imageData;
-      baseImg.classList.remove('hidden');
-      document.getElementById('decorator-text-overlay').classList.remove('hidden');
-
-      document.getElementById('edit-card-name').value = decoratorActiveCard.name || '';
-      document.getElementById('edit-card-group').value = decoratorActiveCard.group || '';
-      document.getElementById('edit-card-genre').value = decoratorActiveCard.genre || 'K-Pop';
-      document.getElementById('edit-card-favorite').checked = decoratorActiveCard.favorite || false;
-
-      updateLiveTextPreview();
-
-      const targetFrame = decoratorActiveCard.decorations?.toploaderFrame || 'none';
-      const targetColor = decoratorActiveCard.decorations?.frameColor || '#ffffff';
-      
-      document.getElementById('frame-color-input').value = targetColor;
-      document.getElementById('frame-color-hex-label').innerText = targetColor;
-
-      applyFrameStyle(targetFrame);
-      updateFrameColor(targetColor);
-      
-      document.getElementById('decorator-sticker-layer').innerHTML = '';
-      activeStickers = [];
-
-      if (decoratorActiveCard.decorations?.stickers) {
-        decoratorActiveCard.decorations.stickers.forEach(s => instantiateStickerNode(s.imageSrc, s.x, s.y, s.scale || 1.0, s.rotation || 0));
+      async function setupBackupFolder() {
+        try {
+          if (!window.showDirectoryPicker) {
+            showToast('Your browser does not support the File System Access API. Please use Chrome, Edge, or Opera.', 'info');
+            return;
+          }
+          const handle = await window.showDirectoryPicker();
+          backupFolderHandle = handle;
+          backupFolderPath = handle.name;
+          isBackupEnabled = true;
+          localStorage.setItem('kgacha_backup_folder', handle.name);
+          document.getElementById('folder-path-display').innerHTML = `<i class="fa-solid fa-folder-open"></i> ${backupFolderPath}`;
+          updateBackupStatus();
+          closeFolderModal();
+          await performBackup();
+          showToast(`Backup folder "${backupFolderPath}" set successfully!`, 'success');
+        } catch (err) {
+          if (err.name !== 'AbortError' && err.name !== 'SecurityError') {
+            console.error('Folder selection error:', err);
+            showToast('Could not set up backup folder: ' + err.message, 'info');
+          }
+        }
       }
-    }
+      window.setupBackupFolder = setupBackupFolder;
 
-    function updateLiveTextPreview() {
-      const nameVal = document.getElementById('edit-card-name').value.trim() || 'Name';
-      const groupVal = document.getElementById('edit-card-group').value.trim() || 'GROUP';
-      const genreVal = document.getElementById('edit-card-genre').value;
-      const favVal = document.getElementById('edit-card-favorite').checked;
-
-      document.getElementById('preview-lbl-name').innerText = nameVal;
-      document.getElementById('preview-lbl-group').innerText = groupVal;
-      document.getElementById('preview-lbl-genre').innerText = genreVal;
-      
-      const favEl = document.getElementById('preview-lbl-fav');
-      if (favVal) {
-        favEl.classList.remove('hidden');
-      } else {
-        favEl.classList.add('hidden');
-      }
-
-      if (decoratorActiveCard) {
-        decoratorActiveCard.name = nameVal;
-        decoratorActiveCard.group = groupVal;
-        decoratorActiveCard.genre = genreVal;
-        decoratorActiveCard.favorite = favVal;
-      }
-    }
-
-    function applyFrameStyle(styleName) {
-      const layer = document.getElementById('decorator-frame-layer');
-      const picker = document.getElementById('frame-color-picker-container');
-      
-      layer.className = 'absolute inset-0 rounded-2xl pointer-events-none';
-      
-      if (styleName && styleName !== 'none') {
-        layer.classList.add(styleName);
-        if (picker) picker.classList.remove('hidden');
-      } else {
-        if (picker) picker.classList.add('hidden');
-      }
-
-      const container = document.getElementById('decorator-workspace-container');
-      if (container) {
-        container.style.overflow = styleName === 'frame-glowing-trim' ? 'visible' : 'hidden';
-      }
-      
-      if (decoratorActiveCard) {
-        if (!decoratorActiveCard.decorations) decoratorActiveCard.decorations = {};
-        decoratorActiveCard.decorations.toploaderFrame = styleName;
-      }
-    }
-
-    function updateFrameColor(colorHex) {
-      const layer = document.getElementById('decorator-frame-layer');
-      if(layer) {
-        layer.style.setProperty('--frame-color', colorHex);
-        layer.style.backgroundColor = colorHex;
-      }
-      document.getElementById('frame-color-hex-label').innerText = colorHex;
-      if (decoratorActiveCard) {
-        if(!decoratorActiveCard.decorations) decoratorActiveCard.decorations = {};
-        decoratorActiveCard.decorations.frameColor = colorHex;
-      }
-    }
-
-    function handleStickerUpload(event) {
-      const files = Array.from(event.target.files);
-      files.forEach(file => {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          const stickerObj = {
-            id: `stk_inv_${Date.now()}_${Math.random().toString(36).substr(2,4)}`,
-            src: e.target.result
+      async function performBackup() {
+        if (!isBackupEnabled || !backupFolderHandle) return;
+        try {
+          const cards = await getAllLocalCards();
+          const gachaState = {
+            dailyPullsRemaining: dailyPullsRemaining,
+            lastPullDate: lastPullDate,
+            savedPacks: savedGachaPacks
           };
-          runtimeStickerInventory.push(stickerObj);
-          renderStickerBar();
-        };
-        reader.readAsDataURL(file);
-      });
-      event.target.value = '';
-      showToast(`${files.length} sticker(s) uploaded`, 'success', 1500);
-    }
-
-    function renderStickerBar() {
-      const bar = document.getElementById('sticker-horizontal-bar');
-      if (!bar) return;
-      
-      bar.innerHTML = '';
-      
-      if (runtimeStickerInventory.length === 0) {
-        bar.innerHTML = `<div class="text-[11px] text-slate-400 w-full text-center py-3 flex items-center justify-center">no custom stickers loaded. upload above.</div>`;
-        return;
+          const backupData = { version: 1, timestamp: Date.now(), cards: cards, gachaState: gachaState };
+          const encrypted = encryptData(backupData);
+          let fileHandle;
+          try {
+            fileHandle = await backupFolderHandle.getFileHandle('kgacha_backup.dat', { create: true });
+          } catch (e) {
+            fileHandle = await backupFolderHandle.getFileHandle('kgacha_backup.dat', { create: true });
+          }
+          const writable = await fileHandle.createWritable({ keepExistingData: false });
+          await writable.write(encrypted);
+          await writable.close();
+        } catch (err) {
+          console.error('Backup failed:', err);
+          if (err.name === 'NotAllowedError' || err.name === 'SecurityError') {
+            isBackupEnabled = false;
+            backupFolderHandle = null;
+            updateBackupStatus();
+            showToast('Backup folder access was lost. Please re-select your backup folder.', 'info');
+          }
+        }
       }
 
-      runtimeStickerInventory.forEach(stk => {
-        const container = document.createElement('div');
-        container.className = 'relative flex-shrink-0 w-12 h-12 bg-white border border-slate-200 rounded-lg p-1 flex items-center justify-center cursor-pointer hover:border-brand-300 group shadow-2xs';
-        container.onclick = () => addStickerToCanvas(stk.src);
+      function detectMobileAndPWA() {
+        isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+        isPWA = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+        if (isMobile && !isPWA) {
+          setTimeout(() => { document.getElementById('pwa-banner').classList.add('show'); }, 3000);
+        }
+        if (!isMobile) {
+          document.getElementById('desktop-backup-btn').style.display = 'flex';
+          const savedFolder = localStorage.getItem('kgacha_backup_folder');
+          if (savedFolder) { backupFolderPath = savedFolder; isBackupEnabled = true; updateBackupStatus(); }
+        }
+      }
 
-        const img = document.createElement('img');
-        img.src = stk.src;
-        img.className = 'block max-w-full max-h-full object-contain pointer-events-none disable-ios-save';
-        
-        const delBtn = document.createElement('button');
-        delBtn.className = 'absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-slate-200 text-slate-600 hover:text-rose-500 border border-slate-300 flex items-center justify-center text-[9px] opacity-100 transition-opacity';
-        delBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
-        delBtn.onclick = (e) => {
-          e.stopPropagation();
-          runtimeStickerInventory = runtimeStickerInventory.filter(item => item.id !== stk.id);
-          renderStickerBar();
-        };
-
-        container.appendChild(img);
-        container.appendChild(delBtn);
-        bar.appendChild(container);
-      });
-    }
-
-    function addStickerToCanvas(imageSrc) {
-      if (!decoratorActiveCard) return;
-      instantiateStickerNode(imageSrc, 50, 50, 1.0, 0);
-      showToast('Sticker added to canvas!', 'success', 1200);
-    }
-
-    function clearStickerSelection() {
-      document.querySelectorAll('#decorator-sticker-layer > div').forEach(el => {
-        el.classList.remove('sticker-selected');
-        const handles = el.querySelectorAll('.sticker-control-handle, .sticker-delete-handle');
-        handles.forEach(h => h.classList.add('hidden'));
-      });
-    }
-
-    function instantiateStickerNode(imageSrc, x, y, scale, rotation) {
-      const stickerId = `stk_${Date.now()}_${Math.random().toString(36).substr(2,4)}`;
-      const node = document.createElement('div');
-      node.id = stickerId;
-      node.className = 'absolute select-none z-30 p-1 origin-center flex items-center justify-center cursor-move';
-      node.style.left = `${x}%`;
-      node.style.top = `${y}%`;
-      node.style.width = '20%';
-      node.style.height = '20%';
-      node.style.transform = `translate(-50%, -50%) scale(${scale}) rotate(${rotation}deg)`;
-      
-      const img = document.createElement('img');
-      img.src = imageSrc;
-      img.className = 'block max-w-full max-h-full object-contain pointer-events-none disable-ios-save';
-      node.appendChild(img);
-
-      const metadata = { id: stickerId, imageSrc, x, y, scale, rotation };
-      activeStickers.push(metadata);
-
-      const transformHandle = document.createElement('div');
-      transformHandle.className = 'sticker-control-handle hidden';
-      transformHandle.innerHTML = '<i class="fa-solid fa-arrows-up-down-left-right"></i>';
-      node.appendChild(transformHandle);
-
-      const deleteHandle = document.createElement('div');
-      deleteHandle.className = 'sticker-delete-handle hidden';
-      deleteHandle.innerHTML = '<i class="fa-solid fa-xmark"></i>';
-      node.appendChild(deleteHandle);
-
-      const selectAction = (e) => {
-        if(e.target.closest('.sticker-control-handle') || e.target.closest('.sticker-delete-handle')) return;
-        clearStickerSelection();
-        node.classList.add('sticker-selected');
-        transformHandle.classList.remove('hidden');
-        deleteHandle.classList.remove('hidden');
-        startStickerDrag(e, node, metadata);
-      };
-
-      node.addEventListener('mousedown', selectAction);
-      node.addEventListener('touchstart', selectAction, { passive: false });
-
-      transformHandle.addEventListener('mousedown', (e) => { e.stopPropagation(); startStickerTransform(e, node, metadata); });
-      transformHandle.addEventListener('touchstart', (e) => { e.stopPropagation(); startStickerTransform(e, node, metadata); }, { passive: false });
-
-      const triggerRemoveSticker = (e) => {
+      window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
-        e.stopPropagation();
-        node.remove();
-        activeStickers = activeStickers.filter(s => s.id !== stickerId);
-        showToast('Sticker removed', 'delete', 1000);
+        deferredPrompt = e;
+        if (isMobile && !isPWA) document.getElementById('pwa-banner').classList.add('show');
+      });
+
+      window.installPWA = function() {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') document.getElementById('pwa-banner').classList.remove('show');
+            deferredPrompt = null;
+          });
+        } else {
+          showToast('To install: Tap "Add to Home Screen" in your browser menu.', 'info', 4000);
+          document.getElementById('pwa-banner').classList.remove('show');
+        }
       };
 
-      deleteHandle.addEventListener('click', triggerRemoveSticker);
-      deleteHandle.addEventListener('touchstart', triggerRemoveSticker, { passive: false });
+      window.dismissPWABanner = function() {
+        document.getElementById('pwa-banner').classList.remove('show');
+        localStorage.setItem('pwa_banner_dismissed', 'true');
+      };
 
-      document.getElementById('decorator-sticker-layer').appendChild(node);
-    }
+      document.addEventListener('DOMContentLoaded', async () => {
+        detectMobileAndPWA();
+        await initIndexedDB();
+        await loadGachaState();
+        await loadBinderCards();
+        renderStickerBar();
+        renderSavedPacks();
+        checkServerStatus();
+        const container = document.getElementById('decorator-workspace-container');
+        container.addEventListener('mousedown', (e) => {
+          if(e.target.id === 'decorator-workspace-container' || e.target.id === 'decorator-base-img') clearStickerSelection();
+        });
+        const preventScroll = (e) => { e.preventDefault(); };
+        container.addEventListener('touchstart', preventScroll, { passive: false });
+        container.addEventListener('touchmove', preventScroll, { passive: false });
+      });
 
-    function startStickerDrag(e, node, metadata) {
-      const container = document.getElementById('decorator-workspace-container');
-      const rect = container.getBoundingClientRect();
-      
-      function moveHandler(moveEvent) {
-        const clientX = moveEvent.touches ? moveEvent.touches[0].clientX : moveEvent.clientX;
-        const clientY = moveEvent.touches ? moveEvent.touches[0].clientY : moveEvent.clientY;
-        
-        let pctX = ((clientX - rect.left) / rect.width) * 100;
-        let pctY = ((clientY - rect.top) / rect.height) * 100;
-        
-        pctX = Math.max(0, Math.min(100, pctX));
-        pctY = Math.max(0, Math.min(100, pctY));
-        
-        node.style.left = `${pctX}%`;
-        node.style.top = `${pctY}%`;
-        metadata.x = pctX;
-        metadata.y = pctY;
+      async function checkServerStatus() {
+        const statusDot = document.getElementById('status-dot');
+        const statusText = document.getElementById('status-text');
+        try {
+          const response = await fetch(`${GACHA_SERVER_URL}/api/stats`);
+          if (response.ok) {
+            serverOnline = true;
+            if (statusDot) statusDot.className = 'server-status-dot bg-green-500';
+            if (statusText) statusText.textContent = 'server connected (gacha active)';
+          } else throw new Error('Server error');
+        } catch (e) {
+          serverOnline = false;
+          if (statusDot) statusDot.className = 'server-status-dot bg-red-500';
+          if (statusText) statusText.textContent = 'server offline - pulls unavailable';
+        }
       }
 
-      function endHandler() {
-        window.removeEventListener('mousemove', moveHandler);
-        window.removeEventListener('mouseup', endHandler);
-        window.removeEventListener('touchmove', moveHandler);
-        window.removeEventListener('touchend', endHandler);
+      window.switchTab = function(tabName) {
+        document.querySelectorAll('main > section').forEach(el => el.classList.add('hidden'));
+        document.querySelectorAll('.nav-tab').forEach(btn => {
+          btn.classList.remove('text-brand-500', 'border-brand-500');
+          btn.classList.add('text-slate-400', 'border-transparent');
+        });
+        document.getElementById(`view-${tabName}`).classList.remove('hidden');
+        const targetTabBtn = document.getElementById(`tab-btn-${tabName}`);
+        if (targetTabBtn) targetTabBtn.classList.add('text-brand-500', 'border-brand-500');
+        if (tabName === 'binder') loadBinderCards();
+        if (tabName === 'gacha') { updateDailyPullsDisplay(); checkServerStatus(); }
+      };
+
+      function initIndexedDB() {
+        return new Promise((resolve) => {
+          const request = indexedDB.open(DB_NAME, DB_VERSION);
+          request.onupgradeneeded = (e) => {
+            const db = e.target.result;
+            if (!db.objectStoreNames.contains('cards')) {
+              const store = db.createObjectStore('cards', { keyPath: 'id' });
+              store.createIndex('favorite', 'favorite', { unique: false });
+            }
+            if (!db.objectStoreNames.contains('gachaState')) db.createObjectStore('gachaState', { keyPath: 'key' });
+          };
+          request.onsuccess = (e) => { dbInstance = e.target.result; resolve(dbInstance); };
+        });
       }
 
-      window.addEventListener('mousemove', moveHandler);
-      window.addEventListener('mouseup', endHandler);
-      window.addEventListener('touchmove', moveHandler, { passive: false });
-      window.addEventListener('touchend', endHandler);
-    }
-
-    function startStickerTransform(e, node, metadata) {
-      const container = document.getElementById('decorator-workspace-container');
-      const containerRect = container.getBoundingClientRect();
-      
-      const centerX = containerRect.left + (metadata.x / 100) * containerRect.width;
-      const centerY = containerRect.top + (metadata.y / 100) * containerRect.height;
-
-      const initialClientX = e.touches ? e.touches[0].clientX : e.clientX;
-      const initialClientY = e.touches ? e.touches[0].clientY : e.clientY;
-      
-      const initialRadius = Math.hypot(initialClientX - centerX, initialClientY - centerY);
-      const initialAngle = Math.atan2(initialClientY - centerY, initialClientX - centerX);
-      
-      const startScale = metadata.scale;
-      const startRotation = metadata.rotation;
-
-      function transformMoveHandler(moveEvent) {
-        const clientX = moveEvent.touches ? moveEvent.touches[0].clientX : moveEvent.clientX;
-        const clientY = moveEvent.touches ? moveEvent.touches[0].clientY : moveEvent.clientY;
-        
-        const currentRadius = Math.hypot(clientX - centerX, clientY - centerY);
-        const currentAngle = Math.atan2(clientY - centerY, clientX - centerX);
-        
-        let newScale = startScale * (currentRadius / initialRadius);
-        newScale = Math.max(0.4, Math.min(4.0, newScale));
-        
-        let angleDiff = currentAngle - initialAngle;
-        let newRotation = startRotation + (angleDiff * 180 / Math.PI);
-        
-        metadata.scale = newScale;
-        metadata.rotation = newRotation;
-        
-        node.style.transform = `translate(-50%, -50%) scale(${newScale}) rotate(${newRotation}deg)`;
+      async function loadGachaState() {
+        if (!dbInstance) await initIndexedDB();
+        const tx = dbInstance.transaction('gachaState', 'readonly');
+        const store = tx.objectStore('gachaState');
+        const dailyState = await new Promise((resolve) => {
+          const req = store.get('dailyPulls'); req.onsuccess = () => resolve(req.result); req.onerror = () => resolve(null);
+        });
+        const packsData = await new Promise((resolve) => {
+          const req = store.get('savedPacks'); req.onsuccess = () => resolve(req.result); req.onerror = () => resolve(null);
+        });
+        const today = new Date().toDateString();
+        if (dailyState && dailyState.date === today) {
+          dailyPullsRemaining = dailyState.remaining; lastPullDate = dailyState.date;
+        } else {
+          dailyPullsRemaining = 15; lastPullDate = today; await saveGachaState();
+        }
+        if (packsData) savedGachaPacks = packsData.packs || [];
+        updateDailyPullsDisplay();
       }
 
-      function transformEndHandler() {
-        window.removeEventListener('mousemove', transformMoveHandler);
-        window.removeEventListener('mouseup', transformEndHandler);
-        window.removeEventListener('touchmove', transformMoveHandler);
-        window.removeEventListener('touchend', transformEndHandler);
+      async function saveGachaState() {
+        if (!dbInstance) await initIndexedDB();
+        const tx = dbInstance.transaction('gachaState', 'readwrite');
+        const store = tx.objectStore('gachaState');
+        store.put({ key: 'dailyPulls', date: new Date().toDateString(), remaining: dailyPullsRemaining });
+        store.put({ key: 'savedPacks', packs: savedGachaPacks });
+        return new Promise((resolve) => { tx.oncomplete = resolve; });
       }
 
-      window.addEventListener('mousemove', transformMoveHandler);
-      window.addEventListener('mouseup', transformEndHandler);
-      window.addEventListener('touchmove', transformMoveHandler, { passive: false });
-      window.addEventListener('touchend', transformEndHandler);
-    }
+      function updateDailyPullsDisplay() {
+        const display = document.getElementById('daily-pulls-remaining');
+        if (display) display.textContent = dailyPullsRemaining;
+        const pullBtn = document.getElementById('gacha-pull-btn');
+        if (pullBtn) {
+          if (dailyPullsRemaining <= 0 || !serverOnline) {
+            pullBtn.disabled = true; pullBtn.classList.add('opacity-50', 'cursor-not-allowed');
+          } else {
+            pullBtn.disabled = false; pullBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+          }
+        }
+      }
 
-    async function saveDecorationsToDB() {
-      if (!decoratorActiveCard) return;
-      clearStickerSelection();
-      
-      if (!dbInstance) await initIndexedDB();
-      decoratorActiveCard.decorations.stickers = activeStickers;
-      
-      const tx = dbInstance.transaction('cards', 'readwrite');
-      tx.objectStore('cards').put(decoratorActiveCard);
-      tx.oncomplete = async () => { 
-        await performBackup();
-        confetti({ particleCount: 30, spread: 50, origin: { y: 0.8 } }); 
-        showToast('Changes saved successfully!', 'success');
+      async function performGachaPull(event) {
+        event.preventDefault();
+        if (!serverOnline) { showToast('Server is offline.', 'info'); return; }
+        if (dailyPullsRemaining <= 0) { showToast('No daily pulls remaining!', 'info'); return; }
+        const name = document.getElementById('gacha-name').value.trim();
+        const group = document.getElementById('gacha-group').value.trim();
+        const genre = document.getElementById('gacha-genre').value;
+        if (!group) { showToast('Please enter at least a group/series name.', 'info'); return; }
+        const pullBtn = document.getElementById('gacha-pull-btn');
+        pullBtn.disabled = true; pullBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i><span>pulling card...</span>';
+        try {
+          const existingCards = await getAllLocalCards();
+          const excludedHashes = existingCards.filter(card => card.sourceHash).map(card => card.sourceHash);
+          const response = await fetch(`${GACHA_SERVER_URL}/api/pull`, {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name: name, group: group, genre: genre, client_id: getClientId(), excluded_hashes: excludedHashes })
+          });
+          const data = await response.json();
+          if (!data.success) { showToast(data.error || 'Pull failed!', 'info'); return; }
+          dailyPullsRemaining--; await saveGachaState();
+          const cardData = {
+            id: `card_${Date.now()}_${Math.random().toString(36).substr(2,4)}`, name: name || group, group: group, genre: genre,
+            imageData: data.image, decorations: { toploaderFrame: 'none', frameColor: '#ffffff', stickers: [] },
+            createdAt: Date.now(), customOrder: existingCards.length, sourceHash: data.hash, sourceQuery: data.query, favorite: false
+          };
+          if (!dbInstance) await initIndexedDB();
+          const tx = dbInstance.transaction('cards', 'readwrite'); tx.objectStore('cards').add(cardData);
+          await new Promise((resolve) => { tx.oncomplete = resolve; });
+          await performBackup();
+          showGachaResult(cardData);
+          showToast(`New card "${cardData.name}" added!`, 'success');
+          confetti({ particleCount: 100, spread: 90, origin: { y: 0.6 }, colors: ['#f43f5e','#3b82f6','#10b981','#f59e0b','#8b5cf6'] });
+        } catch (error) {
+          console.error('Gacha pull failed:', error);
+          showToast('Could not connect to server.', 'info');
+          await checkServerStatus();
+        } finally {
+          pullBtn.disabled = false; pullBtn.innerHTML = '<i class="fa-solid fa-gift"></i><span>pull 1 card (gacha)</span>';
+          updateDailyPullsDisplay();
+        }
+      }
+      window.performGachaPull = performGachaPull;
+
+      function showGachaResult(cardData) {
+        const container = document.getElementById('gacha-result-container');
+        const cardDiv = document.getElementById('gacha-result-card');
+        container.classList.remove('hidden');
+        cardDiv.innerHTML = `
+          <div class="text-center space-y-3">
+            <div class="gacha-card-reveal photocard-aspect w-48 mx-auto rounded-xl shadow-2xl overflow-hidden bg-white relative">
+              <div class="gacha-shimmer-effect absolute inset-0 z-10 pointer-events-none"></div>
+              <img src="${cardData.imageData}" class="block w-full h-full object-cover disable-ios-save">
+              <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900/90 to-transparent p-3">
+                <p class="text-xs font-bold text-white">${cardData.name}</p><p class="text-[10px] text-slate-300">${cardData.group} • ${cardData.genre}</p>
+              </div>
+            </div>
+            <button onclick="switchTab('binder')" class="text-xs font-bold text-brand-500">view in binder</button>
+          </div>`;
+      }
+
+      async function saveCurrentGachaPack() {
+        const name = document.getElementById('gacha-name').value.trim();
+        const group = document.getElementById('gacha-group').value.trim();
+        const genre = document.getElementById('gacha-genre').value;
+        if (!group) { showToast('Please enter at least a group/series name.', 'info'); return; }
+        savedGachaPacks.push({ id: `pack_${Date.now()}`, name: name, group: group, genre: genre, createdAt: Date.now() });
+        await saveGachaState(); renderSavedPacks(); showToast(`Saved pack: ${group}`, 'success');
+      }
+      window.saveCurrentGachaPack = saveCurrentGachaPack;
+
+      function loadGachaPack(pack) {
+        document.getElementById('gacha-name').value = pack.name || '';
+        document.getElementById('gacha-group').value = pack.group || '';
+        document.getElementById('gacha-genre').value = pack.genre || 'K-Pop';
+        showToast(`Loaded pack: ${pack.group}`, 'info', 1500);
+      }
+      window.loadGachaPack = loadGachaPack;
+
+      async function deleteGachaPack(packId) {
+        savedGachaPacks = savedGachaPacks.filter(p => p.id !== packId);
+        await saveGachaState(); renderSavedPacks();
+      }
+      window.deleteGachaPack = deleteGachaPack;
+
+      function renderSavedPacks() {
+        const container = document.getElementById('saved-packs-list');
+        if (!container) return;
+        if (savedGachaPacks.length === 0) {
+          container.innerHTML = '<div class="text-[11px] text-slate-400 italic">no saved packs yet</div>'; return;
+        }
+        container.innerHTML = savedGachaPacks.map(pack => {
+          const displayName = pack.name ? `${pack.name} (${pack.group})` : pack.group;
+          return `<div class="flex-shrink-0 bg-white border border-slate-200 rounded-lg px-3 py-2 flex items-center gap-2 cursor-pointer hover:border-brand-300 group">
+            <div onclick="loadGachaPack(${JSON.stringify(pack).replace(/"/g, '&quot;')})">
+              <p class="text-xs font-semibold text-slate-700">${displayName}</p>
+              <p class="text-[10px] text-slate-400">${pack.genre}</p>
+            </div>
+            <button onclick="deleteGachaPack('${pack.id}')" class="text-slate-400 hover:text-red-500"><i class="fa-solid fa-xmark text-[10px]"></i></button>
+          </div>`;
+        }).join('');
+      }
+
+      window.toggleBulkSelectMode = function() {
+        isBulkSelectMode = !isBulkSelectMode;
+        selectedCardIds.clear();
+        document.getElementById('bulk-btn-text').textContent = isBulkSelectMode ? 'cancel' : 'select';
+        document.getElementById('bulk-delete-btn').classList.toggle('hidden', !isBulkSelectMode);
         loadBinderCards();
       };
-    }
 
-    function deleteActiveCardFromDecorator() {
-      if (!decoratorActiveCard || !decoratorActiveCard.id) {
-        showToast('No card is currently selected.', 'info');
-        return;
-      }
+      window.toggleCardSelection = function(cardId, checkbox) {
+        if (checkbox.checked) selectedCardIds.add(cardId); else selectedCardIds.delete(cardId);
+      };
 
-      pendingBulkDeleteIds = [decoratorActiveCard.id];
-      
-      const modal = document.getElementById('delete-confirm-modal');
-      const title = document.getElementById('delete-confirm-title');
-      if (title) {
-        title.textContent = 'delete this photocard?';
-      }
-      if (modal) {
-        modal.classList.add('show');
-      }
-    }
+      window.bulkDeleteSelected = function() {
+        if (selectedCardIds.size === 0) { showToast('No cards selected.', 'info'); return; }
+        pendingBulkDeleteIds = Array.from(selectedCardIds);
+        document.getElementById('delete-confirm-title').textContent = `delete ${pendingBulkDeleteIds.length} photocards?`;
+        document.getElementById('delete-confirm-modal').classList.add('show');
+      };
 
-    document.addEventListener('click', function(e) {
-      const modal = document.getElementById('delete-confirm-modal');
-      if (modal && e.target === modal) {
+      window.confirmDeleteCard = async function() {
+        const cardIds = pendingBulkDeleteIds.length > 0 ? pendingBulkDeleteIds : (decoratorActiveCard ? [decoratorActiveCard.id] : []);
         closeDeleteConfirm();
+        if (cardIds.length === 0) return;
+        try {
+          if (!dbInstance) await initIndexedDB();
+          const tx = dbInstance.transaction(['cards'], 'readwrite'); const store = tx.objectStore('cards');
+          for (const cardId of cardIds) store.delete(cardId);
+          await new Promise((resolve, reject) => { tx.oncomplete = resolve; tx.onerror = reject; });
+          await performBackup();
+          showToast(`${cardIds.length} card(s) deleted`, 'delete');
+          if (decoratorActiveCard && cardIds.includes(decoratorActiveCard.id)) {
+            decoratorActiveCard = null; activeStickers = [];
+            document.getElementById('decorator-base-img').classList.add('hidden');
+            document.getElementById('decorator-text-overlay').classList.add('hidden');
+            document.getElementById('decorator-empty-state').classList.remove('hidden');
+          }
+          selectedCardIds.clear(); pendingBulkDeleteIds = [];
+          if (isBulkSelectMode) toggleBulkSelectMode();
+          switchTab('binder');
+        } catch (error) { console.error(error); showToast('Delete failed.', 'info'); }
+      };
+
+      window.closeDeleteConfirm = function() { document.getElementById('delete-confirm-modal').classList.remove('show'); };
+
+      function compressImageOnUpload(file) {
+        return new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const img = new Image();
+            img.onload = () => {
+              const canvas = document.createElement('canvas'); canvas.width = 600; canvas.height = 840;
+              const ctx = canvas.getContext('2d');
+              const scale = Math.max(600/img.width, 840/img.height);
+              ctx.drawImage(img, (600-img.width*scale)/2, (840-img.height*scale)/2, img.width*scale, img.height*scale);
+              const webpBase64 = canvas.toDataURL('image/webp', 0.80);
+              resolve({ webpBase64, origSizeKB: (file.size/1024).toFixed(1), webpSizeKB: (Math.round((webpBase64.length*3)/4)/1024).toFixed(1) });
+            };
+            img.src = e.target.result;
+          };
+          reader.readAsDataURL(file);
+        });
       }
-    });
+
+      window.handleFileSelect = async function(event) {
+        const file = event.target.files[0]; if (!file) return;
+        const { webpBase64, origSizeKB, webpSizeKB } = await compressImageOnUpload(file);
+        activeCompressedWebP = webpBase64;
+        const previewImg = document.getElementById('card-preview-img');
+        previewImg.src = webpBase64; previewImg.classList.remove('hidden');
+        document.getElementById('dropzone-placeholder').classList.add('hidden');
+        document.getElementById('stat-orig-size').innerText = `${origSizeKB} KB`;
+        document.getElementById('stat-webp-size').innerText = `${webpSizeKB} KB`;
+        document.getElementById('compression-stats').classList.remove('hidden');
+        const saveBtn = document.getElementById('save-card-btn');
+        saveBtn.disabled = false; saveBtn.className = 'w-full mt-2 py-2.5 bg-brand-500 hover:bg-brand-600 text-white rounded-xl text-xs font-bold transition flex items-center justify-center space-x-2 shadow-xs cursor-pointer';
+      };
+
+      window.handleCardSubmit = async function(event) {
+        event.preventDefault();
+        if (!activeCompressedWebP) return;
+        if (!dbInstance) await initIndexedDB();
+        const existingCards = await getAllLocalCards();
+        const cardData = {
+          id: `card_${Date.now()}_${Math.random().toString(36).substr(2,4)}`,
+          name: document.getElementById('input-name').value.trim(),
+          group: document.getElementById('input-group').value.trim(),
+          genre: document.getElementById('input-genre').value,
+          imageData: activeCompressedWebP,
+          decorations: { toploaderFrame: 'none', frameColor: '#ffffff', stickers: [] },
+          createdAt: Date.now(), customOrder: existingCards.length, favorite: false
+        };
+        const tx = dbInstance.transaction('cards', 'readwrite'); tx.objectStore('cards').add(cardData);
+        tx.oncomplete = async () => {
+          document.getElementById('card-creator-form').reset();
+          document.getElementById('card-preview-img').classList.add('hidden');
+          document.getElementById('dropzone-placeholder').classList.remove('hidden');
+          document.getElementById('compression-stats').classList.add('hidden');
+          activeCompressedWebP = null;
+          await performBackup();
+          showToast(`Custom card "${cardData.name}" created!`, 'success');
+          switchTab('binder');
+        };
+      };
+
+      function getAllLocalCards() {
+        return new Promise((resolve) => {
+          if (!dbInstance) return resolve([]);
+          const tx = dbInstance.transaction('cards', 'readonly');
+          const req = tx.objectStore('cards').getAll();
+          req.onsuccess = () => resolve(req.result || []);
+          req.onerror = () => resolve([]);
+        });
+      }
+
+      window.handleSortChange = function(newMode) { activeSortMode = newMode; loadBinderCards(); };
+
+      function setGroupFilter(groupName) { activeGroupFilter = groupName; loadBinderCards(); }
+      window.setGroupFilter = setGroupFilter;
+
+      async function loadBinderCards() {
+        const cards = await getAllLocalCards();
+        cards.forEach((c, idx) => { if (typeof c.customOrder !== 'number') c.customOrder = idx; if (typeof c.favorite !== 'boolean') c.favorite = false; });
+        const dynamicGroups = Array.from(new Set(cards.map(c => c.group).filter(g => g)));
+        dynamicGroups.sort((a,b) => a.localeCompare(b));
+        const allGroupOptions = ['All', ...dynamicGroups];
+        if (!allGroupOptions.includes(activeGroupFilter)) activeGroupFilter = 'All';
+        const pillsContainer = document.getElementById('group-pills-bar');
+        pillsContainer.innerHTML = '';
+        if (cards.length > 0) {
+          allGroupOptions.forEach(grp => {
+            const btn = document.createElement('button'); btn.onclick = () => setGroupFilter(grp);
+            btn.className = activeGroupFilter === grp ? 'px-4 py-1.5 rounded-full text-xs font-semibold bg-blue-500 text-white shadow-xs transition flex-shrink-0' : 'px-4 py-1.5 rounded-full text-xs font-semibold bg-white text-slate-500 border border-slate-200 hover:border-slate-300 transition flex-shrink-0';
+            btn.innerText = grp; pillsContainer.appendChild(btn);
+          });
+        }
+        let displayedCards = activeGroupFilter === 'All' ? cards : cards.filter(c => c.group?.toLowerCase() === activeGroupFilter.toLowerCase());
+        const hintBanner = document.getElementById('drag-hint-banner');
+        if (activeSortMode === 'custom') {
+          hintBanner.classList.remove('hidden'); displayedCards.sort((a,b) => a.customOrder - b.customOrder);
+        } else {
+          hintBanner.classList.add('hidden');
+          if (activeSortMode === 'date-desc') displayedCards.sort((a,b) => b.createdAt - a.createdAt);
+          else if (activeSortMode === 'date-asc') displayedCards.sort((a,b) => a.createdAt - b.createdAt);
+          else if (activeSortMode === 'name-asc') displayedCards.sort((a,b) => (a.name||'').localeCompare(b.name||''));
+          else if (activeSortMode === 'group-asc') displayedCards.sort((a,b) => (a.group||'').localeCompare(b.group||''));
+        }
+        activeDisplayedCardsData = [...displayedCards];
+        const grid = document.getElementById('binder-grid'); grid.innerHTML = '';
+        document.getElementById('bulk-actions-bar').classList.toggle('hidden', displayedCards.length === 0);
+        if (!displayedCards.length) { grid.innerHTML = `<div class="col-span-full py-12 text-center text-slate-400 text-xs">no photocards found.</div>`; return; }
+        displayedCards.forEach((card, index) => {
+          const slotContainer = document.createElement('div');
+          slotContainer.dataset.cardId = card.id; slotContainer.dataset.index = index;
+          slotContainer.className = 'w-full rounded-xl shadow-xs relative overflow-visible transition transform cursor-pointer card-grid-item';
+          if (isBulkSelectMode && selectedCardIds.has(card.id)) slotContainer.classList.add('selected-for-bulk');
+          let frameClass = card.decorations?.toploaderFrame || ''; if (frameClass === 'none') frameClass = '';
+          let frameColor = card.decorations?.frameColor || '#ffffff';
+          let stickerMarkup = '';
+          if (card.decorations?.stickers) {
+            card.decorations.stickers.forEach(stk => {
+              stickerMarkup += `<div class="absolute select-none pointer-events-none origin-center flex items-center justify-center" style="left:${stk.x}%; top:${stk.y}%; transform: translate(-50%, -50%) scale(${stk.scale||1.0}) rotate(${stk.rotation||0}deg); width:20%; height:20%;"><img src="${stk.imageSrc}" class="block max-w-full max-h-full object-contain disable-ios-save"></div>`;
+            });
+          }
+          let bulkCheckboxHTML = isBulkSelectMode ? `<input type="checkbox" class="bulk-select-checkbox" ${selectedCardIds.has(card.id)?'checked':''} onclick="event.stopPropagation(); toggleCardSelection('${card.id}', this)">` : '';
+          slotContainer.innerHTML = `${bulkCheckboxHTML}
+            <div class="photocard-aspect w-full relative rounded-xl overflow-hidden bg-transparent pointer-events-none">
+              <div class="absolute inset-0 rounded-xl ${frameClass}" style="--frame-color: ${frameColor}; background-color: ${frameColor}; padding: var(--frame-thickness, 0px); box-sizing: border-box;">
+                <img src="${card.imageData}" class="block w-full h-full object-cover rounded-[inherit] disable-ios-save">
+              </div>
+              ${activeSortMode==='custom' && !isBulkSelectMode ? '<div class="absolute top-1.5 left-1.5 z-30 bg-slate-900/60 text-white rounded p-1 text-[9px] flex items-center justify-center pointer-events-none"><i class="fa-solid fa-grip-vertical"></i></div>' : ''}
+              <div class="absolute inset-0 overflow-hidden pointer-events-none z-20">${stickerMarkup}</div>
+            </div>`;
+          if (isBulkSelectMode) {
+            slotContainer.addEventListener('click', (e) => {
+              if (e.target.tagName === 'INPUT') return;
+              const checkbox = slotContainer.querySelector('.bulk-select-checkbox');
+              checkbox.checked = !checkbox.checked; toggleCardSelection(card.id, checkbox);
+              slotContainer.classList.toggle('selected-for-bulk', checkbox.checked);
+            });
+          } else if (activeSortMode === 'custom') {
+            slotContainer.addEventListener('pointerdown', (e) => { if(e.target.tagName !== 'BUTTON' && e.target.tagName !== 'INPUT') setupUnifiedGridSorting(e, slotContainer, index); });
+          } else {
+            slotContainer.addEventListener('click', () => openDecoratorForCard(card.id));
+          }
+          grid.appendChild(slotContainer);
+        });
+      }
+
+      function setupUnifiedGridSorting(e, node, index) {
+        e.preventDefault();
+        let hasMovedSignificantly = false;
+        const grid = document.getElementById('binder-grid');
+        const items = Array.from(grid.querySelectorAll('.card-grid-item'));
+        const originalRect = node.getBoundingClientRect();
+        touchSortTargetNode = node; touchSortCurrentIndex = index; touchSortPlaceholderIndex = index;
+        touchSortInitialX = e.clientX; touchSortInitialY = e.clientY;
+        function pointerMoveHandler(moveEvent) {
+          const deltaX = moveEvent.clientX - touchSortInitialX, deltaY = moveEvent.clientY - touchSortInitialY;
+          if (!hasMovedSignificantly && Math.hypot(deltaX, deltaY) > 8) {
+            hasMovedSignificantly = true;
+            node.classList.add('touch-dragging-active'); node.style.width = `${originalRect.width}px`; node.style.height = `${originalRect.height}px`;
+            items.forEach((item, idx) => { if (idx === touchSortPlaceholderIndex) item.classList.add('touch-drop-indicator'); });
+          }
+          if (!hasMovedSignificantly) return;
+          node.style.left = `${originalRect.left + deltaX}px`; node.style.top = `${originalRect.top + deltaY}px`;
+          let targetIndex = touchSortPlaceholderIndex, closestDistance = Infinity;
+          const dragCenterX = originalRect.left + deltaX + originalRect.width/2, dragCenterY = originalRect.top + deltaY + originalRect.height/2;
+          items.forEach((item, idx) => {
+            if (item === node) return;
+            const r = item.getBoundingClientRect();
+            const dist = Math.hypot(dragCenterX - (r.left+r.width/2), dragCenterY - (r.top+r.height/2));
+            if (dist < closestDistance && dist < Math.max(r.width, r.height)*1.2) { closestDistance = dist; targetIndex = idx; }
+          });
+          if (targetIndex !== touchSortPlaceholderIndex) {
+            items.forEach(item => item.classList.remove('touch-drop-indicator'));
+            touchSortPlaceholderIndex = targetIndex;
+            items[touchSortPlaceholderIndex].classList.add('touch-drop-indicator');
+          }
+        }
+        async function pointerUpHandler() {
+          window.removeEventListener('pointermove', pointerMoveHandler); window.removeEventListener('pointerup', pointerUpHandler);
+          if (!hasMovedSignificantly) { openDecoratorForCard(activeDisplayedCardsData[index].id); return; }
+          node.classList.remove('touch-dragging-active'); node.style.position = ''; node.style.width = ''; node.style.height = ''; node.style.left = ''; node.style.top = '';
+          items.forEach(item => item.classList.remove('touch-drop-indicator'));
+          if (touchSortPlaceholderIndex !== touchSortCurrentIndex) await executeCardIndexShift(touchSortCurrentIndex, touchSortPlaceholderIndex);
+          else loadBinderCards();
+          touchSortTargetNode = null;
+        }
+        window.addEventListener('pointermove', pointerMoveHandler); window.addEventListener('pointerup', pointerUpHandler);
+      }
+
+      async function executeCardIndexShift(fromIndex, toIndex) {
+        if (fromIndex === toIndex) return;
+        const [movedCard] = activeDisplayedCardsData.splice(fromIndex, 1);
+        activeDisplayedCardsData.splice(toIndex, 0, movedCard);
+        const allCards = await getAllLocalCards();
+        activeDisplayedCardsData.forEach((c, idx) => { const found = allCards.find(item => item.id === c.id); if (found) found.customOrder = idx; });
+        const tx = dbInstance.transaction('cards', 'readwrite'); const store = tx.objectStore('cards');
+        allCards.forEach(card => store.put(card));
+        tx.oncomplete = async () => { await performBackup(); loadBinderCards(); };
+      }
+
+      async function openDecoratorForCard(cardId) {
+        document.querySelectorAll('main > section').forEach(el => el.classList.add('hidden'));
+        document.getElementById('view-decorator').classList.remove('hidden');
+        document.querySelectorAll('.nav-tab').forEach(btn => { btn.classList.remove('text-brand-500','border-brand-500'); btn.classList.add('text-slate-400','border-transparent'); });
+        loadCardIntoDecorator(cardId);
+      }
+
+      async function loadCardIntoDecorator(cardId) {
+        const cards = await getAllLocalCards();
+        decoratorActiveCard = cards.find(c => c.id === cardId);
+        if (!decoratorActiveCard) return;
+        document.getElementById('decorator-empty-state').classList.add('hidden');
+        document.getElementById('decorator-base-img').src = decoratorActiveCard.imageData;
+        document.getElementById('decorator-base-img').classList.remove('hidden');
+        document.getElementById('decorator-text-overlay').classList.remove('hidden');
+        document.getElementById('edit-card-name').value = decoratorActiveCard.name || '';
+        document.getElementById('edit-card-group').value = decoratorActiveCard.group || '';
+        document.getElementById('edit-card-genre').value = decoratorActiveCard.genre || 'K-Pop';
+        updateLiveTextPreview();
+        applyFrameStyle(decoratorActiveCard.decorations?.toploaderFrame || 'none');
+        updateFrameColor(decoratorActiveCard.decorations?.frameColor || '#ffffff');
+        document.getElementById('decorator-sticker-layer').innerHTML = ''; activeStickers = [];
+        if (decoratorActiveCard.decorations?.stickers) {
+          decoratorActiveCard.decorations.stickers.forEach(s => instantiateStickerNode(s.imageSrc, s.x, s.y, s.scale||1.0, s.rotation||0));
+        }
+      }
+
+      window.updateLiveTextPreview = function() {
+        document.getElementById('preview-lbl-name').innerText = document.getElementById('edit-card-name').value.trim() || 'Name';
+        document.getElementById('preview-lbl-group').innerText = document.getElementById('edit-card-group').value.trim() || 'GROUP';
+        document.getElementById('preview-lbl-genre').innerText = document.getElementById('edit-card-genre').value;
+        if (decoratorActiveCard) {
+          decoratorActiveCard.name = document.getElementById('edit-card-name').value.trim();
+          decoratorActiveCard.group = document.getElementById('edit-card-group').value.trim();
+          decoratorActiveCard.genre = document.getElementById('edit-card-genre').value;
+        }
+      };
+
+      window.applyFrameStyle = function(styleName) {
+        const layer = document.getElementById('decorator-frame-layer');
+        layer.className = 'absolute inset-0 rounded-2xl pointer-events-none';
+        if (styleName && styleName !== 'none') { layer.classList.add(styleName); document.getElementById('frame-color-picker-container').classList.remove('hidden'); }
+        else document.getElementById('frame-color-picker-container').classList.add('hidden');
+        document.getElementById('decorator-workspace-container').style.overflow = styleName === 'frame-glowing-trim' ? 'visible' : 'hidden';
+        if (decoratorActiveCard) { if(!decoratorActiveCard.decorations) decoratorActiveCard.decorations = {}; decoratorActiveCard.decorations.toploaderFrame = styleName; }
+      };
+
+      window.updateFrameColor = function(colorHex) {
+        document.getElementById('decorator-frame-layer').style.setProperty('--frame-color', colorHex);
+        document.getElementById('frame-color-hex-label').innerText = colorHex;
+        if (decoratorActiveCard) { if(!decoratorActiveCard.decorations) decoratorActiveCard.decorations = {}; decoratorActiveCard.decorations.frameColor = colorHex; }
+      };
+
+      function handleStickerUpload(event) {
+        const files = Array.from(event.target.files);
+        files.forEach(file => {
+          const reader = new FileReader();
+          reader.onload = (e) => { runtimeStickerInventory.push({ id: `stk_inv_${Date.now()}`, src: e.target.result }); renderStickerBar(); };
+          reader.readAsDataURL(file);
+        });
+        event.target.value = '';
+        showToast(`${files.length} sticker(s) uploaded`, 'success', 1500);
+      }
+      window.handleStickerUpload = handleStickerUpload;
+
+      function renderStickerBar() {
+        const bar = document.getElementById('sticker-horizontal-bar');
+        if (!bar) return;
+        if (runtimeStickerInventory.length === 0) { bar.innerHTML = `<div class="text-[11px] text-slate-400 w-full text-center py-3">no custom stickers loaded.</div>`; return; }
+        bar.innerHTML = runtimeStickerInventory.map(stk => `
+          <div class="relative flex-shrink-0 w-12 h-12 bg-white border border-slate-200 rounded-lg p-1 flex items-center justify-center cursor-pointer hover:border-brand-300 group shadow-2xs" onclick="addStickerToCanvas('${stk.src}')">
+            <img src="${stk.src}" class="block max-w-full max-h-full object-contain pointer-events-none disable-ios-save">
+            <button class="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-slate-200 text-slate-600 hover:text-rose-500 border border-slate-300 flex items-center justify-center text-[9px]" onclick="event.stopPropagation(); runtimeStickerInventory = runtimeStickerInventory.filter(i => i.id !== '${stk.id}'); renderStickerBar();"><i class="fa-solid fa-xmark"></i></button>
+          </div>`).join('');
+      }
+
+      window.addStickerToCanvas = function(imageSrc) {
+        if (!decoratorActiveCard) return;
+        instantiateStickerNode(imageSrc, 50, 50, 1.0, 0);
+        showToast('Sticker added!', 'success', 1200);
+      };
+
+      function clearStickerSelection() {
+        document.querySelectorAll('#decorator-sticker-layer > div').forEach(el => { el.classList.remove('sticker-selected'); el.querySelectorAll('.sticker-control-handle, .sticker-delete-handle').forEach(h => h.classList.add('hidden')); });
+      }
+
+      function instantiateStickerNode(imageSrc, x, y, scale, rotation) {
+        const stickerId = `stk_${Date.now()}_${Math.random().toString(36).substr(2,4)}`;
+        const node = document.createElement('div');
+        node.id = stickerId; node.className = 'absolute select-none z-30 p-1 origin-center flex items-center justify-center cursor-move';
+        node.style.left = `${x}%`; node.style.top = `${y}%`; node.style.width = '20%'; node.style.height = '20%';
+        node.style.transform = `translate(-50%, -50%) scale(${scale}) rotate(${rotation}deg)`;
+        node.innerHTML = `<img src="${imageSrc}" class="block max-w-full max-h-full object-contain pointer-events-none disable-ios-save"><div class="sticker-control-handle hidden"><i class="fa-solid fa-arrows-up-down-left-right"></i></div><div class="sticker-delete-handle hidden"><i class="fa-solid fa-xmark"></i></div>`;
+        const metadata = { id: stickerId, imageSrc, x, y, scale, rotation };
+        activeStickers.push(metadata);
+        const selectAction = (e) => {
+          if(e.target.closest('.sticker-control-handle') || e.target.closest('.sticker-delete-handle')) return;
+          clearStickerSelection(); node.classList.add('sticker-selected');
+          node.querySelector('.sticker-control-handle').classList.remove('hidden');
+          node.querySelector('.sticker-delete-handle').classList.remove('hidden');
+          startStickerDrag(e, node, metadata);
+        };
+        node.addEventListener('mousedown', selectAction); node.addEventListener('touchstart', selectAction, { passive: false });
+        node.querySelector('.sticker-control-handle').addEventListener('mousedown', (e) => { e.stopPropagation(); startStickerTransform(e, node, metadata); });
+        node.querySelector('.sticker-delete-handle').addEventListener('click', (e) => { e.stopPropagation(); node.remove(); activeStickers = activeStickers.filter(s => s.id !== stickerId); });
+        document.getElementById('decorator-sticker-layer').appendChild(node);
+      }
+
+      function startStickerDrag(e, node, metadata) {
+        const container = document.getElementById('decorator-workspace-container');
+        const rect = container.getBoundingClientRect();
+        function moveHandler(moveEvent) {
+          const clientX = moveEvent.touches ? moveEvent.touches[0].clientX : moveEvent.clientX;
+          const clientY = moveEvent.touches ? moveEvent.touches[0].clientY : moveEvent.clientY;
+          let pctX = ((clientX - rect.left) / rect.width) * 100, pctY = ((clientY - rect.top) / rect.height) * 100;
+          pctX = Math.max(0, Math.min(100, pctX)); pctY = Math.max(0, Math.min(100, pctY));
+          node.style.left = `${pctX}%`; node.style.top = `${pctY}%`; metadata.x = pctX; metadata.y = pctY;
+        }
+        function endHandler() { window.removeEventListener('mousemove', moveHandler); window.removeEventListener('mouseup', endHandler); }
+        window.addEventListener('mousemove', moveHandler); window.addEventListener('mouseup', endHandler);
+      }
+
+      function startStickerTransform(e, node, metadata) {
+        const container = document.getElementById('decorator-workspace-container');
+        const containerRect = container.getBoundingClientRect();
+        const centerX = containerRect.left + (metadata.x/100)*containerRect.width;
+        const centerY = containerRect.top + (metadata.y/100)*containerRect.height;
+        const initialClientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const initialClientY = e.touches ? e.touches[0].clientY : e.clientY;
+        const initialRadius = Math.hypot(initialClientX - centerX, initialClientY - centerY);
+        const initialAngle = Math.atan2(initialClientY - centerY, initialClientX - centerX);
+        const startScale = metadata.scale, startRotation = metadata.rotation;
+        function transformMoveHandler(moveEvent) {
+          const clientX = moveEvent.touches ? moveEvent.touches[0].clientX : moveEvent.clientX;
+          const clientY = moveEvent.touches ? moveEvent.touches[0].clientY : moveEvent.clientY;
+          const currentRadius = Math.hypot(clientX - centerX, clientY - centerY);
+          const currentAngle = Math.atan2(clientY - centerY, clientX - centerX);
+          let newScale = startScale * (currentRadius / initialRadius);
+          newScale = Math.max(0.4, Math.min(4.0, newScale));
+          let newRotation = startRotation + ((currentAngle - initialAngle) * 180 / Math.PI);
+          metadata.scale = newScale; metadata.rotation = newRotation;
+          node.style.transform = `translate(-50%, -50%) scale(${newScale}) rotate(${newRotation}deg)`;
+        }
+        function transformEndHandler() { window.removeEventListener('mousemove', transformMoveHandler); window.removeEventListener('mouseup', transformEndHandler); }
+        window.addEventListener('mousemove', transformMoveHandler); window.addEventListener('mouseup', transformEndHandler);
+      }
+
+      window.saveDecorationsToDB = async function() {
+        if (!decoratorActiveCard) return;
+        clearStickerSelection();
+        if (!dbInstance) await initIndexedDB();
+        decoratorActiveCard.decorations.stickers = activeStickers;
+        const tx = dbInstance.transaction('cards', 'readwrite'); tx.objectStore('cards').put(decoratorActiveCard);
+        tx.oncomplete = async () => { await performBackup(); confetti({ particleCount: 30, spread: 50, origin: { y: 0.8 } }); showToast('Changes saved!', 'success'); };
+      };
+
+      window.deleteActiveCardFromDecorator = function() {
+        if (!decoratorActiveCard?.id) return;
+        pendingBulkDeleteIds = [decoratorActiveCard.id];
+        document.getElementById('delete-confirm-title').textContent = 'delete this photocard?';
+        document.getElementById('delete-confirm-modal').classList.add('show');
+      };
+
+      document.addEventListener('click', function(e) {
+        if (e.target === document.getElementById('delete-confirm-modal')) closeDeleteConfirm();
+      });
+    })();
   </script>
 </body>
 </html>
