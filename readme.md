@@ -60,7 +60,7 @@
 ## Backend
 
 The Pinterest image search and card processing API lives in a separate repo:
-- **Repo:** [anythinggacha-backend](https://github.com/s0ulcodes/pinterest-gacha-app)
+- **Repo:** [Pinterest-Gacha-Backend](https://github.com/s0ulcodes/Pinterest-Gacha-Backend)
 - **Deployed on:** [Hugging Face Spaces](https://huggingface.co/spaces/s0ulcodes/pinterest-gacha-app)
 ---
 
