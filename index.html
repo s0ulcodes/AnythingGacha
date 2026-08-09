@@ -10,8 +10,7 @@
   <title>AnythingGacha Studio & Binder</title>
 
   <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com">
-  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       darkMode: 'class',
@@ -19,20 +18,12 @@
         extend: {
           colors: {
             brand: {
-              50: '#fff1f2',
-              100: '#ffe4e6',
-              200: '#fecdd3',
-              300: '#fda4af',
-              400: '#fb7185',
-              500: '#f43f5e',
-              600: '#e11d48',
+              50: '#fff1f2', 100: '#ffe4e6', 200: '#fecdd3', 300: '#fda4af',
+              400: '#fb7185', 500: '#f43f5e', 600: '#e11d48',
             },
             pastel: {
-              blue: '#3b82f6',
-              blueLight: '#eff6ff',
-              bg: '#faf8f9',
-              cardBg: '#ffffff',
-              border: '#e2e8f0',
+              blue: '#3b82f6', blueLight: '#eff6ff', bg: '#faf8f9',
+              cardBg: '#ffffff', border: '#e2e8f0',
             }
           }
         }
@@ -42,635 +33,97 @@
 
   <!-- External CDNs -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js">
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <style>
+    /* ... (keep all existing styles exactly the same) ... */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: #f1f5f9; }
     ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
-    
-    * {
-      -webkit-touch-callout: none;
-      -webkit-user-select: none;
-      user-select: none;
-    }
-
-    input, select, textarea {
-      -webkit-user-select: text;
-      user-select: text;
-    }
-
-    img:not([src]), img[src=""], img[src="#"] {
-      opacity: 0;
-    }
-    
-    img[src^="data:image/gif"] {
-      opacity: 0;
-    }
-
-    .photocard-aspect {
-      aspect-ratio: 2.5 / 3.5;
-      container-type: inline-size;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .photocard-aspect img {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    
-    .frame-classic-border {
-      --frame-thickness: 3.2cqw;
-    }
-    
-    .frame-glowing-trim {
-      --frame-thickness: 3.2cqw;
-      border: 0 !important;
-      box-sizing: border-box !important;
-      position: absolute !important;
-      inset: 0 !important;
-      overflow: hidden;
-      background: var(--frame-color, #ffffff);
-      box-shadow:
-        inset 0 0 0.4cqw color-mix(in srgb, var(--frame-color, #ffffff) 76%, transparent),
-        inset 0 0 0.9cqw color-mix(in srgb, var(--frame-color, #ffffff) 67%, transparent),
-        0 0 3.5cqw color-mix(in srgb, var(--frame-color, #ffffff) 50%, transparent),
-        0 0 5.5cqw color-mix(in srgb, var(--frame-color, #ffffff) 70%, transparent);
-    }
-  
-    .frame-glowing-trim::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      z-index: 20;
-      pointer-events: none;
-      box-sizing: border-box;
-      border: max(1px, 0.3cqw) solid
-        color-mix(in srgb, var(--frame-color, #ffffff) 90%, white);
-      border-radius: inherit;
-      box-shadow:
-        inset 0 0 0.35cqw color-mix(in srgb, var(--frame-color, #ffffff) 62%, transparent),
-        0 0 0.35cqw color-mix(in srgb, var(--frame-color, #ffffff) 42%, transparent);
-    }  
-    
-    .photocard-aspect:has(.frame-glowing-trim) {
-      overflow: visible;
-    }
-
-    .sticker-selected {
-      outline: 2px dashed #f43f5e;
-      outline-offset: 4px;
-    }
-    
-    .sticker-control-handle {
-      position: absolute;
-      bottom: -12px;
-      right: -12px;
-      width: 20px;
-      height: 20px;
-      background-color: #f43f5e;
-      color: white;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 9px;
-      cursor: se-resize;
-      z-index: 50;
-    }
-    
-    .sticker-delete-handle {
-      position: absolute;
-      top: -12px;
-      right: -12px;
-      width: 20px;
-      height: 20px;
-      background-color: #64748b;
-      color: #ffffff;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 9px;
-      cursor: pointer;
-      z-index: 50;
-    }
-
-    .disable-ios-save {
-      -webkit-user-drag: none;
-      -khtml-user-drag: none;
-      -moz-user-drag: none;
-      -o-user-drag: none;
-      pointer-events: none;
-    }
-
-    .touch-dragging-active {
-      position: fixed !important;
-      z-index: 9999 !important;
-      pointer-events: none !important;
-      transform: scale(1.05) !important;
-      box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1) !important;
-      opacity: 0.9 !important;
-    }
-
-    .touch-drop-indicator {
-      outline: 2px dashed #f43f5e !important;
-      outline-offset: 2px;
-      opacity: 0.4;
-    }
-
+    * { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
+    input, select, textarea { -webkit-user-select: text; user-select: text; }
+    img:not([src]), img[src=""], img[src="#"] { opacity: 0; }
+    img[src^="data:image/gif"] { opacity: 0; }
+    .photocard-aspect { aspect-ratio: 2.5 / 3.5; container-type: inline-size; position: relative; overflow: hidden; }
+    .photocard-aspect img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .frame-classic-border { --frame-thickness: 3.2cqw; }
+    .frame-glowing-trim { --frame-thickness: 3.2cqw; border: 0 !important; box-sizing: border-box !important; position: absolute !important; inset: 0 !important; overflow: hidden; background: var(--frame-color, #ffffff); box-shadow: inset 0 0 0.4cqw color-mix(in srgb, var(--frame-color, #ffffff) 76%, transparent), inset 0 0 0.9cqw color-mix(in srgb, var(--frame-color, #ffffff) 67%, transparent), 0 0 3.5cqw color-mix(in srgb, var(--frame-color, #ffffff) 50%, transparent), 0 0 5.5cqw color-mix(in srgb, var(--frame-color, #ffffff) 70%, transparent); }
+    .frame-glowing-trim::after { content: ""; position: absolute; inset: 0; z-index: 20; pointer-events: none; box-sizing: border-box; border: max(1px, 0.3cqw) solid color-mix(in srgb, var(--frame-color, #ffffff) 90%, white); border-radius: inherit; box-shadow: inset 0 0 0.35cqw color-mix(in srgb, var(--frame-color, #ffffff) 62%, transparent), 0 0 0.35cqw color-mix(in srgb, var(--frame-color, #ffffff) 42%, transparent); }
+    .photocard-aspect:has(.frame-glowing-trim) { overflow: visible; }
+    .sticker-selected { outline: 2px dashed #f43f5e; outline-offset: 4px; }
+    .sticker-control-handle { position: absolute; bottom: -12px; right: -12px; width: 20px; height: 20px; background-color: #f43f5e; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; cursor: se-resize; z-index: 50; }
+    .sticker-delete-handle { position: absolute; top: -12px; right: -12px; width: 20px; height: 20px; background-color: #64748b; color: #ffffff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; cursor: pointer; z-index: 50; }
+    .disable-ios-save { -webkit-user-drag: none; -khtml-user-drag: none; -moz-user-drag: none; -o-user-drag: none; pointer-events: none; }
+    .touch-dragging-active { position: fixed !important; z-index: 9999 !important; pointer-events: none !important; transform: scale(1.05) !important; box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1) !important; opacity: 0.9 !important; }
+    .touch-drop-indicator { outline: 2px dashed #f43f5e !important; outline-offset: 2px; opacity: 0.4; }
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-    #delete-confirm-modal {
-      position: fixed;
-      inset: 0;
-      z-index: 10000;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      background: rgba(15, 23, 42, 0.45);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-    }
-
-    #delete-confirm-modal.show {
-      display: flex;
-    }
-
-    .delete-confirm-card {
-      width: min(100%, 340px);
-      background: #ffffff;
-      border: 1px solid #fecdd3;
-      border-radius: 22px;
-      padding: 22px;
-      box-shadow: 0 20px 45px rgba(15, 23, 42, 0.18);
-      text-align: center;
-      animation: deleteModalIn 0.18s ease-out;
-    }
-
-    @keyframes deleteModalIn {
-      from { opacity: 0; transform: scale(0.94) translateY(8px); }
-      to { opacity: 1; transform: scale(1) translateY(0); }
-    }
-
-    .delete-confirm-icon {
-      width: 52px;
-      height: 52px;
-      margin: 0 auto 12px;
-      border-radius: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #fff1f2;
-      color: #f43f5e;
-      font-size: 20px;
-    }
-
-    .delete-confirm-actions {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 20px;
-    }
-
-    .delete-confirm-actions button {
-      min-height: 44px;
-      border-radius: 12px;
-      font-size: 12px;
-      font-weight: 700;
-      cursor: pointer;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    .delete-confirm-cancel {
-      background: #ffffff;
-      color: #64748b;
-      border: 1px solid #e2e8f0;
-    }
-
-    .delete-confirm-delete {
-      background: #f43f5e;
-      color: #ffffff;
-      border: 1px solid #f43f5e;
-    }
-
-    .delete-confirm-delete:active {
-      transform: scale(0.98);
-    }
-
-    @keyframes gachaCardReveal {
-      0% { transform: rotateY(180deg) scale(0.8); opacity: 0; }
-      50% { opacity: 0.5; }
-      100% { transform: rotateY(0deg) scale(1); opacity: 1; }
-    }
-
-    .gacha-card-reveal {
-      animation: gachaCardReveal 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-      transform-origin: center;
-    }
-
-    @keyframes gachaShimmer {
-      0% { background-position: -200% center; }
-      100% { background-position: 200% center; }
-    }
-
-    .gacha-shimmer-effect {
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-      background-size: 200% 100%;
-      animation: gachaShimmer 1.5s ease-in-out;
-    }
-
-    .bulk-select-checkbox {
-      position: absolute;
-      top: 0.5rem;
-      left: 0.5rem;
-      z-index: 30;
-      width: 20px;
-      height: 20px;
-      accent-color: #f43f5e;
-    }
-
-    .selected-for-bulk {
-      outline: 2px solid #f43f5e;
-      outline-offset: 2px;
-    }
-
-    .server-status-dot {
-      display: inline-block;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      margin-right: 4px;
-    }
-
-    #pwa-banner {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      z-index: 9999;
-      background: #ffffff;
-      border-top: 2px solid #fecdd3;
-      padding: 16px 20px;
-      box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
-      display: none;
-      animation: slideUp 0.3s ease-out;
-    }
-
-    @keyframes slideUp {
-      from { transform: translateY(100%); }
-      to { transform: translateY(0); }
-    }
-
-    #pwa-banner.show {
-      display: block;
-    }
-
-    .pwa-banner-content {
-      max-width: 500px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .pwa-banner-icon {
-      flex-shrink: 0;
-      width: 44px;
-      height: 44px;
-      background: #f43f5e;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 20px;
-    }
-
-    .pwa-banner-text {
-      flex: 1;
-      font-size: 12px;
-      color: #475569;
-    }
-
-    .pwa-banner-text strong {
-      color: #1e293b;
-      display: block;
-      font-size: 14px;
-    }
-
-    .pwa-banner-actions {
-      display: flex;
-      gap: 8px;
-      flex-shrink: 0;
-    }
-
-    .pwa-banner-actions button {
-      padding: 8px 16px;
-      border-radius: 10px;
-      font-size: 11px;
-      font-weight: 700;
-      cursor: pointer;
-      border: none;
-      transition: all 0.2s;
-    }
-
-    .pwa-btn-install {
-      background: #f43f5e;
-      color: white;
-    }
-
-    .pwa-btn-install:hover {
-      background: #e11d48;
-    }
-
-    .pwa-btn-dismiss {
-      background: #f1f5f9;
-      color: #64748b;
-    }
-
-    .pwa-btn-dismiss:hover {
-      background: #e2e8f0;
-    }
-
-    #desktop-backup-btn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 100;
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 16px;
-      padding: 12px 16px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-      display: none;
-      align-items: center;
-      gap: 8px;
-      font-size: 11px;
-      font-weight: 600;
-      color: #475569;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    #desktop-backup-btn:hover {
-      border-color: #f43f5e;
-      color: #f43f5e;
-      box-shadow: 0 4px 16px rgba(244, 63, 94, 0.15);
-    }
-
-    #desktop-backup-btn i {
-      font-size: 14px;
-    }
-
-    .backup-status-dot {
-      display: inline-block;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      margin-right: 4px;
-    }
-
-    .backup-status-dot.active {
-      background: #10b981;
-    }
-
-    .backup-status-dot.inactive {
-      background: #94a3b8;
-    }
-
-    /* Favorite star completely removed via code, but style left harmless */
-    .favorite-star {
-      display: none;
-    }
-
-    @media (max-width: 640px) {
-      #bulk-actions-bar {
-        gap: 4px;
-      }
-      #bulk-actions-bar button {
-        padding: 4px 8px;
-        font-size: 10px;
-      }
-      .delete-confirm-card {
-        margin: 0 10px;
-      }
-    }
-
-    #folder-modal {
-      position: fixed;
-      inset: 0;
-      z-index: 10001;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      background: rgba(15, 23, 42, 0.45);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-    }
-
-    #folder-modal.show {
-      display: flex;
-    }
-
-    .folder-modal-card {
-      width: min(100%, 420px);
-      background: #ffffff;
-      border-radius: 22px;
-      padding: 28px;
-      box-shadow: 0 20px 45px rgba(15, 23, 42, 0.18);
-      animation: deleteModalIn 0.18s ease-out;
-    }
-
-    .folder-modal-card h3 {
-      font-size: 16px;
-      font-weight: 700;
-      color: #1e293b;
-      margin-bottom: 8px;
-    }
-
-    .folder-modal-card p {
-      font-size: 13px;
-      color: #64748b;
-      line-height: 1.6;
-    }
-
-    .folder-modal-card .folder-actions {
-      display: flex;
-      gap: 10px;
-      margin-top: 20px;
-    }
-
-    .folder-modal-card .folder-actions button {
-      flex: 1;
-      padding: 12px;
-      border-radius: 12px;
-      font-size: 12px;
-      font-weight: 700;
-      cursor: pointer;
-      border: none;
-      transition: all 0.2s;
-    }
-
-    .btn-folder-setup {
-      background: #f43f5e;
-      color: white;
-    }
-
-    .btn-folder-setup:hover {
-      background: #e11d48;
-    }
-
-    .btn-folder-close {
-      background: #f1f5f9;
-      color: #64748b;
-      flex: 0.5 !important;
-    }
-
-    .folder-path-display {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 10px;
-      padding: 10px 14px;
-      font-size: 12px;
-      color: #475569;
-      margin-top: 12px;
-      word-break: break-all;
-      font-family: monospace;
-    }
-
-    .folder-path-display .fa-folder-open {
-      color: #fbbf24;
-      margin-right: 6px;
-    }
-
-    #toast-container {
-      position: fixed;
-      top: 80px;
-      right: 20px;
-      z-index: 99999;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      max-width: 360px;
-      width: 100%;
-      pointer-events: none;
-    }
-
-    .toast {
-      background: #ffffff;
-      border-radius: 14px;
-      padding: 14px 18px;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
-      border-left: 4px solid #f43f5e;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      animation: toastIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-      pointer-events: auto;
-      transition: all 0.3s ease;
-      backdrop-filter: blur(10px);
-      background: rgba(255,255,255,0.95);
-    }
-
-    .toast.removing {
-      animation: toastOut 0.3s ease-in forwards;
-    }
-
-    @keyframes toastIn {
-      from { opacity: 0; transform: translateX(40px) scale(0.95); }
-      to { opacity: 1; transform: translateX(0) scale(1); }
-    }
-
-    @keyframes toastOut {
-      from { opacity: 1; transform: translateX(0) scale(1); }
-      to { opacity: 0; transform: translateX(40px) scale(0.95); }
-    }
-
-    .toast-icon {
-      flex-shrink: 0;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
-    }
-
-    .toast-icon.delete {
-      background: #fee2e2;
-      color: #ef4444;
-    }
-
-    .toast-icon.success {
-      background: #d1fae5;
-      color: #10b981;
-    }
-
-    .toast-icon.info {
-      background: #dbeafe;
-      color: #3b82f6;
-    }
-
-    .toast-content {
-      flex: 1;
-      font-size: 13px;
-      color: #1e293b;
-      line-height: 1.4;
-    }
-
-    .toast-content strong {
-      font-weight: 700;
-      color: #0f172a;
-    }
-
-    .toast-close {
-      flex-shrink: 0;
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      border: none;
-      background: #f1f5f9;
-      color: #94a3b8;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 10px;
-      transition: all 0.2s;
-    }
-
-    .toast-close:hover {
-      background: #e2e8f0;
-      color: #64748b;
-    }
-
-    @media (max-width: 640px) {
-      #toast-container {
-        top: 70px;
-        right: 10px;
-        left: 10px;
-        max-width: none;
-        width: auto;
-      }
-      .toast {
-        padding: 12px 14px;
-        font-size: 12px;
-      }
-      .toast-icon {
-        width: 28px;
-        height: 28px;
-        font-size: 12px;
-      }
-    }
+    #delete-confirm-modal { position: fixed; inset: 0; z-index: 10000; display: none; align-items: center; justify-content: center; padding: 20px; background: rgba(15, 23, 42, 0.45); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+    #delete-confirm-modal.show { display: flex; }
+    .delete-confirm-card { width: min(100%, 340px); background: #ffffff; border: 1px solid #fecdd3; border-radius: 22px; padding: 22px; box-shadow: 0 20px 45px rgba(15, 23, 42, 0.18); text-align: center; animation: deleteModalIn 0.18s ease-out; }
+    @keyframes deleteModalIn { from { opacity: 0; transform: scale(0.94) translateY(8px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+    .delete-confirm-icon { width: 52px; height: 52px; margin: 0 auto 12px; border-radius: 16px; display: flex; align-items: center; justify-content: center; background: #fff1f2; color: #f43f5e; font-size: 20px; }
+    .delete-confirm-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
+    .delete-confirm-actions button { min-height: 44px; border-radius: 12px; font-size: 12px; font-weight: 700; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+    .delete-confirm-cancel { background: #ffffff; color: #64748b; border: 1px solid #e2e8f0; }
+    .delete-confirm-delete { background: #f43f5e; color: #ffffff; border: 1px solid #f43f5e; }
+    .delete-confirm-delete:active { transform: scale(0.98); }
+    @keyframes gachaCardReveal { 0% { transform: rotateY(180deg) scale(0.8); opacity: 0; } 50% { opacity: 0.5; } 100% { transform: rotateY(0deg) scale(1); opacity: 1; } }
+    .gacha-card-reveal { animation: gachaCardReveal 0.6s cubic-bezier(0.4, 0, 0.2, 1); transform-origin: center; }
+    @keyframes gachaShimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
+    .gacha-shimmer-effect { background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); background-size: 200% 100%; animation: gachaShimmer 1.5s ease-in-out; }
+    .bulk-select-checkbox { position: absolute; top: 0.5rem; left: 0.5rem; z-index: 30; width: 20px; height: 20px; accent-color: #f43f5e; }
+    .selected-for-bulk { outline: 2px solid #f43f5e; outline-offset: 2px; }
+    .server-status-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 4px; }
+    #pwa-banner { position: fixed; bottom: 0; left: 0; right: 0; z-index: 9999; background: #ffffff; border-top: 2px solid #fecdd3; padding: 16px 20px; box-shadow: 0 -4px 20px rgba(0,0,0,0.1); display: none; animation: slideUp 0.3s ease-out; }
+    @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+    #pwa-banner.show { display: block; }
+    .pwa-banner-content { max-width: 500px; margin: 0 auto; display: flex; align-items: center; gap: 12px; }
+    .pwa-banner-icon { flex-shrink: 0; width: 44px; height: 44px; background: #f43f5e; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px; }
+    .pwa-banner-text { flex: 1; font-size: 12px; color: #475569; }
+    .pwa-banner-text strong { color: #1e293b; display: block; font-size: 14px; }
+    .pwa-banner-actions { display: flex; gap: 8px; flex-shrink: 0; }
+    .pwa-banner-actions button { padding: 8px 16px; border-radius: 10px; font-size: 11px; font-weight: 700; cursor: pointer; border: none; transition: all 0.2s; }
+    .pwa-btn-install { background: #f43f5e; color: white; }
+    .pwa-btn-install:hover { background: #e11d48; }
+    .pwa-btn-dismiss { background: #f1f5f9; color: #64748b; }
+    .pwa-btn-dismiss:hover { background: #e2e8f0; }
+    #desktop-backup-btn { position: fixed; bottom: 20px; right: 20px; z-index: 100; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 12px 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); display: none; align-items: center; gap: 8px; font-size: 11px; font-weight: 600; color: #475569; cursor: pointer; transition: all 0.2s; }
+    #desktop-backup-btn:hover { border-color: #f43f5e; color: #f43f5e; box-shadow: 0 4px 16px rgba(244, 63, 94, 0.15); }
+    #desktop-backup-btn i { font-size: 14px; }
+    .backup-status-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 4px; }
+    .backup-status-dot.active { background: #10b981; }
+    .backup-status-dot.inactive { background: #94a3b8; }
+    .backup-status-dot.warning { background: #f59e0b; }
+    .favorite-star { display: none; }
+    @media (max-width: 640px) { #bulk-actions-bar { gap: 4px; } #bulk-actions-bar button { padding: 4px 8px; font-size: 10px; } .delete-confirm-card { margin: 0 10px; } }
+    #folder-modal { position: fixed; inset: 0; z-index: 10001; display: none; align-items: center; justify-content: center; padding: 20px; background: rgba(15, 23, 42, 0.45); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+    #folder-modal.show { display: flex; }
+    .folder-modal-card { width: min(100%, 420px); background: #ffffff; border-radius: 22px; padding: 28px; box-shadow: 0 20px 45px rgba(15, 23, 42, 0.18); animation: deleteModalIn 0.18s ease-out; }
+    .folder-modal-card h3 { font-size: 16px; font-weight: 700; color: #1e293b; margin-bottom: 8px; }
+    .folder-modal-card p { font-size: 13px; color: #64748b; line-height: 1.6; }
+    .folder-modal-card .folder-actions { display: flex; gap: 10px; margin-top: 20px; }
+    .folder-modal-card .folder-actions button { flex: 1; padding: 12px; border-radius: 12px; font-size: 12px; font-weight: 700; cursor: pointer; border: none; transition: all 0.2s; }
+    .btn-folder-setup { background: #f43f5e; color: white; }
+    .btn-folder-setup:hover { background: #e11d48; }
+    .btn-folder-close { background: #f1f5f9; color: #64748b; flex: 0.5 !important; }
+    .folder-path-display { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 10px 14px; font-size: 12px; color: #475569; margin-top: 12px; word-break: break-all; font-family: monospace; }
+    .folder-path-display .fa-folder-open { color: #fbbf24; margin-right: 6px; }
+    #toast-container { position: fixed; top: 80px; right: 20px; z-index: 99999; display: flex; flex-direction: column; gap: 10px; max-width: 360px; width: 100%; pointer-events: none; }
+    .toast { background: #ffffff; border-radius: 14px; padding: 14px 18px; box-shadow: 0 8px 30px rgba(0,0,0,0.12); border-left: 4px solid #f43f5e; display: flex; align-items: center; gap: 12px; animation: toastIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); pointer-events: auto; transition: all 0.3s ease; backdrop-filter: blur(10px); background: rgba(255,255,255,0.95); }
+    .toast.removing { animation: toastOut 0.3s ease-in forwards; }
+    @keyframes toastIn { from { opacity: 0; transform: translateX(40px) scale(0.95); } to { opacity: 1; transform: translateX(0) scale(1); } }
+    @keyframes toastOut { from { opacity: 1; transform: translateX(0) scale(1); } to { opacity: 0; transform: translateX(40px) scale(0.95); } }
+    .toast-icon { flex-shrink: 0; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+    .toast-icon.delete { background: #fee2e2; color: #ef4444; }
+    .toast-icon.success { background: #d1fae5; color: #10b981; }
+    .toast-icon.info { background: #dbeafe; color: #3b82f6; }
+    .toast-icon.warning { background: #fef3c7; color: #f59e0b; }
+    .toast-content { flex: 1; font-size: 13px; color: #1e293b; line-height: 1.4; }
+    .toast-content strong { font-weight: 700; color: #0f172a; }
+    .toast-close { flex-shrink: 0; width: 24px; height: 24px; border-radius: 50%; border: none; background: #f1f5f9; color: #94a3b8; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 10px; transition: all 0.2s; }
+    .toast-close:hover { background: #e2e8f0; color: #64748b; }
+    @media (max-width: 640px) { #toast-container { top: 70px; right: 10px; left: 10px; max-width: none; width: auto; } .toast { padding: 12px 14px; font-size: 12px; } .toast-icon { width: 28px; height: 28px; font-size: 12px; } }
   </style>
 </head>
 <body class="h-full flex flex-col font-sans antialiased selection:bg-brand-400 selection:text-white bg-pastel-bg text-slate-700 select-none">
@@ -681,20 +134,11 @@
   <!-- PWA Install Banner -->
   <div id="pwa-banner">
     <div class="pwa-banner-content">
-      <div class="pwa-banner-icon">
-        <i class="fa-solid fa-mobile-screen-button"></i>
-      </div>
-      <div class="pwa-banner-text">
-        <strong>Install AnythingGacha Studio</strong>
-        Install this app on your device to save your cards safely and play offline!
-      </div>
+      <div class="pwa-banner-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
+      <div class="pwa-banner-text"><strong>📱 Install AnythingGacha Studio</strong>Install this app on your device to save your cards safely and play offline!</div>
       <div class="pwa-banner-actions">
-        <button class="pwa-btn-install" onclick="installPWA()">
-          <i class="fa-solid fa-download"></i> Install
-        </button>
-        <button class="pwa-btn-dismiss" onclick="dismissPWABanner()">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
+        <button class="pwa-btn-install" onclick="installPWA()"><i class="fa-solid fa-download"></i> Install</button>
+        <button class="pwa-btn-dismiss" onclick="dismissPWABanner()"><i class="fa-solid fa-xmark"></i></button>
       </div>
     </div>
   </div>
@@ -703,43 +147,29 @@
   <button id="desktop-backup-btn" onclick="openFolderModal()">
     <span class="backup-status-dot" id="backup-status-dot"></span>
     <i class="fa-solid fa-folder"></i>
-    <span id="backup-btn-text">Auto Backup</span>
+    <span id="backup-btn-text">Secure Storage</span>
   </button>
 
   <!-- Folder Setup Modal -->
   <div id="folder-modal">
     <div class="folder-modal-card">
-      <h3><i class="fa-solid fa-folder-open text-brand-500 mr-2"></i>Auto Backup Folder</h3>
-      <p>Choose a folder where your game data will be automatically saved. All data is encrypted and backed up locally.</p>
-      
-      <div class="folder-path-display" id="folder-path-display">
-        <i class="fa-regular fa-folder"></i> No folder selected
-      </div>
-      
+      <h3><i class="fa-solid fa-folder-open text-brand-500 mr-2"></i>Secure Backup Folder</h3>
+      <p>Choose a folder for <strong>primary storage</strong> of your game data. This folder becomes the main source of truth - your data will be encrypted and saved here with triple redundancy.</p>
+      <div class="folder-path-display" id="folder-path-display"><i class="fa-regular fa-folder"></i> No folder selected</div>
       <div class="folder-actions">
-        <button class="btn-folder-setup" onclick="setupBackupFolder()">
-          <i class="fa-solid fa-folder-plus mr-1"></i> Choose Folder
-        </button>
-        <button class="btn-folder-close" onclick="closeFolderModal()">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
+        <button class="btn-folder-setup" onclick="setupSecureFolder()"><i class="fa-solid fa-folder-plus mr-1"></i> Choose Folder</button>
+        <button class="btn-folder-close" onclick="closeFolderModal()"><i class="fa-solid fa-xmark"></i></button>
       </div>
-      <p style="font-size: 11px; color: #94a3b8; margin-top: 12px; text-align: center;">
-        <i class="fa-solid fa-lock mr-1"></i> Data is encrypted and backed up automatically to your chosen folder.
-      </p>
+      <p style="font-size: 11px; color: #94a3b8; margin-top: 12px; text-align: center;"><i class="fa-solid fa-shield-halved mr-1"></i> Triple-redundant encrypted backups with auto-recovery</p>
     </div>
   </div>
 
   <!-- Delete Confirmation Modal -->
   <div id="delete-confirm-modal" role="dialog" aria-modal="true" aria-labelledby="delete-confirm-title">
     <div class="delete-confirm-card">
-      <div class="delete-confirm-icon">
-        <i class="fa-solid fa-trash"></i>
-      </div>
+      <div class="delete-confirm-icon"><i class="fa-solid fa-trash"></i></div>
       <h3 id="delete-confirm-title" class="text-base font-bold text-slate-800">delete photocard?</h3>
-      <p class="text-xs text-slate-400 mt-2 leading-relaxed">
-        this will permanently remove the selected card(s) from your binder.
-      </p>
+      <p class="text-xs text-slate-400 mt-2 leading-relaxed">this will permanently remove the selected card(s) from your binder.</p>
       <div class="delete-confirm-actions">
         <button type="button" class="delete-confirm-cancel" onclick="closeDeleteConfirm()">cancel</button>
         <button type="button" class="delete-confirm-delete" onclick="confirmDeleteCard()">delete</button>
@@ -751,36 +181,21 @@
   <header class="bg-white/90 border-b border-pink-100 sticky top-0 z-50 backdrop-blur-md shadow-xs">
     <div class="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between">
       <div class="flex items-center space-x-2.5">
-        <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-pink-300 via-rose-300 to-sky-300 flex items-center justify-center text-white shadow-sm">
-          <i class="fa-solid fa-compact-disc text-sm"></i>
-        </div>
-        <span class="font-bold text-base bg-gradient-to-r from-pink-500 via-rose-400 to-sky-400 bg-clip-text text-transparent">
-          AnythingGacha studio
-        </span>
+        <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-pink-300 via-rose-300 to-sky-300 flex items-center justify-center text-white shadow-sm"><i class="fa-solid fa-compact-disc text-sm"></i></div>
+        <span class="font-bold text-base bg-gradient-to-r from-pink-500 via-rose-400 to-sky-400 bg-clip-text text-transparent">AnythingGacha studio</span>
       </div>
     </div>
-
     <nav class="flex border-t border-slate-100 overflow-x-auto bg-white/80 backdrop-blur">
-      <button onclick="switchTab('binder')" id="tab-btn-binder" class="nav-tab text-brand-500 border-brand-500 border-b-2 flex-1 min-w-[100px] py-2.5 text-xs font-bold flex items-center justify-center space-x-2 transition-all">
-        <i class="fa-solid fa-book-open"></i>
-        <span>my binder</span>
-      </button>
-      <button onclick="switchTab('gacha')" id="tab-btn-gacha" class="nav-tab text-slate-400 border-transparent border-b-2 flex-1 min-w-[100px] py-2.5 text-xs font-bold flex items-center justify-center space-x-2 transition-all hover:text-slate-600">
-        <i class="fa-solid fa-gift"></i>
-        <span>gacha pull</span>
-      </button>
-      <button onclick="switchTab('studio')" id="tab-btn-studio" class="nav-tab text-slate-400 border-transparent border-b-2 flex-1 min-w-[100px] py-2.5 text-xs font-bold flex items-center justify-center space-x-2 transition-all hover:text-slate-600">
-        <i class="fa-solid fa-wand-magic-sparkles"></i>
-        <span>card studio</span>
-      </button>
+      <button onclick="switchTab('binder')" id="tab-btn-binder" class="nav-tab text-brand-500 border-brand-500 border-b-2 flex-1 min-w-[100px] py-2.5 text-xs font-bold flex items-center justify-center space-x-2 transition-all"><i class="fa-solid fa-book-open"></i><span>my binder</span></button>
+      <button onclick="switchTab('gacha')" id="tab-btn-gacha" class="nav-tab text-slate-400 border-transparent border-b-2 flex-1 min-w-[100px] py-2.5 text-xs font-bold flex items-center justify-center space-x-2 transition-all hover:text-slate-600"><i class="fa-solid fa-gift"></i><span>gacha pull</span></button>
+      <button onclick="switchTab('studio')" id="tab-btn-studio" class="nav-tab text-slate-400 border-transparent border-b-2 flex-1 min-w-[100px] py-2.5 text-xs font-bold flex items-center justify-center space-x-2 transition-all hover:text-slate-600"><i class="fa-solid fa-wand-magic-sparkles"></i><span>card studio</span></button>
     </nav>
   </header>
 
   <main class="flex-1 overflow-y-auto p-4 max-w-5xl w-full mx-auto pb-24">
-    
+    <!-- BINDER VIEW -->
     <section id="view-binder" class="space-y-4">
       <div id="group-pills-bar" class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1 px-0.5"></div>
-
       <div class="flex flex-wrap items-center justify-between px-1 py-1 text-xs text-slate-500 font-medium gap-2">
         <div class="flex items-center gap-2 flex-wrap">
           <span class="text-slate-400 font-medium">sort:</span>
@@ -793,178 +208,78 @@
           </select>
         </div>
         <div id="bulk-actions-bar" class="hidden flex items-center gap-1 sm:gap-2 flex-wrap">
-          <button onclick="toggleBulkSelectMode()" class="text-[10px] sm:text-[11px] font-bold text-brand-500 hover:text-brand-600 bg-brand-50 px-2 sm:px-2.5 py-1 rounded-lg border border-brand-200 whitespace-nowrap">
-            <span id="bulk-btn-text">select</span>
-          </button>
-          <button onclick="bulkDeleteSelected()" id="bulk-delete-btn" class="hidden text-[10px] sm:text-[11px] font-bold text-red-500 hover:text-red-600 bg-red-50 px-2 sm:px-2.5 py-1 rounded-lg border border-red-200 whitespace-nowrap">
-            <i class="fa-solid fa-trash mr-1"></i> delete
-          </button>
+          <button onclick="toggleBulkSelectMode()" class="text-[10px] sm:text-[11px] font-bold text-brand-500 hover:text-brand-600 bg-brand-50 px-2 sm:px-2.5 py-1 rounded-lg border border-brand-200 whitespace-nowrap"><span id="bulk-btn-text">select</span></button>
+          <button onclick="bulkDeleteSelected()" id="bulk-delete-btn" class="hidden text-[10px] sm:text-[11px] font-bold text-red-500 hover:text-red-600 bg-red-50 px-2 sm:px-2.5 py-1 rounded-lg border border-red-200 whitespace-nowrap"><i class="fa-solid fa-trash mr-1"></i> delete</button>
         </div>
       </div>
-
-      <div id="drag-hint-banner" class="hidden text-[11px] text-brand-600 bg-brand-50 border border-brand-100 rounded-xl p-2 text-center font-medium">
-        <i class="fa-solid fa-hand-pointer mr-1"></i> drag and drop photocards to reorder your binder layout!
-      </div>
-
+      <div id="drag-hint-banner" class="hidden text-[11px] text-brand-600 bg-brand-50 border border-brand-100 rounded-xl p-2 text-center font-medium"><i class="fa-solid fa-hand-pointer mr-1"></i> drag and drop photocards to reorder your binder layout!</div>
       <div id="binder-grid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3 sm:gap-4 p-1 relative"></div>
     </section>
 
+    <!-- GACHA VIEW -->
     <section id="view-gacha" class="hidden max-w-4xl mx-auto space-y-6">
+      <!-- ... (keep gacha HTML exactly the same) ... -->
       <div class="bg-white p-6 rounded-2xl border border-pink-100 shadow-sm">
-        <h2 class="text-base font-bold text-slate-800 mb-1 flex items-center gap-2">
-          <i class="fa-solid fa-gift text-brand-400"></i> Card Gacha Pull
-        </h2>
+        <h2 class="text-base font-bold text-slate-800 mb-1 flex items-center gap-2"><i class="fa-solid fa-gift text-brand-400"></i> Card Gacha Pull</h2>
         <p class="text-xs text-slate-400 mb-2">pull real photocards from pinterest!</p>
-        
-        <div id="server-status" class="text-[10px] mb-4 flex items-center">
-          <span class="server-status-dot bg-yellow-400" id="status-dot"></span>
-          <span id="status-text" class="text-slate-500">checking server...</span>
-        </div>
-
-        <div class="mb-4 p-3 bg-blue-50 border border-blue-100 rounded-xl flex items-center justify-between">
-          <span class="text-xs font-semibold text-blue-700">
-            <i class="fa-solid fa-calendar-check mr-1"></i> daily pulls remaining
-          </span>
-          <span id="daily-pulls-remaining" class="text-lg font-bold text-blue-600">10</span>
-        </div>
-
+        <div id="server-status" class="text-[10px] mb-4 flex items-center"><span class="server-status-dot bg-yellow-400" id="status-dot"></span><span id="status-text" class="text-slate-500">checking server...</span></div>
+        <div class="mb-4 p-3 bg-blue-50 border border-blue-100 rounded-xl flex items-center justify-between"><span class="text-xs font-semibold text-blue-700"><i class="fa-solid fa-calendar-check mr-1"></i> daily pulls remaining</span><span id="daily-pulls-remaining" class="text-lg font-bold text-blue-600">10</span></div>
         <div class="mb-4 p-3 bg-slate-50 border border-slate-200 rounded-xl">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-xs font-semibold text-slate-600">saved gacha packs</span>
-            <button onclick="saveCurrentGachaPack()" class="text-[10px] font-bold text-brand-500 hover:text-brand-600">
-              <i class="fa-solid fa-plus mr-1"></i> save current
-            </button>
-          </div>
-          <div id="saved-packs-list" class="flex gap-2 overflow-x-auto no-scrollbar py-1">
-            <div class="text-[11px] text-slate-400 italic">no saved packs yet</div>
-          </div>
+          <div class="flex items-center justify-between mb-2"><span class="text-xs font-semibold text-slate-600">saved gacha packs</span><button onclick="saveCurrentGachaPack()" class="text-[10px] font-bold text-brand-500 hover:text-brand-600"><i class="fa-solid fa-plus mr-1"></i> save current</button></div>
+          <div id="saved-packs-list" class="flex gap-2 overflow-x-auto no-scrollbar py-1"><div class="text-[11px] text-slate-400 italic">no saved packs yet</div></div>
         </div>
-
         <form id="gacha-form" onsubmit="performGachaPull(event)" class="space-y-4">
-          <div>
-            <label class="block text-xs font-semibold text-slate-600 mb-1">character / idol name (optional)</label>
-            <input type="text" id="gacha-name" placeholder="e.g. Seonghwa" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:outline-none focus:border-brand-400">
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-600 mb-1">group / series name</label>
-            <input type="text" id="gacha-group" required placeholder="e.g. ATEEZ" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:outline-none focus:border-brand-400">
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-600 mb-1">genre</label>
-            <select id="gacha-genre" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:outline-none focus:border-brand-400">
-              <option value="K-Pop">K-Pop</option>
-              <option value="J-Pop">J-Pop</option>
-              <option value="Vkei">Vkei</option>
-              <option value="Vocaloid">Vocaloid</option>
-              <option value="Anime">Anime</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
-          <button type="submit" id="gacha-pull-btn" class="w-full py-2.5 bg-brand-500 hover:bg-brand-600 text-white rounded-xl text-xs font-bold transition shadow-xs flex items-center justify-center gap-2">
-            <i class="fa-solid fa-gift"></i>
-            <span>pull 1 card (gacha)</span>
-          </button>
+          <div><label class="block text-xs font-semibold text-slate-600 mb-1">character / idol name (optional)</label><input type="text" id="gacha-name" placeholder="e.g. Seonghwa" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:outline-none focus:border-brand-400"></div>
+          <div><label class="block text-xs font-semibold text-slate-600 mb-1">group / series name</label><input type="text" id="gacha-group" required placeholder="e.g. ATEEZ" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:outline-none focus:border-brand-400"></div>
+          <div><label class="block text-xs font-semibold text-slate-600 mb-1">genre</label><select id="gacha-genre" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:outline-none focus:border-brand-400"><option value="K-Pop">K-Pop</option><option value="J-Pop">J-Pop</option><option value="Vkei">Vkei</option><option value="Vocaloid">Vocaloid</option><option value="Anime">Anime</option><option value="Other">Other</option></select></div>
+          <button type="submit" id="gacha-pull-btn" class="w-full py-2.5 bg-brand-500 hover:bg-brand-600 text-white rounded-xl text-xs font-bold transition shadow-xs flex items-center justify-center gap-2"><i class="fa-solid fa-gift"></i><span>pull 1 card (gacha)</span></button>
         </form>
-
-        <div id="gacha-result-container" class="hidden mt-4 p-4 bg-slate-50 border border-slate-200 rounded-xl">
-          <h3 class="text-xs font-bold text-slate-600 mb-3">latest pull result</h3>
-          <div id="gacha-result-card" class="flex items-center justify-center"></div>
-        </div>
+        <div id="gacha-result-container" class="hidden mt-4 p-4 bg-slate-50 border border-slate-200 rounded-xl"><h3 class="text-xs font-bold text-slate-600 mb-3">latest pull result</h3><div id="gacha-result-card" class="flex items-center justify-center"></div></div>
       </div>
     </section>
 
+    <!-- STUDIO VIEW -->
     <section id="view-studio" class="hidden max-w-4xl mx-auto space-y-6">
+      <!-- ... (keep studio HTML exactly the same) ... -->
       <div class="bg-white p-6 rounded-2xl border border-pink-100 shadow-sm">
-        <h2 class="text-base font-bold text-slate-800 mb-1 flex items-center gap-2">
-          <i class="fa-solid fa-plus-circle text-brand-400"></i> Card Studio Engine
-        </h2>
+        <h2 class="text-base font-bold text-slate-800 mb-1 flex items-center gap-2"><i class="fa-solid fa-plus-circle text-brand-400"></i> Card Studio Engine</h2>
         <p class="text-xs text-slate-400 mb-6">process, downsample, and save custom cards directly into local device storage.</p>
-
         <form id="card-creator-form" class="grid grid-cols-1 md:grid-cols-12 gap-6" onsubmit="handleCardSubmit(event)">
           <div class="md:col-span-5 flex flex-col items-center">
             <div id="dropzone" class="w-full photocard-aspect max-w-[240px] bg-slate-50 border-2 border-dashed border-slate-200 hover:border-brand-300 rounded-2xl flex flex-col items-center justify-center p-4 text-center cursor-pointer relative overflow-hidden transition group shadow-inner">
               <input type="file" id="image-input" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer z-10" onchange="handleFileSelect(event)">
-              <div id="dropzone-placeholder" class="flex flex-col items-center space-y-2 text-slate-400 group-hover:text-brand-400">
-                <i class="fa-solid fa-cloud-arrow-up text-3xl text-brand-300"></i>
-                <span class="text-xs font-medium">select or drop image asset</span>
-              </div>
+              <div id="dropzone-placeholder" class="flex flex-col items-center space-y-2 text-slate-400 group-hover:text-brand-400"><i class="fa-solid fa-cloud-arrow-up text-3xl text-brand-300"></i><span class="text-xs font-medium">select or drop image asset</span></div>
               <img id="card-preview-img" class="hidden absolute inset-0 block w-full h-full object-cover rounded-xl disable-ios-save" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="">
             </div>
-            <div id="compression-stats" class="hidden mt-3 text-center text-[11px] text-slate-500 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200 w-full max-w-[240px]">
-              orig: <span id="stat-orig-size" class="text-slate-700">0 kb</span> &rarr; webp: <span id="stat-webp-size" class="text-brand-500 font-semibold">0 kb</span>
-            </div>
+            <div id="compression-stats" class="hidden mt-3 text-center text-[11px] text-slate-500 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200 w-full max-w-[240px]">orig: <span id="stat-orig-size" class="text-slate-700">0 kb</span> → webp: <span id="stat-webp-size" class="text-brand-500 font-semibold">0 kb</span></div>
           </div>
-
           <div class="md:col-span-7 space-y-4">
-            <div>
-              <label class="block text-xs font-semibold text-slate-600 mb-1">character / artist name</label>
-              <input type="text" id="input-name" required placeholder="e.g. Seonghwa" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:outline-none focus:border-brand-400">
-            </div>
+            <div><label class="block text-xs font-semibold text-slate-600 mb-1">character / artist name</label><input type="text" id="input-name" required placeholder="e.g. Seonghwa" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:outline-none focus:border-brand-400"></div>
             <div class="grid grid-cols-2 gap-3">
-              <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1">group / series name</label>
-                <input type="text" id="input-group" required placeholder="e.g. ATEEZ" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:outline-none focus:border-brand-400">
-              </div>
-              <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1">genre</label>
-                <select id="input-genre" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:outline-none focus:border-brand-400">
-                  <option value="K-Pop">K-Pop</option>
-                  <option value="J-Pop">J-Pop</option>
-                  <option value="Vkei">Vkei</option>
-                  <option value="Vocaloid">Vocaloid</option>
-                  <option value="Anime">Anime</option>
-                  <option value="Other">Other</option>
-                </select>
-              </div>
+              <div><label class="block text-xs font-semibold text-slate-600 mb-1">group / series name</label><input type="text" id="input-group" required placeholder="e.g. ATEEZ" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:outline-none focus:border-brand-400"></div>
+              <div><label class="block text-xs font-semibold text-slate-600 mb-1">genre</label><select id="input-genre" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:outline-none focus:border-brand-400"><option value="K-Pop">K-Pop</option><option value="J-Pop">J-Pop</option><option value="Vkei">Vkei</option><option value="Vocaloid">Vocaloid</option><option value="Anime">Anime</option><option value="Other">Other</option></select></div>
             </div>
-            <button type="submit" id="save-card-btn" disabled class="w-full mt-2 py-2.5 bg-slate-100 text-slate-400 rounded-xl text-xs font-bold flex items-center justify-center space-x-2 cursor-not-allowed border border-slate-200 transition">
-              <i class="fa-solid fa-save"></i>
-              <span>commit photocard into storage</span>
-            </button>
+            <button type="submit" id="save-card-btn" disabled class="w-full mt-2 py-2.5 bg-slate-100 text-slate-400 rounded-xl text-xs font-bold flex items-center justify-center space-x-2 cursor-not-allowed border border-slate-200 transition"><i class="fa-solid fa-save"></i><span>commit photocard into storage</span></button>
           </div>
         </form>
       </div>
     </section>
 
+    <!-- DECORATOR VIEW -->
     <section id="view-decorator" class="hidden max-w-5xl mx-auto space-y-4">
-      <div class="mb-2">
-        <button onclick="switchTab('binder')" class="text-xs font-semibold text-brand-500 hover:text-brand-600 flex items-center gap-2">
-          <i class="fa-solid fa-arrow-left"></i> back to my binder collection
-        </button>
-      </div>
-
+      <!-- ... (keep decorator HTML exactly the same) ... -->
+      <div class="mb-2"><button onclick="switchTab('binder')" class="text-xs font-semibold text-brand-500 hover:text-brand-600 flex items-center gap-2"><i class="fa-solid fa-arrow-left"></i> back to my binder collection</button></div>
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
         <div class="lg:col-span-5 bg-white p-4 rounded-2xl border border-pink-100 shadow-sm space-y-4 h-fit">
-          <div>
-            <h3 class="font-bold text-sm text-slate-800">Toploader Canvas Workspace</h3>
-            <p class="text-[11px] text-slate-400">apply specialized frames, tweak stickers, or edit metadata properties instantly below.</p>
-          </div>
-
+          <div><h3 class="font-bold text-sm text-slate-800">Toploader Canvas Workspace</h3><p class="text-[11px] text-slate-400">apply specialized frames, tweak stickers, or edit metadata properties instantly below.</p></div>
           <div class="pt-2 border-t border-slate-100 space-y-3">
             <h4 class="text-xs font-bold text-slate-600">modify photocard information</h4>
-            <div>
-              <label class="block text-[11px] font-semibold text-slate-500 mb-1">character / artist name</label>
-              <input type="text" id="edit-card-name" oninput="updateLiveTextPreview()" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:border-brand-400">
-            </div>
+            <div><label class="block text-[11px] font-semibold text-slate-500 mb-1">character / artist name</label><input type="text" id="edit-card-name" oninput="updateLiveTextPreview()" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:border-brand-400"></div>
             <div class="grid grid-cols-2 gap-3">
-              <div>
-                <label class="block text-[11px] font-semibold text-slate-500 mb-1">group / series</label>
-                <input type="text" id="edit-card-group" oninput="updateLiveTextPreview()" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:border-brand-400">
-              </div>
-              <div>
-                <label class="block text-[11px] font-semibold text-slate-500 mb-1">genre tag</label>
-                <select id="edit-card-genre" onchange="updateLiveTextPreview()" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:border-brand-400">
-                  <option value="K-Pop">K-Pop</option>
-                  <option value="J-Pop">J-Pop</option>
-                  <option value="Vkei">Vkei</option>
-                  <option value="Vocaloid">Vocaloid</option>
-                  <option value="Anime">Anime</option>
-                  <option value="Other">Other</option>
-                </select>
-              </div>
+              <div><label class="block text-[11px] font-semibold text-slate-500 mb-1">group / series</label><input type="text" id="edit-card-group" oninput="updateLiveTextPreview()" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:border-brand-400"></div>
+              <div><label class="block text-[11px] font-semibold text-slate-500 mb-1">genre tag</label><select id="edit-card-genre" onchange="updateLiveTextPreview()" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:border-brand-400"><option value="K-Pop">K-Pop</option><option value="J-Pop">J-Pop</option><option value="Vkei">Vkei</option><option value="Vocaloid">Vocaloid</option><option value="Anime">Anime</option><option value="Other">Other</option></select></div>
             </div>
           </div>
-          
           <div class="pt-3 border-t border-slate-100 space-y-3">
             <label class="block text-xs font-semibold text-slate-500">apply overlay profile / frame</label>
             <div class="grid grid-cols-2 gap-2">
@@ -972,124 +287,584 @@
               <button onclick="applyFrameStyle('frame-classic-border')" class="p-2 bg-slate-50 hover:bg-slate-100 rounded-xl text-xs border border-slate-200 text-slate-600 font-medium">classic border</button>
               <button onclick="applyFrameStyle('frame-glowing-trim')" class="p-2 bg-slate-50 hover:bg-slate-100 rounded-xl text-xs border border-slate-200 text-slate-600 font-medium">glowing trim</button>
             </div>
-            
-            <div id="frame-color-picker-container" class="hidden space-y-1.5 pt-1">
-              <label class="block text-[11px] font-semibold text-slate-500">frame custom color</label>
-              <div class="flex items-center gap-2">
-                <input type="color" id="frame-color-input" value="#ffffff" oninput="updateFrameColor(this.value)" class="h-7 w-9 bg-slate-50 border border-slate-200 rounded cursor-pointer p-0.5">
-                <span id="frame-color-hex-label" class="text-xs font-mono text-slate-400">#ffffff</span>
-              </div>
-            </div>
+            <div id="frame-color-picker-container" class="hidden space-y-1.5 pt-1"><label class="block text-[11px] font-semibold text-slate-500">frame custom color</label><div class="flex items-center gap-2"><input type="color" id="frame-color-input" value="#ffffff" oninput="updateFrameColor(this.value)" class="h-7 w-9 bg-slate-50 border border-slate-200 rounded cursor-pointer p-0.5"><span id="frame-color-hex-label" class="text-xs font-mono text-slate-400">#ffffff</span></div></div>
           </div>
-
           <div class="pt-3 border-t border-slate-100 space-y-2">
-            <div class="flex items-center justify-between">
-              <label class="block text-xs font-semibold text-slate-500">custom sticker drawer</label>
-              <label class="text-[11px] font-bold text-brand-500 bg-pink-50 hover:bg-pink-100 border border-pink-200 px-2 py-1 rounded-md cursor-pointer transition">
-                + upload stickers
-                <input type="file" id="sticker-upload-input" accept="image/*" multiple class="hidden" onchange="handleStickerUpload(event)">
-              </label>
-            </div>
-            
-            <div id="sticker-horizontal-bar" class="flex gap-3 overflow-x-auto py-2 px-1 bg-slate-50 border border-slate-200 rounded-xl min-h-[72px] scroll-smooth">
-              <div class="text-[11px] text-slate-400 w-full text-center py-3 flex items-center justify-center">no custom stickers loaded. upload above.</div>
-            </div>
+            <div class="flex items-center justify-between"><label class="block text-xs font-semibold text-slate-500">custom sticker drawer</label><label class="text-[11px] font-bold text-brand-500 bg-pink-50 hover:bg-pink-100 border border-pink-200 px-2 py-1 rounded-md cursor-pointer transition">+ upload stickers<input type="file" id="sticker-upload-input" accept="image/*" multiple class="hidden" onchange="handleStickerUpload(event)"></label></div>
+            <div id="sticker-horizontal-bar" class="flex gap-3 overflow-x-auto py-2 px-1 bg-slate-50 border border-slate-200 rounded-xl min-h-[72px] scroll-smooth"><div class="text-[11px] text-slate-400 w-full text-center py-3 flex items-center justify-center">no custom stickers loaded. upload above.</div></div>
           </div>
-          
           <div class="pt-4 border-t border-slate-100 flex flex-col gap-2">
-            <button onclick="saveDecorationsToDB()" class="w-full py-2.5 bg-brand-500 hover:bg-brand-600 text-white rounded-xl text-xs font-bold transition shadow-xs">
-              <i class="fa-solid fa-cloud-arrow-up mr-1"></i> save layer & info changes
-            </button>
-            <button onclick="deleteActiveCardFromDecorator()" class="w-full py-2 bg-white hover:bg-rose-50 text-rose-500 rounded-xl text-xs font-semibold border border-rose-200 transition">
-              <i class="fa-solid fa-trash mr-1"></i> delete card entirely
-            </button>
+            <button onclick="saveDecorationsToDB()" class="w-full py-2.5 bg-brand-500 hover:bg-brand-600 text-white rounded-xl text-xs font-bold transition shadow-xs"><i class="fa-solid fa-cloud-arrow-up mr-1"></i> save layer & info changes</button>
+            <button onclick="deleteActiveCardFromDecorator()" class="w-full py-2 bg-white hover:bg-rose-50 text-rose-500 rounded-xl text-xs font-semibold border border-rose-200 transition"><i class="fa-solid fa-trash mr-1"></i> delete card entirely</button>
           </div>
         </div>
-
         <div class="lg:col-span-7 flex justify-center items-center bg-white p-6 rounded-2xl border border-pink-100 shadow-sm min-h-[440px]">
           <div id="decorator-workspace-container" class="relative photocard-aspect w-full max-w-[280px] bg-white rounded-2xl shadow-md overflow-hidden" style="touch-action: none;">
-            <div id="decorator-frame-layer" class="absolute inset-0 rounded-2xl pointer-events-none" style="padding: var(--frame-thickness, 0px); box-sizing: border-box;">
-              <img id="decorator-base-img" src="" class="block w-full h-full object-cover hidden rounded-[inherit] disable-ios-save" alt="Studio Target Context">
-            </div>
+            <div id="decorator-frame-layer" class="absolute inset-0 rounded-2xl pointer-events-none" style="padding: var(--frame-thickness, 0px); box-sizing: border-box;"><img id="decorator-base-img" src="" class="block w-full h-full object-cover hidden rounded-[inherit] disable-ios-save" alt="Studio Target Context"></div>
             <div id="decorator-sticker-layer" class="absolute inset-0 z-35 rounded-2xl overflow-hidden"></div>
-            
             <div id="decorator-text-overlay" class="absolute bottom-0 left-0 right-0 z-30 px-3 pb-3 pt-8 bg-gradient-to-t from-slate-900/80 via-slate-900/40 to-transparent rounded-b-2xl pointer-events-none hidden flex flex-col gap-0.5">
-              <div class="flex items-center justify-between gap-1">
-                <span id="preview-lbl-group" class="text-[10px] uppercase tracking-wider text-slate-200 font-semibold truncate">GROUP</span>
-                <span id="preview-lbl-genre" class="text-[9px] font-bold text-brand-300 bg-slate-900/60 px-1.5 py-0.5 rounded border border-brand-300/30">TAG</span>
-              </div>
+              <div class="flex items-center justify-between gap-1"><span id="preview-lbl-group" class="text-[10px] uppercase tracking-wider text-slate-200 font-semibold truncate">GROUP</span><span id="preview-lbl-genre" class="text-[9px] font-bold text-brand-300 bg-slate-900/60 px-1.5 py-0.5 rounded border border-brand-300/30">TAG</span></div>
               <div id="preview-lbl-name" class="text-xs font-bold text-white truncate">Name</div>
             </div>
-
-            <div id="decorator-empty-state" class="absolute inset-0 flex flex-col items-center justify-center p-6 text-center text-slate-400">
-              <i class="fa-solid fa-layer-group text-3xl mb-2 text-slate-300"></i>
-              <p class="text-xs">no target card selected. load a card from your binder.</p>
-            </div>
+            <div id="decorator-empty-state" class="absolute inset-0 flex flex-col items-center justify-center p-6 text-center text-slate-400"><i class="fa-solid fa-layer-group text-3xl mb-2 text-slate-300"></i><p class="text-xs">no target card selected. load a card from your binder.</p></div>
           </div>
         </div>
       </div>
     </section>
-
   </main>
 
   <script>
     (function() {
-      // ============ TOAST NOTIFICATION SYSTEM ============
+      // ============ TOAST SYSTEM ============
       function showToast(message, type = 'info', duration = 3000) {
         const container = document.getElementById('toast-container');
+        if (!container) return;
         const toast = document.createElement('div');
         toast.className = 'toast';
-        
-        let iconHtml = '';
-        let iconClass = '';
-        
-        switch(type) {
-          case 'delete':
-            iconClass = 'delete';
-            iconHtml = '<i class="fa-solid fa-trash"></i>';
-            break;
-          case 'success':
-            iconClass = 'success';
-            iconHtml = '<i class="fa-solid fa-check"></i>';
-            break;
-          case 'info':
-          default:
-            iconClass = 'info';
-            iconHtml = '<i class="fa-solid fa-info"></i>';
-            break;
-        }
-        
-        toast.innerHTML = `
-          <div class="toast-icon ${iconClass}">${iconHtml}</div>
-          <div class="toast-content">${message}</div>
-          <button class="toast-close" onclick="this.closest('.toast').remove()">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
-        `;
-        
+        const icons = {
+          delete: '<i class="fa-solid fa-trash"></i>',
+          success: '<i class="fa-solid fa-check"></i>',
+          info: '<i class="fa-solid fa-info"></i>',
+          warning: '<i class="fa-solid fa-triangle-exclamation"></i>'
+        };
+        const iconClass = type || 'info';
+        toast.innerHTML = `<div class="toast-icon ${iconClass}">${icons[iconClass] || icons.info}</div><div class="toast-content">${message}</div><button class="toast-close" onclick="this.closest('.toast').remove()"><i class="fa-solid fa-xmark"></i></button>`;
         container.appendChild(toast);
-        
-        setTimeout(() => {
-          toast.classList.add('removing');
-          setTimeout(() => {
-            if (toast.parentNode) toast.remove();
-          }, 300);
-        }, duration);
-        
-        toast.addEventListener('click', (e) => {
-          if (e.target.closest('.toast-close')) return;
-          toast.classList.add('removing');
-          setTimeout(() => {
-            if (toast.parentNode) toast.remove();
-          }, 300);
-        });
+        setTimeout(() => { toast.classList.add('removing'); setTimeout(() => { if (toast.parentNode) toast.remove(); }, 300); }, duration);
       }
 
       // ============ CONFIGURATION ============
       const GACHA_SERVER_URL = 'https://s0ulcodes-pinterest-gacha-app.hf.space';
-      
       const DB_NAME = 'PhotocardBinderDB';
       const DB_VERSION = 3;
+      
+      // ============ FIXED STORAGE MANAGER ============
+    const StorageManager = {
+      BACKUP_FILES: { 
+        PRIMARY: 'kgacha_primary.dat', 
+        MIRROR: 'kgacha_mirror.dat', 
+        RECOVERY: 'kgacha_recovery.dat' 
+      },
+      opfsRoot: null,
+      folderHandle: null,
+      folderPath: '',
+      isFolderEnabled: false,
+      isOPFSEnabled: false,
+      lastRecoveryBackup: 0,
+      healthCheckInterval: null,
+
+      async init() {
+        console.log('🔄 Initializing storage system...');
+        
+        // Step 1: Initialize OPFS (built-in browser storage)
+        await this.initOPFS();
+        
+        // Step 2: Check if folder was previously set up
+        const savedFolder = localStorage.getItem('kgacha_folder_name');
+        if (savedFolder) {
+          console.log('📁 Found saved folder:', savedFolder);
+          this.folderPath = savedFolder;
+          // Can't restore handle automatically due to browser security
+          // Will need user to reconnect
+        }
+        
+        // Step 3: Try to load data from best available source
+        const data = await this.loadFromBestSource();
+        
+        // Step 4: Start health monitoring
+        this.startHealthMonitoring();
+        
+        console.log('✅ Storage system initialized');
+        return data;
+      },
+
+      async initOPFS() {
+        try {
+          // Check if OPFS is available
+          if (typeof navigator?.storage?.getDirectory === 'function') {
+            this.opfsRoot = await navigator.storage.getDirectory();
+            this.isOPFSEnabled = true;
+            console.log('💾 OPFS storage available');
+          } else {
+            console.warn('⚠️ OPFS not available in this browser');
+            this.isOPFSEnabled = false;
+          }
+        } catch (err) {
+          console.warn('⚠️ OPFS initialization failed:', err);
+          this.isOPFSEnabled = false;
+        }
+      },
+
+      async requestFolderAccess() {
+        console.log('📂 Requesting folder access...');
+        
+        try {
+          // Check browser support
+          if (typeof window.showDirectoryPicker !== 'function') {
+            throw new Error('File System Access API not supported. Please use Chrome, Edge, or Opera.');
+          }
+
+          // Request folder with proper options
+          const handle = await window.showDirectoryPicker({
+            mode: 'readwrite',
+            startIn: 'documents',
+            id: 'anythinggacha-backup'
+          });
+
+          console.log('📁 Got folder handle:', handle.name);
+          
+          // Create a dedicated subfolder for organization
+          let backupDir;
+          try {
+            backupDir = await handle.getDirectoryHandle('AnythingGacha_Backups', { create: true });
+            console.log('📁 Created/found backup subfolder');
+          } catch (err) {
+            console.warn('Could not create subfolder, using root folder');
+            backupDir = handle;
+          }
+          
+          // Verify write access by creating a test file
+          try {
+            const testFile = await backupDir.getFileHandle('.test_write', { create: true });
+            const writable = await testFile.createWritable({ keepExistingData: false });
+            await writable.write('test');
+            await writable.close();
+            await backupDir.removeEntry('.test_write');
+            console.log('✅ Write access verified');
+          } catch (err) {
+            throw new Error('Cannot write to selected folder. Please choose a different location.');
+          }
+          
+          // Store folder info
+          this.folderHandle = backupDir;
+          this.folderPath = `${handle.name}/AnythingGacha_Backups`;
+          this.isFolderEnabled = true;
+          
+          // Save folder name for reference (but not the handle - browsers don't allow that)
+          localStorage.setItem('kgacha_folder_name', handle.name);
+          
+          // Initialize backup files with current data
+          console.log('💾 Creating initial backup files...');
+          const gameState = await this.getCurrentGameState();
+          const encrypted = encryptData(gameState);
+          
+          // Write to all three backup files
+          for (const [key, filename] of Object.entries(this.BACKUP_FILES)) {
+            const success = await this.writeToFolder(filename, encrypted);
+            if (!success) {
+              console.error(`Failed to create ${key} backup`);
+            }
+          }
+          
+          console.log('✅ Folder setup complete!');
+          return true;
+          
+        } catch (err) {
+          console.error('❌ Folder setup failed:', err);
+          
+          if (err.name === 'AbortError') {
+            // User cancelled - this is fine, not an error
+            console.log('User cancelled folder selection');
+            return false;
+          }
+          
+          if (err.name === 'SecurityError') {
+            throw new Error('Permission denied. Please try again and grant access when prompted.');
+          }
+          
+          throw err;
+        }
+      },
+
+      async writeToFolder(filename, data) {
+        if (!this.isFolderEnabled || !this.folderHandle) {
+          console.warn('Cannot write - folder not enabled');
+          return false;
+        }
+        
+        try {
+          const fileHandle = await this.folderHandle.getFileHandle(filename, { create: true });
+          const writable = await fileHandle.createWritable({ keepExistingData: false });
+          await writable.write(data);
+          await writable.close();
+          return true;
+        } catch (err) {
+          console.error(`Write failed for ${filename}:`, err);
+          
+          // Handle permission loss
+          if (err.name === 'NotAllowedError' || err.name === 'SecurityError') {
+            console.warn('Lost folder access - disabling folder storage');
+            this.isFolderEnabled = false;
+            this.folderHandle = null;
+            updateBackupUI();
+          }
+          
+          return false;
+        }
+      },
+
+      async readFromFolder(filename) {
+        if (!this.isFolderEnabled || !this.folderHandle) return null;
+        
+        try {
+          const fileHandle = await this.folderHandle.getFileHandle(filename);
+          const file = await fileHandle.getFile();
+          const content = await file.text();
+          const data = decryptData(content);
+          
+          if (!data || !this.verifyIntegrity(data)) {
+            console.warn(`Corrupted data in ${filename}`);
+            return null;
+          }
+          
+          return data;
+        } catch (err) {
+          // File doesn't exist or can't be read
+          return null;
+        }
+      },
+
+      async loadFromBestSource() {
+        console.log('🔍 Loading data from best available source...');
+        let data = null;
+        let source = 'none';
+        
+        // Priority 1: Folder backup (if accessible)
+        if (this.isFolderEnabled && this.folderHandle) {
+          console.log('📁 Attempting to load from folder...');
+          data = await this.loadFromFolderWithRecovery();
+          if (data) {
+            source = 'folder';
+            console.log('✅ Loaded from backup folder');
+          }
+        }
+        
+        // Priority 2: OPFS (persistent even after cache clear)
+        if (!data && this.isOPFSEnabled) {
+          console.log('💾 Attempting to load from OPFS...');
+          data = await this.loadFromOPFS();
+          if (data) {
+            source = 'opfs';
+            console.log('✅ Loaded from OPFS');
+          }
+        }
+        
+        // Priority 3: IndexedDB (traditional browser storage)
+        if (!data) {
+          console.log('🗄️ Attempting to load from IndexedDB...');
+          data = await this.loadFromIndexedDB();
+          if (data) {
+            source = 'indexeddb';
+            console.log('⚠️ Loaded from IndexedDB (may be cleared)');
+          }
+        }
+        
+        // Apply loaded data
+        if (data && this.verifyIntegrity(data)) {
+          await this.applyGameState(data);
+          console.log(`✅ Game state restored from ${source}`);
+          
+          // Show appropriate message
+          if (source === 'folder') {
+            showToast('📁 Data loaded from secure backup folder', 'success', 2000);
+          } else if (source === 'opfs') {
+            showToast('💾 Data loaded from built-in storage', 'info', 2000);
+          } else if (source === 'indexeddb') {
+            showToast('⚠️ Using browser cache - set up backup folder for safety', 'warning', 4000);
+          }
+        } else {
+          console.log('🆕 No existing data found - starting fresh');
+        }
+        
+        return data;
+      },
+
+      async loadFromFolderWithRecovery() {
+        // Try primary backup first
+        let data = await this.readFromFolder(this.BACKUP_FILES.PRIMARY);
+        if (data && this.verifyIntegrity(data)) {
+          return data;
+        }
+        
+        // If primary failed, try mirror
+        console.log('Primary backup unavailable, trying mirror...');
+        data = await this.readFromFolder(this.BACKUP_FILES.MIRROR);
+        if (data && this.verifyIntegrity(data)) {
+          // Auto-repair primary from mirror
+          const encrypted = encryptData(data);
+          await this.writeToFolder(this.BACKUP_FILES.PRIMARY, encrypted);
+          console.log('🩹 Repaired primary from mirror');
+          return data;
+        }
+        
+        // Last resort: recovery backup
+        console.log('Mirror unavailable, trying recovery...');
+        data = await this.readFromFolder(this.BACKUP_FILES.RECOVERY);
+        if (data && this.verifyIntegrity(data)) {
+          // Repair all backups from recovery
+          const encrypted = encryptData(data);
+          await this.writeToFolder(this.BACKUP_FILES.PRIMARY, encrypted);
+          await this.writeToFolder(this.BACKUP_FILES.MIRROR, encrypted);
+          console.log('🩹 Repaired all backups from recovery');
+          return data;
+        }
+        
+        return null;
+      },
+
+      async loadFromOPFS() {
+        if (!this.isOPFSEnabled) return null;
+        
+        try {
+          const fileHandle = await this.opfsRoot.getFileHandle('kgacha_backup.dat');
+          const file = await fileHandle.getFile();
+          const content = await file.text();
+          const data = decryptData(content);
+          
+          if (!data || !this.verifyIntegrity(data)) {
+            console.warn('OPFS data corrupted');
+            return null;
+          }
+          
+          return data;
+        } catch (err) {
+          // File doesn't exist yet
+          return null;
+        }
+      },
+
+      async saveToOPFS(data) {
+        if (!this.isOPFSEnabled) return false;
+        
+        try {
+          const fileHandle = await this.opfsRoot.getFileHandle('kgacha_backup.dat', { create: true });
+          const writable = await fileHandle.createWritable({ keepExistingData: false });
+          await writable.write(encryptData(data));
+          await writable.close();
+          return true;
+        } catch (err) {
+          console.error('OPFS save failed:', err);
+          return false;
+        }
+      },
+
+      async loadFromIndexedDB() {
+        try {
+          const cards = await getAllLocalCardsRaw();
+          if (!cards || cards.length === 0) return null;
+          
+          return {
+            version: 1,
+            timestamp: Date.now(),
+            cards: cards,
+            gachaState: {
+              dailyPullsRemaining: window._dailyPullsRemaining || 15,
+              lastPullDate: window._lastPullDate || '',
+              savedPacks: window._savedGachaPacks || []
+            }
+          };
+        } catch (err) {
+          console.error('IndexedDB load failed:', err);
+          return null;
+        }
+      },
+
+      async saveAll() {
+        console.log('💾 Saving all data...');
+        const gameState = await this.getCurrentGameState();
+        const encrypted = encryptData(gameState);
+        const results = { folder: false, opfs: false };
+        
+        // Save to folder (primary)
+        if (this.isFolderEnabled && this.folderHandle) {
+          console.log('📁 Saving to backup folder...');
+          
+          // Primary backup
+          results.folder = await this.writeToFolder(this.BACKUP_FILES.PRIMARY, encrypted);
+          
+          // Mirror backup (slight delay for I/O spacing)
+          if (results.folder) {
+            setTimeout(async () => {
+              await this.writeToFolder(this.BACKUP_FILES.MIRROR, encrypted);
+            }, 100);
+          }
+          
+          // Recovery backup (every 5 minutes)
+          const now = Date.now();
+          if (now - this.lastRecoveryBackup > 300000) { // 5 minutes
+            await this.writeToFolder(this.BACKUP_FILES.RECOVERY, encrypted);
+            this.lastRecoveryBackup = now;
+          }
+        }
+        
+        // Save to OPFS (fallback)
+        if (this.isOPFSEnabled) {
+          console.log('💾 Saving to OPFS...');
+          results.opfs = await this.saveToOPFS(gameState);
+        }
+        
+        // Always sync to IndexedDB for performance
+        console.log('✅ Save complete');
+        return results;
+      },
+
+      verifyIntegrity(data) {
+        // Basic structure validation
+        if (!data || typeof data !== 'object') return false;
+        if (data.version !== 1) return false;
+        if (!Array.isArray(data.cards)) return false;
+        if (!data.gachaState || typeof data.gachaState !== 'object') return false;
+        return true;
+      },
+
+      async getCurrentGameState() {
+        const cards = await getAllLocalCardsRaw();
+        return {
+          version: 1,
+          timestamp: Date.now(),
+          cards: cards || [],
+          gachaState: {
+            dailyPullsRemaining: window._dailyPullsRemaining || 15,
+            lastPullDate: window._lastPullDate || '',
+            savedPacks: window._savedGachaPacks || []
+          }
+        };
+      },
+
+      async applyGameState(data) {
+        if (!data || !this.verifyIntegrity(data)) {
+          console.warn('Cannot apply invalid game state');
+          return;
+        }
+        
+        // Apply gacha state
+        if (data.gachaState) {
+          window._dailyPullsRemaining = data.gachaState.dailyPullsRemaining || 15;
+          window._lastPullDate = data.gachaState.lastPullDate || '';
+          window._savedGachaPacks = data.gachaState.savedPacks || [];
+          
+          // Update global variables
+          dailyPullsRemaining = window._dailyPullsRemaining;
+          lastPullDate = window._lastPullDate;
+          savedGachaPacks = window._savedGachaPacks;
+        }
+        
+        // Cards are loaded through IndexedDB sync
+        if (data.cards && data.cards.length > 0) {
+          await this.syncCardsToIndexedDB(data.cards);
+        }
+      },
+
+      async syncCardsToIndexedDB(cards) {
+        if (!dbInstance) await initIndexedDB();
+        
+        const tx = dbInstance.transaction('cards', 'readwrite');
+        const store = tx.objectStore('cards');
+        
+        // Clear existing cards
+        await new Promise((resolve) => {
+          const clearReq = store.clear();
+          clearReq.onsuccess = resolve;
+        });
+        
+        // Add all cards from backup
+        for (const card of cards) {
+          store.add(card);
+        }
+        
+        return new Promise((resolve) => {
+          tx.oncomplete = resolve;
+        });
+      },
+
+      startHealthMonitoring() {
+        // Clear any existing interval
+        if (this.healthCheckInterval) {
+          clearInterval(this.healthCheckInterval);
+        }
+        
+        // Check storage health every 60 seconds
+        this.healthCheckInterval = setInterval(async () => {
+          if (this.isFolderEnabled && this.folderHandle) {
+            try {
+              // Check if we can still access the folder
+              const testData = await this.readFromFolder(this.BACKUP_FILES.PRIMARY);
+              if (!testData) {
+                console.warn('⚠️ Backup folder health check failed');
+              }
+            } catch (err) {
+              console.error('Health check error:', err);
+            }
+          }
+        }, 60000);
+      }
+    };
+
+      // ============ FOLDER SETUP FUNCTION ============
+    window.setupSecureFolder = async () => {
+      console.log('🔧 Setting up secure folder...');
+      
+      try {
+        const success = await StorageManager.requestFolderAccess();
+        
+        if (success) {
+          document.getElementById('folder-path-display').innerHTML = 
+            `<i class="fa-solid fa-folder-open"></i> ${StorageManager.folderPath}`;
+          updateBackupUI();
+          closeFolderModal();
+          
+          const cards = await getAllLocalCardsRaw();
+          if (cards && cards.length > 0) {
+            await StorageManager.saveAll();
+            showToast(`✅ Backup folder configured! ${cards.length} cards backed up.`, 'success');
+          } else {
+            showToast('✅ Backup folder configured! Your data will be saved here.', 'success');
+          }
+          
+          return true;
+        }
+        
+        return false;
+        
+      } catch (err) {
+        console.error('Folder setup error:', err);
+        
+        let message = 'Could not set up backup folder. ';
+        if (err.message.includes('not supported')) {
+          message += 'Please use Chrome, Edge, or Opera browser.';
+        } else if (err.message.includes('Permission denied')) {
+          message += 'Please grant folder access permission.';
+        } else {
+          message += err.message || 'Unknown error occurred.';
+        }
+        
+        showToast(message, 'warning', 5000);
+        return false;
+      }
+    };
+
+    window.setupBackupFolder = window.setupSecureFolder;
+
+      // ============ ENCRYPTION ============
+      function encryptData(data) {
+        const key = 'AnythingGacha2024SecureKey';
+        const str = JSON.stringify(data);
+        let encrypted = '';
+        for (let i = 0; i < str.length; i++) encrypted += String.fromCharCode(str.charCodeAt(i) ^ key.charCodeAt(i % key.length));
+        return btoa(encrypted);
+      }
+
+      function decryptData(encrypted) {
+        try {
+          const key = 'AnythingGacha2024SecureKey';
+          const str = atob(encrypted);
+          let decrypted = '';
+          for (let i = 0; i < str.length; i++) decrypted += String.fromCharCode(str.charCodeAt(i) ^ key.charCodeAt(i % key.length));
+          return JSON.parse(decrypted);
+        } catch { return null; }
+      }
+
+      // ============ GLOBAL STATE ============
       let dbInstance = null;
       let activeCompressedWebP = null;
       let decoratorActiveCard = null;
@@ -1098,12 +873,6 @@
       let activeGroupFilter = 'All';
       let activeSortMode = 'date-desc';
       let activeDisplayedCardsData = [];
-      let touchSortTargetNode = null;
-      let touchSortPlaceholderIndex = -1;
-      let touchSortInitialX = 0;
-      let touchSortInitialY = 0;
-      let touchSortCurrentIndex = -1;
-      
       let dailyPullsRemaining = 15;
       let lastPullDate = '';
       let savedGachaPacks = [];
@@ -1111,134 +880,122 @@
       let selectedCardIds = new Set();
       let pendingBulkDeleteIds = [];
       let serverOnline = false;
-
       let deferredPrompt = null;
       let isMobile = false;
       let isPWA = false;
 
-      let backupFolderHandle = null;
-      let backupFolderPath = '';
-      let isBackupEnabled = false;
-
-      function getClientId() {
-        let clientId = localStorage.getItem('kgacha_client_id');
-        if (!clientId) {
-          clientId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-          localStorage.setItem('kgacha_client_id', clientId);
-        }
-        return clientId;
-      }
-
-      function encryptData(data) {
-        const key = 'AnythingGacha2024SecureKey';
-        const str = JSON.stringify(data);
-        let encrypted = '';
-        for (let i = 0; i < str.length; i++) {
-          encrypted += String.fromCharCode(str.charCodeAt(i) ^ key.charCodeAt(i % key.length));
-        }
-        return btoa(encrypted);
-      }
-
-      function decryptData(encrypted) {
-        const key = 'AnythingGacha2024SecureKey';
-        const str = atob(encrypted);
-        let decrypted = '';
-        for (let i = 0; i < str.length; i++) {
-          decrypted += String.fromCharCode(str.charCodeAt(i) ^ key.charCodeAt(i % key.length));
-        }
-        return JSON.parse(decrypted);
-      }
-
-      function updateBackupStatus() {
+      // ============ UI FUNCTIONS ============
+      function updateBackupUI() {
         const dot = document.getElementById('backup-status-dot');
         const text = document.getElementById('backup-btn-text');
-        if (isBackupEnabled && backupFolderPath) {
+        if (!dot || !text) return;
+        
+        if (StorageManager.isFolderEnabled && StorageManager.folderHandle) { // Added folderHandle check  
           dot.className = 'backup-status-dot active';
-          text.textContent = `Auto Backup: ${backupFolderPath}`;
+          text.textContent = `🛡️ Secure: ${StorageManager.folderPath}`;
+        } else if (StorageManager.isOPFSEnabled) {
+          dot.className = 'backup-status-dot active';
+          text.textContent = '💾 Built-in Storage';
         } else {
-          dot.className = 'backup-status-dot inactive';
-          text.textContent = 'Set Auto Backup';
+          dot.className = 'backup-status-dot warning';
+          text.textContent = '⚠️ Set Backup Folder';
         }
       }
 
-      window.openFolderModal = function() {
+      window.openFolderModal = () => {
         document.getElementById('folder-modal').classList.add('show');
-        if (backupFolderPath) {
-          document.getElementById('folder-path-display').innerHTML = `<i class="fa-solid fa-folder-open"></i> ${backupFolderPath}`;
+        if (StorageManager.folderPath) {
+          document.getElementById('folder-path-display').innerHTML = `<i class="fa-solid fa-folder-open"></i> ${StorageManager.folderPath}`;
         }
       };
 
-      window.closeFolderModal = function() {
-        document.getElementById('folder-modal').classList.remove('show');
-      };
-
-      async function setupBackupFolder() {
-        try {
-          if (!window.showDirectoryPicker) {
-            showToast('Your browser does not support the File System Access API. Please use Chrome, Edge, or Opera.', 'info');
-            return;
-          }
-          const handle = await window.showDirectoryPicker();
-          backupFolderHandle = handle;
-          backupFolderPath = handle.name;
-          isBackupEnabled = true;
-          localStorage.setItem('kgacha_backup_folder', handle.name);
-          document.getElementById('folder-path-display').innerHTML = `<i class="fa-solid fa-folder-open"></i> ${backupFolderPath}`;
-          updateBackupStatus();
-          closeFolderModal();
-          await performBackup();
-          showToast(`Backup folder "${backupFolderPath}" set successfully!`, 'success');
-        } catch (err) {
-          if (err.name !== 'AbortError' && err.name !== 'SecurityError') {
-            console.error('Folder selection error:', err);
-            showToast('Could not set up backup folder: ' + err.message, 'info');
-          }
-        }
-      }
-      window.setupBackupFolder = setupBackupFolder;
+      window.closeFolderModal = () => document.getElementById('folder-modal').classList.remove('show');
 
       async function performBackup() {
-        if (!isBackupEnabled || !backupFolderHandle) return;
-        try {
-          const cards = await getAllLocalCards();
-          const gachaState = {
-            dailyPullsRemaining: dailyPullsRemaining,
-            lastPullDate: lastPullDate,
-            savedPacks: savedGachaPacks
+        await StorageManager.saveAll();
+      }
+
+      // ============ INDEXEDDB ============
+      function initIndexedDB() {
+        return new Promise((resolve) => {
+          const request = indexedDB.open(DB_NAME, DB_VERSION);
+          request.onupgradeneeded = (e) => {
+            const db = e.target.result;
+            if (!db.objectStoreNames.contains('cards')) {
+              const store = db.createObjectStore('cards', { keyPath: 'id' });
+              store.createIndex('favorite', 'favorite', { unique: false });
+            }
+            if (!db.objectStoreNames.contains('gachaState')) db.createObjectStore('gachaState', { keyPath: 'key' });
           };
-          const backupData = { version: 1, timestamp: Date.now(), cards: cards, gachaState: gachaState };
-          const encrypted = encryptData(backupData);
-          let fileHandle;
-          try {
-            fileHandle = await backupFolderHandle.getFileHandle('kgacha_backup.dat', { create: true });
-          } catch (e) {
-            fileHandle = await backupFolderHandle.getFileHandle('kgacha_backup.dat', { create: true });
-          }
-          const writable = await fileHandle.createWritable({ keepExistingData: false });
-          await writable.write(encrypted);
-          await writable.close();
-        } catch (err) {
-          console.error('Backup failed:', err);
-          if (err.name === 'NotAllowedError' || err.name === 'SecurityError') {
-            isBackupEnabled = false;
-            backupFolderHandle = null;
-            updateBackupStatus();
-            showToast('Backup folder access was lost. Please re-select your backup folder.', 'info');
+          request.onsuccess = (e) => { dbInstance = e.target.result; resolve(dbInstance); };
+        });
+      }
+
+      async function getAllLocalCardsRaw() {
+        if (!dbInstance) return [];
+        return new Promise((resolve) => {
+          const tx = dbInstance.transaction('cards', 'readonly');
+          const req = tx.objectStore('cards').getAll();
+          req.onsuccess = () => resolve(req.result || []);
+          req.onerror = () => resolve([]);
+        });
+      }
+
+      async function getAllLocalCards() {
+        return await getAllLocalCardsRaw();
+      }
+
+      // ============ GACHA STATE ============
+      async function loadGachaState() {
+        if (!dbInstance) await initIndexedDB();
+        const tx = dbInstance.transaction('gachaState', 'readonly');
+        const store = tx.objectStore('gachaState');
+        const dailyState = await new Promise(r => { const req = store.get('dailyPulls'); req.onsuccess = () => r(req.result); req.onerror = () => r(null); });
+        const packsData = await new Promise(r => { const req = store.get('savedPacks'); req.onsuccess = () => r(req.result); req.onerror = () => r(null); });
+        const today = new Date().toDateString();
+        if (dailyState && dailyState.date === today) {
+          dailyPullsRemaining = dailyState.remaining;
+          lastPullDate = dailyState.date;
+        } else {
+          dailyPullsRemaining = 15;
+          lastPullDate = today;
+          await saveGachaState();
+        }
+        if (packsData) savedGachaPacks = packsData.packs || [];
+        updateDailyPullsDisplay();
+      }
+
+      async function saveGachaState() {
+        if (!dbInstance) await initIndexedDB();
+        const tx = dbInstance.transaction('gachaState', 'readwrite');
+        const store = tx.objectStore('gachaState');
+        store.put({ key: 'dailyPulls', date: new Date().toDateString(), remaining: dailyPullsRemaining });
+        store.put({ key: 'savedPacks', packs: savedGachaPacks });
+        return new Promise(r => { tx.oncomplete = r; });
+      }
+
+      function updateDailyPullsDisplay() {
+        const display = document.getElementById('daily-pulls-remaining');
+        if (display) display.textContent = dailyPullsRemaining;
+        const pullBtn = document.getElementById('gacha-pull-btn');
+        if (pullBtn) {
+          if (dailyPullsRemaining <= 0 || !serverOnline) {
+            pullBtn.disabled = true;
+            pullBtn.classList.add('opacity-50', 'cursor-not-allowed');
+          } else {
+            pullBtn.disabled = false;
+            pullBtn.classList.remove('opacity-50', 'cursor-not-allowed');
           }
         }
       }
 
+      // ============ PWA & MOBILE ============
       function detectMobileAndPWA() {
         isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
         isPWA = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-        if (isMobile && !isPWA) {
-          setTimeout(() => { document.getElementById('pwa-banner').classList.add('show'); }, 3000);
-        }
-        if (!isMobile) {
-          document.getElementById('desktop-backup-btn').style.display = 'flex';
-          const savedFolder = localStorage.getItem('kgacha_backup_folder');
-          if (savedFolder) { backupFolderPath = savedFolder; isBackupEnabled = true; updateBackupStatus(); }
-        }
+        if (isMobile && !isPWA) setTimeout(() => document.getElementById('pwa-banner').classList.add('show'), 3000);
+        if (!isMobile) document.getElementById('desktop-backup-btn').style.display = 'flex';
+        updateBackupUI();
       }
 
       window.addEventListener('beforeinstallprompt', (e) => {
@@ -1247,41 +1004,22 @@
         if (isMobile && !isPWA) document.getElementById('pwa-banner').classList.add('show');
       });
 
-      window.installPWA = function() {
+      window.installPWA = () => {
         if (deferredPrompt) {
           deferredPrompt.prompt();
-          deferredPrompt.userChoice.then((choiceResult) => {
-            if (choiceResult.outcome === 'accepted') document.getElementById('pwa-banner').classList.remove('show');
-            deferredPrompt = null;
-          });
+          deferredPrompt.userChoice.then(r => { if (r.outcome === 'accepted') document.getElementById('pwa-banner').classList.remove('show'); deferredPrompt = null; });
         } else {
           showToast('To install: Tap "Add to Home Screen" in your browser menu.', 'info', 4000);
           document.getElementById('pwa-banner').classList.remove('show');
         }
       };
 
-      window.dismissPWABanner = function() {
+      window.dismissPWABanner = () => {
         document.getElementById('pwa-banner').classList.remove('show');
         localStorage.setItem('pwa_banner_dismissed', 'true');
       };
 
-      document.addEventListener('DOMContentLoaded', async () => {
-        detectMobileAndPWA();
-        await initIndexedDB();
-        await loadGachaState();
-        await loadBinderCards();
-        renderStickerBar();
-        renderSavedPacks();
-        checkServerStatus();
-        const container = document.getElementById('decorator-workspace-container');
-        container.addEventListener('mousedown', (e) => {
-          if(e.target.id === 'decorator-workspace-container' || e.target.id === 'decorator-base-img') clearStickerSelection();
-        });
-        const preventScroll = (e) => { e.preventDefault(); };
-        container.addEventListener('touchstart', preventScroll, { passive: false });
-        container.addEventListener('touchmove', preventScroll, { passive: false });
-      });
-
+      // ============ SERVER ============
       async function checkServerStatus() {
         const statusDot = document.getElementById('status-dot');
         const statusText = document.getElementById('status-text');
@@ -1299,12 +1037,10 @@
         }
       }
 
-      window.switchTab = function(tabName) {
+      // ============ TAB NAVIGATION ============
+      window.switchTab = (tabName) => {
         document.querySelectorAll('main > section').forEach(el => el.classList.add('hidden'));
-        document.querySelectorAll('.nav-tab').forEach(btn => {
-          btn.classList.remove('text-brand-500', 'border-brand-500');
-          btn.classList.add('text-slate-400', 'border-transparent');
-        });
+        document.querySelectorAll('.nav-tab').forEach(btn => { btn.classList.remove('text-brand-500', 'border-brand-500'); btn.classList.add('text-slate-400', 'border-transparent'); });
         document.getElementById(`view-${tabName}`).classList.remove('hidden');
         const targetTabBtn = document.getElementById(`tab-btn-${tabName}`);
         if (targetTabBtn) targetTabBtn.classList.add('text-brand-500', 'border-brand-500');
@@ -1312,166 +1048,183 @@
         if (tabName === 'gacha') { updateDailyPullsDisplay(); checkServerStatus(); }
       };
 
-      function initIndexedDB() {
-        return new Promise((resolve) => {
-          const request = indexedDB.open(DB_NAME, DB_VERSION);
-          request.onupgradeneeded = (e) => {
-            const db = e.target.result;
-            if (!db.objectStoreNames.contains('cards')) {
-              const store = db.createObjectStore('cards', { keyPath: 'id' });
-              store.createIndex('favorite', 'favorite', { unique: false });
-            }
-            if (!db.objectStoreNames.contains('gachaState')) db.createObjectStore('gachaState', { keyPath: 'key' });
-          };
-          request.onsuccess = (e) => { dbInstance = e.target.result; resolve(dbInstance); };
-        });
-      }
-
-      async function loadGachaState() {
-        if (!dbInstance) await initIndexedDB();
-        const tx = dbInstance.transaction('gachaState', 'readonly');
-        const store = tx.objectStore('gachaState');
-        const dailyState = await new Promise((resolve) => {
-          const req = store.get('dailyPulls'); req.onsuccess = () => resolve(req.result); req.onerror = () => resolve(null);
-        });
-        const packsData = await new Promise((resolve) => {
-          const req = store.get('savedPacks'); req.onsuccess = () => resolve(req.result); req.onerror = () => resolve(null);
-        });
-        const today = new Date().toDateString();
-        if (dailyState && dailyState.date === today) {
-          dailyPullsRemaining = dailyState.remaining; lastPullDate = dailyState.date;
-        } else {
-          dailyPullsRemaining = 15; lastPullDate = today; await saveGachaState();
-        }
-        if (packsData) savedGachaPacks = packsData.packs || [];
-        updateDailyPullsDisplay();
-      }
-
-      async function saveGachaState() {
-        if (!dbInstance) await initIndexedDB();
-        const tx = dbInstance.transaction('gachaState', 'readwrite');
-        const store = tx.objectStore('gachaState');
-        store.put({ key: 'dailyPulls', date: new Date().toDateString(), remaining: dailyPullsRemaining });
-        store.put({ key: 'savedPacks', packs: savedGachaPacks });
-        return new Promise((resolve) => { tx.oncomplete = resolve; });
-      }
-
-      function updateDailyPullsDisplay() {
-        const display = document.getElementById('daily-pulls-remaining');
-        if (display) display.textContent = dailyPullsRemaining;
-        const pullBtn = document.getElementById('gacha-pull-btn');
-        if (pullBtn) {
-          if (dailyPullsRemaining <= 0 || !serverOnline) {
-            pullBtn.disabled = true; pullBtn.classList.add('opacity-50', 'cursor-not-allowed');
-          } else {
-            pullBtn.disabled = false; pullBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-          }
-        }
-      }
-
-      async function performGachaPull(event) {
+      // ============ GACHA PULL ============
+      window.performGachaPull = async (event) => {
         event.preventDefault();
         if (!serverOnline) { showToast('Server is offline.', 'info'); return; }
         if (dailyPullsRemaining <= 0) { showToast('No daily pulls remaining!', 'info'); return; }
         const name = document.getElementById('gacha-name').value.trim();
         const group = document.getElementById('gacha-group').value.trim();
         const genre = document.getElementById('gacha-genre').value;
-        if (!group) { showToast('Please enter at least a group/series name.', 'info'); return; }
+        if (!group) { showToast('Please enter a group/series name.', 'info'); return; }
         const pullBtn = document.getElementById('gacha-pull-btn');
-        pullBtn.disabled = true; pullBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i><span>pulling card...</span>';
+        pullBtn.disabled = true; pullBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i><span>pulling...</span>';
         try {
           const existingCards = await getAllLocalCards();
-          const excludedHashes = existingCards.filter(card => card.sourceHash).map(card => card.sourceHash);
+          const excludedHashes = existingCards.filter(c => c.sourceHash).map(c => c.sourceHash);
           const response = await fetch(`${GACHA_SERVER_URL}/api/pull`, {
             method: 'POST', headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name: name, group: group, genre: genre, client_id: getClientId(), excluded_hashes: excludedHashes })
+            body: JSON.stringify({ name, group, genre, client_id: localStorage.getItem('kgacha_client_id') || 'user_' + Date.now(), excluded_hashes: excludedHashes })
           });
           const data = await response.json();
           if (!data.success) { showToast(data.error || 'Pull failed!', 'info'); return; }
           dailyPullsRemaining--; await saveGachaState();
           const cardData = {
-            id: `card_${Date.now()}_${Math.random().toString(36).substr(2,4)}`, name: name || group, group: group, genre: genre,
+            id: `card_${Date.now()}_${Math.random().toString(36).substr(2,4)}`, name: name || group, group, genre,
             imageData: data.image, decorations: { toploaderFrame: 'none', frameColor: '#ffffff', stickers: [] },
-            createdAt: Date.now(), customOrder: existingCards.length, sourceHash: data.hash, sourceQuery: data.query, favorite: false
+            createdAt: Date.now(), customOrder: existingCards.length, sourceHash: data.hash, favorite: false
           };
           if (!dbInstance) await initIndexedDB();
           const tx = dbInstance.transaction('cards', 'readwrite'); tx.objectStore('cards').add(cardData);
-          await new Promise((resolve) => { tx.oncomplete = resolve; });
+          await new Promise(r => { tx.oncomplete = r; });
           await performBackup();
           showGachaResult(cardData);
-          showToast(`New card "${cardData.name}" added!`, 'success');
-          confetti({ particleCount: 100, spread: 90, origin: { y: 0.6 }, colors: ['#f43f5e','#3b82f6','#10b981','#f59e0b','#8b5cf6'] });
+          showToast(`✨ New card "${cardData.name}" added!`, 'success');
+          confetti({ particleCount: 100, spread: 90, origin: { y: 0.6 } });
         } catch (error) {
-          console.error('Gacha pull failed:', error);
+          console.error('Pull failed:', error);
           showToast('Could not connect to server.', 'info');
           await checkServerStatus();
         } finally {
           pullBtn.disabled = false; pullBtn.innerHTML = '<i class="fa-solid fa-gift"></i><span>pull 1 card (gacha)</span>';
           updateDailyPullsDisplay();
         }
-      }
-      window.performGachaPull = performGachaPull;
+      };
 
       function showGachaResult(cardData) {
         const container = document.getElementById('gacha-result-container');
         const cardDiv = document.getElementById('gacha-result-card');
         container.classList.remove('hidden');
-        cardDiv.innerHTML = `
-          <div class="text-center space-y-3">
-            <div class="gacha-card-reveal photocard-aspect w-48 mx-auto rounded-xl shadow-2xl overflow-hidden bg-white relative">
-              <div class="gacha-shimmer-effect absolute inset-0 z-10 pointer-events-none"></div>
-              <img src="${cardData.imageData}" class="block w-full h-full object-cover disable-ios-save">
-              <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900/90 to-transparent p-3">
-                <p class="text-xs font-bold text-white">${cardData.name}</p><p class="text-[10px] text-slate-300">${cardData.group} • ${cardData.genre}</p>
-              </div>
-            </div>
-            <button onclick="switchTab('binder')" class="text-xs font-bold text-brand-500">view in binder</button>
-          </div>`;
+        cardDiv.innerHTML = `<div class="text-center space-y-3"><div class="gacha-card-reveal photocard-aspect w-48 mx-auto rounded-xl shadow-2xl overflow-hidden bg-white relative"><div class="gacha-shimmer-effect absolute inset-0 z-10 pointer-events-none"></div><img src="${cardData.imageData}" class="block w-full h-full object-cover disable-ios-save"><div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900/90 to-transparent p-3"><p class="text-xs font-bold text-white">${cardData.name}</p><p class="text-[10px] text-slate-300">${cardData.group} • ${cardData.genre}</p></div></div><button onclick="switchTab('binder')" class="text-xs font-bold text-brand-500">view in binder</button></div>`;
       }
 
-      async function saveCurrentGachaPack() {
+      // ============ SAVED PACKS ============
+      window.saveCurrentGachaPack = async () => {
         const name = document.getElementById('gacha-name').value.trim();
         const group = document.getElementById('gacha-group').value.trim();
         const genre = document.getElementById('gacha-genre').value;
-        if (!group) { showToast('Please enter at least a group/series name.', 'info'); return; }
-        savedGachaPacks.push({ id: `pack_${Date.now()}`, name: name, group: group, genre: genre, createdAt: Date.now() });
-        await saveGachaState(); renderSavedPacks(); showToast(`Saved pack: ${group}`, 'success');
-      }
-      window.saveCurrentGachaPack = saveCurrentGachaPack;
+        if (!group) { showToast('Please enter a group/series name.', 'info'); return; }
+        savedGachaPacks.push({ id: `pack_${Date.now()}`, name, group, genre, createdAt: Date.now() });
+        await saveGachaState();
+        renderSavedPacks();
+        showToast(`📦 Saved pack: ${group}`, 'success');
+      };
 
-      function loadGachaPack(pack) {
+      window.loadGachaPack = (pack) => {
         document.getElementById('gacha-name').value = pack.name || '';
         document.getElementById('gacha-group').value = pack.group || '';
         document.getElementById('gacha-genre').value = pack.genre || 'K-Pop';
-        showToast(`Loaded pack: ${pack.group}`, 'info', 1500);
-      }
-      window.loadGachaPack = loadGachaPack;
+        showToast(`📋 Loaded: ${pack.group}`, 'info', 1500);
+      };
 
-      async function deleteGachaPack(packId) {
+      window.deleteGachaPack = async (packId) => {
         savedGachaPacks = savedGachaPacks.filter(p => p.id !== packId);
-        await saveGachaState(); renderSavedPacks();
-      }
-      window.deleteGachaPack = deleteGachaPack;
+        await saveGachaState();
+        renderSavedPacks();
+      };
 
       function renderSavedPacks() {
         const container = document.getElementById('saved-packs-list');
         if (!container) return;
         if (savedGachaPacks.length === 0) {
-          container.innerHTML = '<div class="text-[11px] text-slate-400 italic">no saved packs yet</div>'; return;
+          container.innerHTML = '<div class="text-[11px] text-slate-400 italic">no saved packs yet</div>';
+          return;
         }
         container.innerHTML = savedGachaPacks.map(pack => {
           const displayName = pack.name ? `${pack.name} (${pack.group})` : pack.group;
-          return `<div class="flex-shrink-0 bg-white border border-slate-200 rounded-lg px-3 py-2 flex items-center gap-2 cursor-pointer hover:border-brand-300 group">
-            <div onclick="loadGachaPack(${JSON.stringify(pack).replace(/"/g, '&quot;')})">
-              <p class="text-xs font-semibold text-slate-700">${displayName}</p>
-              <p class="text-[10px] text-slate-400">${pack.genre}</p>
-            </div>
-            <button onclick="deleteGachaPack('${pack.id}')" class="text-slate-400 hover:text-red-500"><i class="fa-solid fa-xmark text-[10px]"></i></button>
-          </div>`;
+          return `<div class="flex-shrink-0 bg-white border border-slate-200 rounded-lg px-3 py-2 flex items-center gap-2 cursor-pointer hover:border-brand-300 group"><div onclick="loadGachaPack(${JSON.stringify(pack).replace(/"/g, '&quot;')})"><p class="text-xs font-semibold text-slate-700">${displayName}</p><p class="text-[10px] text-slate-400">${pack.genre}</p></div><button onclick="deleteGachaPack('${pack.id}')" class="text-slate-400 hover:text-red-500"><i class="fa-solid fa-xmark text-[10px]"></i></button></div>`;
         }).join('');
       }
 
-      window.toggleBulkSelectMode = function() {
+      // ============ BINDER ============
+      window.handleSortChange = (newMode) => { activeSortMode = newMode; loadBinderCards(); };
+      window.setGroupFilter = (groupName) => { activeGroupFilter = groupName; loadBinderCards(); };
+
+      async function loadBinderCards() {
+        const cards = await getAllLocalCards();
+        cards.forEach((c, idx) => { if (typeof c.customOrder !== 'number') c.customOrder = idx; if (typeof c.favorite !== 'boolean') c.favorite = false; });
+        const groups = Array.from(new Set(cards.map(c => c.group).filter(g => g))).sort((a,b) => a.localeCompare(b));
+        const allGroups = ['All', ...groups];
+        if (!allGroups.includes(activeGroupFilter)) activeGroupFilter = 'All';
+        
+        const pillsContainer = document.getElementById('group-pills-bar');
+        pillsContainer.innerHTML = '';
+        if (cards.length > 0) {
+          allGroups.forEach(grp => {
+            const btn = document.createElement('button');
+            btn.onclick = () => setGroupFilter(grp);
+            btn.className = activeGroupFilter === grp ? 'px-4 py-1.5 rounded-full text-xs font-semibold bg-blue-500 text-white shadow-xs transition flex-shrink-0' : 'px-4 py-1.5 rounded-full text-xs font-semibold bg-white text-slate-500 border border-slate-200 hover:border-slate-300 transition flex-shrink-0';
+            btn.innerText = grp;
+            pillsContainer.appendChild(btn);
+          });
+        }
+
+        let displayed = activeGroupFilter === 'All' ? cards : cards.filter(c => c.group?.toLowerCase() === activeGroupFilter.toLowerCase());
+        const hintBanner = document.getElementById('drag-hint-banner');
+        if (activeSortMode === 'custom') {
+          hintBanner.classList.remove('hidden');
+          displayed.sort((a,b) => a.customOrder - b.customOrder);
+        } else {
+          hintBanner.classList.add('hidden');
+          if (activeSortMode === 'date-desc') displayed.sort((a,b) => b.createdAt - a.createdAt);
+          else if (activeSortMode === 'date-asc') displayed.sort((a,b) => a.createdAt - b.createdAt);
+          else if (activeSortMode === 'name-asc') displayed.sort((a,b) => (a.name||'').localeCompare(b.name||''));
+          else if (activeSortMode === 'group-asc') displayed.sort((a,b) => (a.group||'').localeCompare(b.group||''));
+        }
+        activeDisplayedCardsData = [...displayed];
+
+        const grid = document.getElementById('binder-grid');
+        grid.innerHTML = '';
+        document.getElementById('bulk-actions-bar').classList.toggle('hidden', displayed.length === 0);
+        if (!displayed.length) {
+          grid.innerHTML = '<div class="col-span-full py-12 text-center text-slate-400 text-xs">no photocards found.</div>';
+          return;
+        }
+
+        displayed.forEach((card, index) => {
+          const slot = document.createElement('div');
+          slot.dataset.cardId = card.id;
+          slot.dataset.index = index;
+          slot.className = 'w-full rounded-xl shadow-xs relative overflow-visible transition transform cursor-pointer card-grid-item';
+          if (isBulkSelectMode && selectedCardIds.has(card.id)) slot.classList.add('selected-for-bulk');
+          
+          let frameClass = card.decorations?.toploaderFrame || '';
+          if (frameClass === 'none') frameClass = '';
+          let frameColor = card.decorations?.frameColor || '#ffffff';
+          
+          let stickersHTML = '';
+          if (card.decorations?.stickers) {
+            card.decorations.stickers.forEach(s => {
+              stickersHTML += `<div class="absolute select-none pointer-events-none origin-center flex items-center justify-center" style="left:${s.x}%;top:${s.y}%;transform:translate(-50%,-50%) scale(${s.scale||1}) rotate(${s.rotation||0}deg);width:20%;height:20%"><img src="${s.imageSrc}" class="block max-w-full max-h-full object-contain disable-ios-save"></div>`;
+            });
+          }
+          
+          let checkboxHTML = isBulkSelectMode ? `<input type="checkbox" class="bulk-select-checkbox" ${selectedCardIds.has(card.id)?'checked':''} onclick="event.stopPropagation(); toggleCardSelection('${card.id}', this)">` : '';
+          let dragHandle = activeSortMode === 'custom' && !isBulkSelectMode ? '<div class="absolute top-1.5 left-1.5 z-30 bg-slate-900/60 text-white rounded p-1 text-[9px] flex items-center justify-center pointer-events-none"><i class="fa-solid fa-grip-vertical"></i></div>' : '';
+          
+          slot.innerHTML = `${checkboxHTML}<div class="photocard-aspect w-full relative rounded-xl overflow-hidden bg-transparent pointer-events-none"><div class="absolute inset-0 rounded-xl ${frameClass}" style="--frame-color:${frameColor};background-color:${frameColor};padding:var(--frame-thickness,0);box-sizing:border-box"><img src="${card.imageData}" class="block w-full h-full object-cover rounded-[inherit] disable-ios-save"></div>${dragHandle}<div class="absolute inset-0 overflow-hidden pointer-events-none z-20">${stickersHTML}</div></div>`;
+          
+          if (isBulkSelectMode) {
+            slot.addEventListener('click', (e) => {
+              if (e.target.tagName === 'INPUT') return;
+              const cb = slot.querySelector('.bulk-select-checkbox');
+              cb.checked = !cb.checked;
+              toggleCardSelection(card.id, cb);
+              slot.classList.toggle('selected-for-bulk', cb.checked);
+            });
+          } else if (activeSortMode === 'custom') {
+            slot.addEventListener('pointerdown', (e) => {
+              if (e.target.tagName !== 'BUTTON' && e.target.tagName !== 'INPUT') setupDragSort(e, slot, index);
+            });
+          } else {
+            slot.addEventListener('click', () => openDecoratorForCard(card.id));
+          }
+          grid.appendChild(slot);
+        });
+      }
+
+      // ============ BULK ACTIONS ============
+      window.toggleBulkSelectMode = () => {
         isBulkSelectMode = !isBulkSelectMode;
         selectedCardIds.clear();
         document.getElementById('bulk-btn-text').textContent = isBulkSelectMode ? 'cancel' : 'select';
@@ -1479,248 +1232,114 @@
         loadBinderCards();
       };
 
-      window.toggleCardSelection = function(cardId, checkbox) {
-        if (checkbox.checked) selectedCardIds.add(cardId); else selectedCardIds.delete(cardId);
+      window.toggleCardSelection = (cardId, checkbox) => {
+        if (checkbox.checked) selectedCardIds.add(cardId);
+        else selectedCardIds.delete(cardId);
       };
 
-      window.bulkDeleteSelected = function() {
+      window.bulkDeleteSelected = () => {
         if (selectedCardIds.size === 0) { showToast('No cards selected.', 'info'); return; }
         pendingBulkDeleteIds = Array.from(selectedCardIds);
         document.getElementById('delete-confirm-title').textContent = `delete ${pendingBulkDeleteIds.length} photocards?`;
         document.getElementById('delete-confirm-modal').classList.add('show');
       };
 
-      window.confirmDeleteCard = async function() {
+      window.confirmDeleteCard = async () => {
         const cardIds = pendingBulkDeleteIds.length > 0 ? pendingBulkDeleteIds : (decoratorActiveCard ? [decoratorActiveCard.id] : []);
         closeDeleteConfirm();
         if (cardIds.length === 0) return;
         try {
           if (!dbInstance) await initIndexedDB();
-          const tx = dbInstance.transaction(['cards'], 'readwrite'); const store = tx.objectStore('cards');
-          for (const cardId of cardIds) store.delete(cardId);
+          const tx = dbInstance.transaction(['cards'], 'readwrite');
+          const store = tx.objectStore('cards');
+          for (const id of cardIds) store.delete(id);
           await new Promise((resolve, reject) => { tx.oncomplete = resolve; tx.onerror = reject; });
           await performBackup();
           showToast(`${cardIds.length} card(s) deleted`, 'delete');
           if (decoratorActiveCard && cardIds.includes(decoratorActiveCard.id)) {
-            decoratorActiveCard = null; activeStickers = [];
+            decoratorActiveCard = null;
+            activeStickers = [];
             document.getElementById('decorator-base-img').classList.add('hidden');
             document.getElementById('decorator-text-overlay').classList.add('hidden');
             document.getElementById('decorator-empty-state').classList.remove('hidden');
           }
-          selectedCardIds.clear(); pendingBulkDeleteIds = [];
+          selectedCardIds.clear();
+          pendingBulkDeleteIds = [];
           if (isBulkSelectMode) toggleBulkSelectMode();
           switchTab('binder');
         } catch (error) { console.error(error); showToast('Delete failed.', 'info'); }
       };
 
-      window.closeDeleteConfirm = function() { document.getElementById('delete-confirm-modal').classList.remove('show'); };
+      window.closeDeleteConfirm = () => document.getElementById('delete-confirm-modal').classList.remove('show');
 
-      function compressImageOnUpload(file) {
-        return new Promise((resolve) => {
-          const reader = new FileReader();
-          reader.onload = (e) => {
-            const img = new Image();
-            img.onload = () => {
-              const canvas = document.createElement('canvas'); canvas.width = 600; canvas.height = 840;
-              const ctx = canvas.getContext('2d');
-              const scale = Math.max(600/img.width, 840/img.height);
-              ctx.drawImage(img, (600-img.width*scale)/2, (840-img.height*scale)/2, img.width*scale, img.height*scale);
-              const webpBase64 = canvas.toDataURL('image/webp', 0.80);
-              resolve({ webpBase64, origSizeKB: (file.size/1024).toFixed(1), webpSizeKB: (Math.round((webpBase64.length*3)/4)/1024).toFixed(1) });
-            };
-            img.src = e.target.result;
-          };
-          reader.readAsDataURL(file);
-        });
-      }
-
-      window.handleFileSelect = async function(event) {
-        const file = event.target.files[0]; if (!file) return;
-        const { webpBase64, origSizeKB, webpSizeKB } = await compressImageOnUpload(file);
-        activeCompressedWebP = webpBase64;
-        const previewImg = document.getElementById('card-preview-img');
-        previewImg.src = webpBase64; previewImg.classList.remove('hidden');
-        document.getElementById('dropzone-placeholder').classList.add('hidden');
-        document.getElementById('stat-orig-size').innerText = `${origSizeKB} KB`;
-        document.getElementById('stat-webp-size').innerText = `${webpSizeKB} KB`;
-        document.getElementById('compression-stats').classList.remove('hidden');
-        const saveBtn = document.getElementById('save-card-btn');
-        saveBtn.disabled = false; saveBtn.className = 'w-full mt-2 py-2.5 bg-brand-500 hover:bg-brand-600 text-white rounded-xl text-xs font-bold transition flex items-center justify-center space-x-2 shadow-xs cursor-pointer';
-      };
-
-      window.handleCardSubmit = async function(event) {
-        event.preventDefault();
-        if (!activeCompressedWebP) return;
-        if (!dbInstance) await initIndexedDB();
-        const existingCards = await getAllLocalCards();
-        const cardData = {
-          id: `card_${Date.now()}_${Math.random().toString(36).substr(2,4)}`,
-          name: document.getElementById('input-name').value.trim(),
-          group: document.getElementById('input-group').value.trim(),
-          genre: document.getElementById('input-genre').value,
-          imageData: activeCompressedWebP,
-          decorations: { toploaderFrame: 'none', frameColor: '#ffffff', stickers: [] },
-          createdAt: Date.now(), customOrder: existingCards.length, favorite: false
-        };
-        const tx = dbInstance.transaction('cards', 'readwrite'); tx.objectStore('cards').add(cardData);
-        tx.oncomplete = async () => {
-          document.getElementById('card-creator-form').reset();
-          document.getElementById('card-preview-img').classList.add('hidden');
-          document.getElementById('dropzone-placeholder').classList.remove('hidden');
-          document.getElementById('compression-stats').classList.add('hidden');
-          activeCompressedWebP = null;
-          await performBackup();
-          showToast(`Custom card "${cardData.name}" created!`, 'success');
-          switchTab('binder');
-        };
-      };
-
-      function getAllLocalCards() {
-        return new Promise((resolve) => {
-          if (!dbInstance) return resolve([]);
-          const tx = dbInstance.transaction('cards', 'readonly');
-          const req = tx.objectStore('cards').getAll();
-          req.onsuccess = () => resolve(req.result || []);
-          req.onerror = () => resolve([]);
-        });
-      }
-
-      window.handleSortChange = function(newMode) { activeSortMode = newMode; loadBinderCards(); };
-
-      function setGroupFilter(groupName) { activeGroupFilter = groupName; loadBinderCards(); }
-      window.setGroupFilter = setGroupFilter;
-
-      async function loadBinderCards() {
-        const cards = await getAllLocalCards();
-        cards.forEach((c, idx) => { if (typeof c.customOrder !== 'number') c.customOrder = idx; if (typeof c.favorite !== 'boolean') c.favorite = false; });
-        const dynamicGroups = Array.from(new Set(cards.map(c => c.group).filter(g => g)));
-        dynamicGroups.sort((a,b) => a.localeCompare(b));
-        const allGroupOptions = ['All', ...dynamicGroups];
-        if (!allGroupOptions.includes(activeGroupFilter)) activeGroupFilter = 'All';
-        const pillsContainer = document.getElementById('group-pills-bar');
-        pillsContainer.innerHTML = '';
-        if (cards.length > 0) {
-          allGroupOptions.forEach(grp => {
-            const btn = document.createElement('button'); btn.onclick = () => setGroupFilter(grp);
-            btn.className = activeGroupFilter === grp ? 'px-4 py-1.5 rounded-full text-xs font-semibold bg-blue-500 text-white shadow-xs transition flex-shrink-0' : 'px-4 py-1.5 rounded-full text-xs font-semibold bg-white text-slate-500 border border-slate-200 hover:border-slate-300 transition flex-shrink-0';
-            btn.innerText = grp; pillsContainer.appendChild(btn);
-          });
-        }
-        let displayedCards = activeGroupFilter === 'All' ? cards : cards.filter(c => c.group?.toLowerCase() === activeGroupFilter.toLowerCase());
-        const hintBanner = document.getElementById('drag-hint-banner');
-        if (activeSortMode === 'custom') {
-          hintBanner.classList.remove('hidden'); displayedCards.sort((a,b) => a.customOrder - b.customOrder);
-        } else {
-          hintBanner.classList.add('hidden');
-          if (activeSortMode === 'date-desc') displayedCards.sort((a,b) => b.createdAt - a.createdAt);
-          else if (activeSortMode === 'date-asc') displayedCards.sort((a,b) => a.createdAt - b.createdAt);
-          else if (activeSortMode === 'name-asc') displayedCards.sort((a,b) => (a.name||'').localeCompare(b.name||''));
-          else if (activeSortMode === 'group-asc') displayedCards.sort((a,b) => (a.group||'').localeCompare(b.group||''));
-        }
-        activeDisplayedCardsData = [...displayedCards];
-        const grid = document.getElementById('binder-grid'); grid.innerHTML = '';
-        document.getElementById('bulk-actions-bar').classList.toggle('hidden', displayedCards.length === 0);
-        if (!displayedCards.length) { grid.innerHTML = `<div class="col-span-full py-12 text-center text-slate-400 text-xs">no photocards found.</div>`; return; }
-        displayedCards.forEach((card, index) => {
-          const slotContainer = document.createElement('div');
-          slotContainer.dataset.cardId = card.id; slotContainer.dataset.index = index;
-          slotContainer.className = 'w-full rounded-xl shadow-xs relative overflow-visible transition transform cursor-pointer card-grid-item';
-          if (isBulkSelectMode && selectedCardIds.has(card.id)) slotContainer.classList.add('selected-for-bulk');
-          let frameClass = card.decorations?.toploaderFrame || ''; if (frameClass === 'none') frameClass = '';
-          let frameColor = card.decorations?.frameColor || '#ffffff';
-          let stickerMarkup = '';
-          if (card.decorations?.stickers) {
-            card.decorations.stickers.forEach(stk => {
-              stickerMarkup += `<div class="absolute select-none pointer-events-none origin-center flex items-center justify-center" style="left:${stk.x}%; top:${stk.y}%; transform: translate(-50%, -50%) scale(${stk.scale||1.0}) rotate(${stk.rotation||0}deg); width:20%; height:20%;"><img src="${stk.imageSrc}" class="block max-w-full max-h-full object-contain disable-ios-save"></div>`;
-            });
-          }
-          let bulkCheckboxHTML = isBulkSelectMode ? `<input type="checkbox" class="bulk-select-checkbox" ${selectedCardIds.has(card.id)?'checked':''} onclick="event.stopPropagation(); toggleCardSelection('${card.id}', this)">` : '';
-          slotContainer.innerHTML = `${bulkCheckboxHTML}
-            <div class="photocard-aspect w-full relative rounded-xl overflow-hidden bg-transparent pointer-events-none">
-              <div class="absolute inset-0 rounded-xl ${frameClass}" style="--frame-color: ${frameColor}; background-color: ${frameColor}; padding: var(--frame-thickness, 0px); box-sizing: border-box;">
-                <img src="${card.imageData}" class="block w-full h-full object-cover rounded-[inherit] disable-ios-save">
-              </div>
-              ${activeSortMode==='custom' && !isBulkSelectMode ? '<div class="absolute top-1.5 left-1.5 z-30 bg-slate-900/60 text-white rounded p-1 text-[9px] flex items-center justify-center pointer-events-none"><i class="fa-solid fa-grip-vertical"></i></div>' : ''}
-              <div class="absolute inset-0 overflow-hidden pointer-events-none z-20">${stickerMarkup}</div>
-            </div>`;
-          if (isBulkSelectMode) {
-            slotContainer.addEventListener('click', (e) => {
-              if (e.target.tagName === 'INPUT') return;
-              const checkbox = slotContainer.querySelector('.bulk-select-checkbox');
-              checkbox.checked = !checkbox.checked; toggleCardSelection(card.id, checkbox);
-              slotContainer.classList.toggle('selected-for-bulk', checkbox.checked);
-            });
-          } else if (activeSortMode === 'custom') {
-            slotContainer.addEventListener('pointerdown', (e) => { if(e.target.tagName !== 'BUTTON' && e.target.tagName !== 'INPUT') setupUnifiedGridSorting(e, slotContainer, index); });
-          } else {
-            slotContainer.addEventListener('click', () => openDecoratorForCard(card.id));
-          }
-          grid.appendChild(slotContainer);
-        });
-      }
-
-      function setupUnifiedGridSorting(e, node, index) {
+      // ============ DRAG SORT ============
+      function setupDragSort(e, node, index) {
         e.preventDefault();
-        let hasMovedSignificantly = false;
+        let moved = false;
         const grid = document.getElementById('binder-grid');
         const items = Array.from(grid.querySelectorAll('.card-grid-item'));
-        const originalRect = node.getBoundingClientRect();
-        touchSortTargetNode = node; touchSortCurrentIndex = index; touchSortPlaceholderIndex = index;
-        touchSortInitialX = e.clientX; touchSortInitialY = e.clientY;
-        function pointerMoveHandler(moveEvent) {
-          const deltaX = moveEvent.clientX - touchSortInitialX, deltaY = moveEvent.clientY - touchSortInitialY;
-          if (!hasMovedSignificantly && Math.hypot(deltaX, deltaY) > 8) {
-            hasMovedSignificantly = true;
-            node.classList.add('touch-dragging-active'); node.style.width = `${originalRect.width}px`; node.style.height = `${originalRect.height}px`;
-            items.forEach((item, idx) => { if (idx === touchSortPlaceholderIndex) item.classList.add('touch-drop-indicator'); });
+        const origRect = node.getBoundingClientRect();
+        let placeholderIdx = index;
+        let currentIdx = index;
+        const startX = e.clientX, startY = e.clientY;
+
+        function onMove(ev) {
+          const dx = ev.clientX - startX, dy = ev.clientY - startY;
+          if (!moved && Math.hypot(dx, dy) > 8) {
+            moved = true;
+            node.classList.add('touch-dragging-active');
+            node.style.width = `${origRect.width}px`;
+            node.style.height = `${origRect.height}px`;
+            items.forEach((it, i) => { if (i === placeholderIdx) it.classList.add('touch-drop-indicator'); });
           }
-          if (!hasMovedSignificantly) return;
-          node.style.left = `${originalRect.left + deltaX}px`; node.style.top = `${originalRect.top + deltaY}px`;
-          let targetIndex = touchSortPlaceholderIndex, closestDistance = Infinity;
-          const dragCenterX = originalRect.left + deltaX + originalRect.width/2, dragCenterY = originalRect.top + deltaY + originalRect.height/2;
-          items.forEach((item, idx) => {
-            if (item === node) return;
-            const r = item.getBoundingClientRect();
-            const dist = Math.hypot(dragCenterX - (r.left+r.width/2), dragCenterY - (r.top+r.height/2));
-            if (dist < closestDistance && dist < Math.max(r.width, r.height)*1.2) { closestDistance = dist; targetIndex = idx; }
+          if (!moved) return;
+          node.style.left = `${origRect.left + dx}px`;
+          node.style.top = `${origRect.top + dy}px`;
+          const cx = origRect.left + dx + origRect.width/2, cy = origRect.top + dy + origRect.height/2;
+          let target = placeholderIdx, minDist = Infinity;
+          items.forEach((it, i) => {
+            if (it === node) return;
+            const r = it.getBoundingClientRect();
+            const d = Math.hypot(cx - (r.left+r.width/2), cy - (r.top+r.height/2));
+            if (d < minDist && d < Math.max(r.width, r.height)*1.2) { minDist = d; target = i; }
           });
-          if (targetIndex !== touchSortPlaceholderIndex) {
-            items.forEach(item => item.classList.remove('touch-drop-indicator'));
-            touchSortPlaceholderIndex = targetIndex;
-            items[touchSortPlaceholderIndex].classList.add('touch-drop-indicator');
+          if (target !== placeholderIdx) {
+            items.forEach(it => it.classList.remove('touch-drop-indicator'));
+            placeholderIdx = target;
+            items[placeholderIdx].classList.add('touch-drop-indicator');
           }
         }
-        async function pointerUpHandler() {
-          window.removeEventListener('pointermove', pointerMoveHandler); window.removeEventListener('pointerup', pointerUpHandler);
-          if (!hasMovedSignificantly) { openDecoratorForCard(activeDisplayedCardsData[index].id); return; }
-          node.classList.remove('touch-dragging-active'); node.style.position = ''; node.style.width = ''; node.style.height = ''; node.style.left = ''; node.style.top = '';
-          items.forEach(item => item.classList.remove('touch-drop-indicator'));
-          if (touchSortPlaceholderIndex !== touchSortCurrentIndex) await executeCardIndexShift(touchSortCurrentIndex, touchSortPlaceholderIndex);
-          else loadBinderCards();
-          touchSortTargetNode = null;
+
+        async function onUp() {
+          window.removeEventListener('pointermove', onMove);
+          window.removeEventListener('pointerup', onUp);
+          if (!moved) { openDecoratorForCard(activeDisplayedCardsData[index].id); return; }
+          node.classList.remove('touch-dragging-active');
+          node.style.position = ''; node.style.width = ''; node.style.height = ''; node.style.left = ''; node.style.top = '';
+          items.forEach(it => it.classList.remove('touch-drop-indicator'));
+          if (placeholderIdx !== currentIdx) {
+            const [movedCard] = activeDisplayedCardsData.splice(currentIdx, 1);
+            activeDisplayedCardsData.splice(placeholderIdx, 0, movedCard);
+            const allCards = await getAllLocalCards();
+            activeDisplayedCardsData.forEach((c, i) => { const f = allCards.find(a => a.id === c.id); if (f) f.customOrder = i; });
+            const tx = dbInstance.transaction('cards', 'readwrite');
+            const store = tx.objectStore('cards');
+            allCards.forEach(c => store.put(c));
+            await new Promise(r => { tx.oncomplete = r; });
+            await performBackup();
+          }
+          loadBinderCards();
         }
-        window.addEventListener('pointermove', pointerMoveHandler); window.addEventListener('pointerup', pointerUpHandler);
+
+        window.addEventListener('pointermove', onMove);
+        window.addEventListener('pointerup', onUp);
       }
 
-      async function executeCardIndexShift(fromIndex, toIndex) {
-        if (fromIndex === toIndex) return;
-        const [movedCard] = activeDisplayedCardsData.splice(fromIndex, 1);
-        activeDisplayedCardsData.splice(toIndex, 0, movedCard);
-        const allCards = await getAllLocalCards();
-        activeDisplayedCardsData.forEach((c, idx) => { const found = allCards.find(item => item.id === c.id); if (found) found.customOrder = idx; });
-        const tx = dbInstance.transaction('cards', 'readwrite'); const store = tx.objectStore('cards');
-        allCards.forEach(card => store.put(card));
-        tx.oncomplete = async () => { await performBackup(); loadBinderCards(); };
-      }
-
+      // ============ DECORATOR ============
       async function openDecoratorForCard(cardId) {
         document.querySelectorAll('main > section').forEach(el => el.classList.add('hidden'));
         document.getElementById('view-decorator').classList.remove('hidden');
         document.querySelectorAll('.nav-tab').forEach(btn => { btn.classList.remove('text-brand-500','border-brand-500'); btn.classList.add('text-slate-400','border-transparent'); });
-        loadCardIntoDecorator(cardId);
-      }
-
-      async function loadCardIntoDecorator(cardId) {
         const cards = await getAllLocalCards();
         decoratorActiveCard = cards.find(c => c.id === cardId);
         if (!decoratorActiveCard) return;
@@ -1734,13 +1353,14 @@
         updateLiveTextPreview();
         applyFrameStyle(decoratorActiveCard.decorations?.toploaderFrame || 'none');
         updateFrameColor(decoratorActiveCard.decorations?.frameColor || '#ffffff');
-        document.getElementById('decorator-sticker-layer').innerHTML = ''; activeStickers = [];
+        document.getElementById('decorator-sticker-layer').innerHTML = '';
+        activeStickers = [];
         if (decoratorActiveCard.decorations?.stickers) {
-          decoratorActiveCard.decorations.stickers.forEach(s => instantiateStickerNode(s.imageSrc, s.x, s.y, s.scale||1.0, s.rotation||0));
+          decoratorActiveCard.decorations.stickers.forEach(s => instantiateStickerNode(s.imageSrc, s.x, s.y, s.scale||1, s.rotation||0));
         }
       }
 
-      window.updateLiveTextPreview = function() {
+      window.updateLiveTextPreview = () => {
         document.getElementById('preview-lbl-name').innerText = document.getElementById('edit-card-name').value.trim() || 'Name';
         document.getElementById('preview-lbl-group').innerText = document.getElementById('edit-card-group').value.trim() || 'GROUP';
         document.getElementById('preview-lbl-genre').innerText = document.getElementById('edit-card-genre').value;
@@ -1751,134 +1371,231 @@
         }
       };
 
-      window.applyFrameStyle = function(styleName) {
+      window.applyFrameStyle = (styleName) => {
         const layer = document.getElementById('decorator-frame-layer');
         layer.className = 'absolute inset-0 rounded-2xl pointer-events-none';
-        if (styleName && styleName !== 'none') { layer.classList.add(styleName); document.getElementById('frame-color-picker-container').classList.remove('hidden'); }
-        else document.getElementById('frame-color-picker-container').classList.add('hidden');
+        const picker = document.getElementById('frame-color-picker-container');
+        if (styleName && styleName !== 'none') { layer.classList.add(styleName); picker.classList.remove('hidden'); }
+        else picker.classList.add('hidden');
         document.getElementById('decorator-workspace-container').style.overflow = styleName === 'frame-glowing-trim' ? 'visible' : 'hidden';
-        if (decoratorActiveCard) { if(!decoratorActiveCard.decorations) decoratorActiveCard.decorations = {}; decoratorActiveCard.decorations.toploaderFrame = styleName; }
+        if (decoratorActiveCard) { if (!decoratorActiveCard.decorations) decoratorActiveCard.decorations = {}; decoratorActiveCard.decorations.toploaderFrame = styleName; }
       };
 
-      window.updateFrameColor = function(colorHex) {
+      window.updateFrameColor = (colorHex) => {
         document.getElementById('decorator-frame-layer').style.setProperty('--frame-color', colorHex);
         document.getElementById('frame-color-hex-label').innerText = colorHex;
-        if (decoratorActiveCard) { if(!decoratorActiveCard.decorations) decoratorActiveCard.decorations = {}; decoratorActiveCard.decorations.frameColor = colorHex; }
+        if (decoratorActiveCard) { if (!decoratorActiveCard.decorations) decoratorActiveCard.decorations = {}; decoratorActiveCard.decorations.frameColor = colorHex; }
       };
 
-      function handleStickerUpload(event) {
+      // ============ STICKERS ============
+      window.handleStickerUpload = (event) => {
         const files = Array.from(event.target.files);
         files.forEach(file => {
           const reader = new FileReader();
-          reader.onload = (e) => { runtimeStickerInventory.push({ id: `stk_inv_${Date.now()}`, src: e.target.result }); renderStickerBar(); };
+          reader.onload = (e) => { runtimeStickerInventory.push({ id: `stk_${Date.now()}`, src: e.target.result }); renderStickerBar(); };
           reader.readAsDataURL(file);
         });
         event.target.value = '';
         showToast(`${files.length} sticker(s) uploaded`, 'success', 1500);
-      }
-      window.handleStickerUpload = handleStickerUpload;
+      };
 
       function renderStickerBar() {
         const bar = document.getElementById('sticker-horizontal-bar');
         if (!bar) return;
-        if (runtimeStickerInventory.length === 0) { bar.innerHTML = `<div class="text-[11px] text-slate-400 w-full text-center py-3">no custom stickers loaded.</div>`; return; }
-        bar.innerHTML = runtimeStickerInventory.map(stk => `
-          <div class="relative flex-shrink-0 w-12 h-12 bg-white border border-slate-200 rounded-lg p-1 flex items-center justify-center cursor-pointer hover:border-brand-300 group shadow-2xs" onclick="addStickerToCanvas('${stk.src}')">
-            <img src="${stk.src}" class="block max-w-full max-h-full object-contain pointer-events-none disable-ios-save">
-            <button class="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-slate-200 text-slate-600 hover:text-rose-500 border border-slate-300 flex items-center justify-center text-[9px]" onclick="event.stopPropagation(); runtimeStickerInventory = runtimeStickerInventory.filter(i => i.id !== '${stk.id}'); renderStickerBar();"><i class="fa-solid fa-xmark"></i></button>
+        if (runtimeStickerInventory.length === 0) { bar.innerHTML = '<div class="text-[11px] text-slate-400 w-full text-center py-3">no custom stickers loaded.</div>'; return; }
+        bar.innerHTML = runtimeStickerInventory.map(s => `
+          <div class="relative flex-shrink-0 w-12 h-12 bg-white border border-slate-200 rounded-lg p-1 flex items-center justify-center cursor-pointer hover:border-brand-300" onclick="addStickerToCanvas('${s.src}')">
+            <img src="${s.src}" class="block max-w-full max-h-full object-contain disable-ios-save">
+            <button class="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-slate-200 text-slate-600 hover:text-rose-500 text-[9px]" onclick="event.stopPropagation(); runtimeStickerInventory=runtimeStickerInventory.filter(i=>i.id!=='${s.id}'); renderStickerBar();"><i class="fa-solid fa-xmark"></i></button>
           </div>`).join('');
       }
 
-      window.addStickerToCanvas = function(imageSrc) {
+      window.addStickerToCanvas = (src) => {
         if (!decoratorActiveCard) return;
-        instantiateStickerNode(imageSrc, 50, 50, 1.0, 0);
+        instantiateStickerNode(src, 50, 50, 1, 0);
         showToast('Sticker added!', 'success', 1200);
       };
 
       function clearStickerSelection() {
-        document.querySelectorAll('#decorator-sticker-layer > div').forEach(el => { el.classList.remove('sticker-selected'); el.querySelectorAll('.sticker-control-handle, .sticker-delete-handle').forEach(h => h.classList.add('hidden')); });
+        document.querySelectorAll('#decorator-sticker-layer > div').forEach(el => {
+          el.classList.remove('sticker-selected');
+          el.querySelectorAll('.sticker-control-handle, .sticker-delete-handle').forEach(h => h.classList.add('hidden'));
+        });
       }
 
-      function instantiateStickerNode(imageSrc, x, y, scale, rotation) {
-        const stickerId = `stk_${Date.now()}_${Math.random().toString(36).substr(2,4)}`;
+      function instantiateStickerNode(src, x, y, scale, rot) {
+        const id = `stk_${Date.now()}_${Math.random().toString(36).substr(2,4)}`;
         const node = document.createElement('div');
-        node.id = stickerId; node.className = 'absolute select-none z-30 p-1 origin-center flex items-center justify-center cursor-move';
-        node.style.left = `${x}%`; node.style.top = `${y}%`; node.style.width = '20%'; node.style.height = '20%';
-        node.style.transform = `translate(-50%, -50%) scale(${scale}) rotate(${rotation}deg)`;
-        node.innerHTML = `<img src="${imageSrc}" class="block max-w-full max-h-full object-contain pointer-events-none disable-ios-save"><div class="sticker-control-handle hidden"><i class="fa-solid fa-arrows-up-down-left-right"></i></div><div class="sticker-delete-handle hidden"><i class="fa-solid fa-xmark"></i></div>`;
-        const metadata = { id: stickerId, imageSrc, x, y, scale, rotation };
-        activeStickers.push(metadata);
-        const selectAction = (e) => {
-          if(e.target.closest('.sticker-control-handle') || e.target.closest('.sticker-delete-handle')) return;
-          clearStickerSelection(); node.classList.add('sticker-selected');
+        node.id = id;
+        node.className = 'absolute select-none z-30 p-1 origin-center flex items-center justify-center cursor-move';
+        node.style.cssText = `left:${x}%;top:${y}%;width:20%;height:20%;transform:translate(-50%,-50%) scale(${scale}) rotate(${rot}deg)`;
+        node.innerHTML = `<img src="${src}" class="block max-w-full max-h-full object-contain disable-ios-save"><div class="sticker-control-handle hidden"><i class="fa-solid fa-arrows-up-down-left-right"></i></div><div class="sticker-delete-handle hidden"><i class="fa-solid fa-xmark"></i></div>`;
+        const meta = { id, imageSrc: src, x, y, scale, rot };
+        activeStickers.push(meta);
+        
+        node.addEventListener('mousedown', (e) => {
+          if (e.target.closest('.sticker-control-handle') || e.target.closest('.sticker-delete-handle')) return;
+          clearStickerSelection();
+          node.classList.add('sticker-selected');
           node.querySelector('.sticker-control-handle').classList.remove('hidden');
           node.querySelector('.sticker-delete-handle').classList.remove('hidden');
-          startStickerDrag(e, node, metadata);
-        };
-        node.addEventListener('mousedown', selectAction); node.addEventListener('touchstart', selectAction, { passive: false });
-        node.querySelector('.sticker-control-handle').addEventListener('mousedown', (e) => { e.stopPropagation(); startStickerTransform(e, node, metadata); });
-        node.querySelector('.sticker-delete-handle').addEventListener('click', (e) => { e.stopPropagation(); node.remove(); activeStickers = activeStickers.filter(s => s.id !== stickerId); });
+          dragSticker(e, node, meta);
+        });
+        
+        node.querySelector('.sticker-control-handle').addEventListener('mousedown', (e) => { e.stopPropagation(); transformSticker(e, node, meta); });
+        node.querySelector('.sticker-delete-handle').addEventListener('click', (e) => { e.stopPropagation(); node.remove(); activeStickers = activeStickers.filter(s => s.id !== id); });
+        
         document.getElementById('decorator-sticker-layer').appendChild(node);
       }
 
-      function startStickerDrag(e, node, metadata) {
+      function dragSticker(e, node, meta) {
         const container = document.getElementById('decorator-workspace-container');
         const rect = container.getBoundingClientRect();
-        function moveHandler(moveEvent) {
-          const clientX = moveEvent.touches ? moveEvent.touches[0].clientX : moveEvent.clientX;
-          const clientY = moveEvent.touches ? moveEvent.touches[0].clientY : moveEvent.clientY;
-          let pctX = ((clientX - rect.left) / rect.width) * 100, pctY = ((clientY - rect.top) / rect.height) * 100;
-          pctX = Math.max(0, Math.min(100, pctX)); pctY = Math.max(0, Math.min(100, pctY));
-          node.style.left = `${pctX}%`; node.style.top = `${pctY}%`; metadata.x = pctX; metadata.y = pctY;
+        function move(ev) {
+          const cx = ev.touches ? ev.touches[0].clientX : ev.clientX;
+          const cy = ev.touches ? ev.touches[0].clientY : ev.clientY;
+          let px = ((cx - rect.left) / rect.width) * 100, py = ((cy - rect.top) / rect.height) * 100;
+          px = Math.max(0, Math.min(100, px)); py = Math.max(0, Math.min(100, py));
+          node.style.left = `${px}%`; node.style.top = `${py}%`;
+          meta.x = px; meta.y = py;
         }
-        function endHandler() { window.removeEventListener('mousemove', moveHandler); window.removeEventListener('mouseup', endHandler); }
-        window.addEventListener('mousemove', moveHandler); window.addEventListener('mouseup', endHandler);
+        function end() { window.removeEventListener('mousemove', move); window.removeEventListener('mouseup', end); }
+        window.addEventListener('mousemove', move); window.addEventListener('mouseup', end);
       }
 
-      function startStickerTransform(e, node, metadata) {
+      function transformSticker(e, node, meta) {
         const container = document.getElementById('decorator-workspace-container');
-        const containerRect = container.getBoundingClientRect();
-        const centerX = containerRect.left + (metadata.x/100)*containerRect.width;
-        const centerY = containerRect.top + (metadata.y/100)*containerRect.height;
-        const initialClientX = e.touches ? e.touches[0].clientX : e.clientX;
-        const initialClientY = e.touches ? e.touches[0].clientY : e.clientY;
-        const initialRadius = Math.hypot(initialClientX - centerX, initialClientY - centerY);
-        const initialAngle = Math.atan2(initialClientY - centerY, initialClientX - centerX);
-        const startScale = metadata.scale, startRotation = metadata.rotation;
-        function transformMoveHandler(moveEvent) {
-          const clientX = moveEvent.touches ? moveEvent.touches[0].clientX : moveEvent.clientX;
-          const clientY = moveEvent.touches ? moveEvent.touches[0].clientY : moveEvent.clientY;
-          const currentRadius = Math.hypot(clientX - centerX, clientY - centerY);
-          const currentAngle = Math.atan2(clientY - centerY, clientX - centerX);
-          let newScale = startScale * (currentRadius / initialRadius);
-          newScale = Math.max(0.4, Math.min(4.0, newScale));
-          let newRotation = startRotation + ((currentAngle - initialAngle) * 180 / Math.PI);
-          metadata.scale = newScale; metadata.rotation = newRotation;
-          node.style.transform = `translate(-50%, -50%) scale(${newScale}) rotate(${newRotation}deg)`;
+        const cr = container.getBoundingClientRect();
+        const cx = cr.left + (meta.x/100)*cr.width, cy = cr.top + (meta.y/100)*cr.height;
+        const ix = e.clientX, iy = e.clientY;
+        const iRad = Math.hypot(ix - cx, iy - cy), iAng = Math.atan2(iy - cy, ix - cx);
+        const sScl = meta.scale, sRot = meta.rotation;
+        function move(ev) {
+          const mx = ev.clientX, my = ev.clientY;
+          const cRad = Math.hypot(mx - cx, my - cy), cAng = Math.atan2(my - cy, mx - cx);
+          let ns = sScl * (cRad / iRad); ns = Math.max(0.4, Math.min(4, ns));
+          let nr = sRot + ((cAng - iAng) * 180 / Math.PI);
+          meta.scale = ns; meta.rotation = nr;
+          node.style.transform = `translate(-50%,-50%) scale(${ns}) rotate(${nr}deg)`;
         }
-        function transformEndHandler() { window.removeEventListener('mousemove', transformMoveHandler); window.removeEventListener('mouseup', transformEndHandler); }
-        window.addEventListener('mousemove', transformMoveHandler); window.addEventListener('mouseup', transformEndHandler);
+        function end() { window.removeEventListener('mousemove', move); window.removeEventListener('mouseup', end); }
+        window.addEventListener('mousemove', move); window.addEventListener('mouseup', end);
       }
 
-      window.saveDecorationsToDB = async function() {
+      // ============ SAVE DECORATIONS ============
+      window.saveDecorationsToDB = async () => {
         if (!decoratorActiveCard) return;
         clearStickerSelection();
         if (!dbInstance) await initIndexedDB();
         decoratorActiveCard.decorations.stickers = activeStickers;
-        const tx = dbInstance.transaction('cards', 'readwrite'); tx.objectStore('cards').put(decoratorActiveCard);
-        tx.oncomplete = async () => { await performBackup(); confetti({ particleCount: 30, spread: 50, origin: { y: 0.8 } }); showToast('Changes saved!', 'success'); };
+        const tx = dbInstance.transaction('cards', 'readwrite');
+        tx.objectStore('cards').put(decoratorActiveCard);
+        await new Promise(r => { tx.oncomplete = r; });
+        await performBackup();
+        confetti({ particleCount: 30, spread: 50, origin: { y: 0.8 } });
+        showToast('Changes saved!', 'success');
+        loadBinderCards();
       };
 
-      window.deleteActiveCardFromDecorator = function() {
+      window.deleteActiveCardFromDecorator = () => {
         if (!decoratorActiveCard?.id) return;
         pendingBulkDeleteIds = [decoratorActiveCard.id];
         document.getElementById('delete-confirm-title').textContent = 'delete this photocard?';
         document.getElementById('delete-confirm-modal').classList.add('show');
       };
 
-      document.addEventListener('click', function(e) {
+      // ============ CARD STUDIO ============
+      function compressImage(file) {
+        return new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const img = new Image();
+            img.onload = () => {
+              const canvas = document.createElement('canvas');
+              canvas.width = 600; canvas.height = 840;
+              const ctx = canvas.getContext('2d');
+              const scale = Math.max(600/img.width, 840/img.height);
+              ctx.drawImage(img, (600-img.width*scale)/2, (840-img.height*scale)/2, img.width*scale, img.height*scale);
+              const webp = canvas.toDataURL('image/webp', 0.8);
+              resolve({ webp, origKB: (file.size/1024).toFixed(1), webpKB: (Math.round((webp.length*3)/4)/1024).toFixed(1) });
+            };
+            img.src = e.target.result;
+          };
+          reader.readAsDataURL(file);
+        });
+      }
+
+      window.handleFileSelect = async (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+        const { webp, origKB, webpKB } = await compressImage(file);
+        activeCompressedWebP = webp;
+        document.getElementById('card-preview-img').src = webp;
+        document.getElementById('card-preview-img').classList.remove('hidden');
+        document.getElementById('dropzone-placeholder').classList.add('hidden');
+        document.getElementById('stat-orig-size').innerText = `${origKB} KB`;
+        document.getElementById('stat-webp-size').innerText = `${webpKB} KB`;
+        document.getElementById('compression-stats').classList.remove('hidden');
+        const btn = document.getElementById('save-card-btn');
+        btn.disabled = false;
+        btn.className = 'w-full mt-2 py-2.5 bg-brand-500 hover:bg-brand-600 text-white rounded-xl text-xs font-bold transition flex items-center justify-center space-x-2 shadow-xs cursor-pointer';
+      };
+
+      window.handleCardSubmit = async (event) => {
+        event.preventDefault();
+        if (!activeCompressedWebP) return;
+        if (!dbInstance) await initIndexedDB();
+        const cards = await getAllLocalCards();
+        const card = {
+          id: `card_${Date.now()}_${Math.random().toString(36).substr(2,4)}`,
+          name: document.getElementById('input-name').value.trim(),
+          group: document.getElementById('input-group').value.trim(),
+          genre: document.getElementById('input-genre').value,
+          imageData: activeCompressedWebP,
+          decorations: { toploaderFrame: 'none', frameColor: '#ffffff', stickers: [] },
+          createdAt: Date.now(),
+          customOrder: cards.length,
+          favorite: false
+        };
+        const tx = dbInstance.transaction('cards', 'readwrite');
+        tx.objectStore('cards').add(card);
+        await new Promise(r => { tx.oncomplete = r; });
+        document.getElementById('card-creator-form').reset();
+        document.getElementById('card-preview-img').classList.add('hidden');
+        document.getElementById('dropzone-placeholder').classList.remove('hidden');
+        document.getElementById('compression-stats').classList.add('hidden');
+        activeCompressedWebP = null;
+        await performBackup();
+        showToast(`✨ Custom card "${card.name}" created!`, 'success');
+        switchTab('binder');
+      };
+
+      // ============ INITIALIZATION ============
+      document.addEventListener('DOMContentLoaded', async () => {
+        detectMobileAndPWA();
+        await initIndexedDB();
+        await StorageManager.init();
+        await loadGachaState();
+        await loadBinderCards();
+        renderStickerBar();
+        renderSavedPacks();
+        checkServerStatus();
+        updateBackupUI();
+        
+        const container = document.getElementById('decorator-workspace-container');
+        container.addEventListener('mousedown', (e) => {
+          if (e.target.id === 'decorator-workspace-container' || e.target.id === 'decorator-base-img') clearStickerSelection();
+        });
+        container.addEventListener('touchstart', (e) => e.preventDefault(), { passive: false });
+        container.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
+      });
+
+      document.addEventListener('click', (e) => {
         if (e.target === document.getElementById('delete-confirm-modal')) closeDeleteConfirm();
       });
+
+      // Expose necessary functions to window
+      window.performBackup = performBackup;
     })();
   </script>
 </body>
