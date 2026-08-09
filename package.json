@@ -6,7 +6,7 @@
   "scripts": {
     "start": "electron .",
     "build:win": "electron-builder --win portable",
-    "build:mac": "electron-builder --mac",
+    "build:mac": "electron-builder --mac --x64 --arm64",
     "build:linux": "electron-builder --linux AppImage",
     "build:all": "electron-builder --win --mac --linux"
   },
@@ -22,22 +22,20 @@
       "package.json"
     ],
     "win": {
-      "target": "portable",
-      "icon": "build/icon.ico"
+      "target": "portable"
     },
     "mac": {
       "target": "dmg",
-      "icon": "build/icon.icns",
-      "category": "public.app-category.entertainment"
+      "category": "public.app-category.entertainment",
+      "identity": null
     },
     "linux": {
       "target": "AppImage",
-      "icon": "build/icon.png",
       "category": "Game"
     }
   },
   "devDependencies": {
-    "electron": "^28.0.0",
-    "electron-builder": "^24.0.0"
+    "electron": "^33.0.0",
+    "electron-builder": "^25.0.0"
   }
 }
