@@ -1,47 +1,47 @@
 <!DOCTYPE html>
 <html lang="en" class="h-full bg-slate-50 text-slate-800">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>mybinder</title>
-
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>
+      AnythingGacha Studio &amp; Binder
+    </title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+    <script>
+      tailwind.config = {
+      darkMode: &#39;class&#39;,
       theme: {
         extend: {
           colors: {
             brand: {
-              50: '#fff1f2',
-              100: '#ffe4e6',
-              200: '#fecdd3',
-              300: '#fda4af',
-              400: '#fb7185',
-              500: '#f43f5e',
-              600: '#e11d48',
+              50: &#39;#fff1f2&#39;,
+              100: &#39;#ffe4e6&#39;,
+              200: &#39;#fecdd3&#39;,
+              300: &#39;#fda4af&#39;,
+              400: &#39;#fb7185&#39;,
+              500: &#39;#f43f5e&#39;,
+              600: &#39;#e11d48&#39;,
             },
             pastel: {
-              blue: '#3b82f6',
-              blueLight: '#eff6ff',
-              bg: '#faf8f9',
-              cardBg: '#ffffff',
-              border: '#e2e8f0',
+              blue: &#39;#3b82f6&#39;,
+              blueLight: &#39;#eff6ff&#39;,
+              bg: &#39;#faf8f9&#39;,
+              cardBg: &#39;#ffffff&#39;,
+              border: &#39;#e2e8f0&#39;,
             }
           }
         }
       }
     }
-  </script>
-
-  <!-- External CDNs -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
-  <style>
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    </script>
+    <!-- External CDNs -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js">
+    </script>
+    <style>
+      ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: #f1f5f9; }
     ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
     
@@ -59,40 +59,60 @@
     .photocard-aspect {
       aspect-ratio: 2.5 / 3.5;
       container-type: inline-size;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .photocard-aspect img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
     
     .frame-classic-border {
-      box-shadow: inset 0 0 0 0.66rem var(--frame-color);
-      position: absolute;
-      inset: 0;
-      border-radius: 0.75rem;
+      --frame-thickness: 3.2cqw;
     }
-
-    .frame-starlight-trim {
+    
+    .frame-glowing-trim {
+      --frame-thickness: 3.2cqw;
+      border: 0 !important;
+      box-sizing: border-box !important;
+      position: absolute !important;
+      inset: 0 !important;
+      overflow: hidden;
+      background: var(--frame-color, #ffffff);
       box-shadow:
-        inset 0 0 0 0.44rem var(--frame-color, #ffffff),
-        inset 0 0 0.26rem var(--frame-color, #ffffff),
-        inset 0 0 0.52rem rgba(255, 255, 255, 0.6),
-        0 0 0.43rem var(--frame-color, #ffffff),
-        0 0 0.78rem var(--frame-color, #ffffff);
-      position: absolute;
-      inset: 0;
-      border-radius: 0.75rem;
+        inset 0 0 0.4cqw color-mix(in srgb, var(--frame-color, #ffffff) 76%, transparent),
+        inset 0 0 0.9cqw color-mix(in srgb, var(--frame-color, #ffffff) 67%, transparent),
+        0 0 3.5cqw color-mix(in srgb, var(--frame-color, #ffffff) 50%, transparent),
+        0 0 5.5cqw color-mix(in srgb, var(--frame-color, #ffffff) 70%, transparent);
     }
-
-    .frame-double-lace {
-      box-shadow:
-        inset 0 0 0 0.38rem var(--frame-color, #ffffff),
-        inset 0 0 0 0.77rem var(--frame-color, #ffffff);
+  
+    .frame-glowing-trim::after {
+      content: &#34;&#34;;
       position: absolute;
       inset: 0;
-      border-radius: 0.75rem;
+      z-index: 20;
+      pointer-events: none;
+      box-sizing: border-box;
+      border: max(1px, 0.3cqw) solid
+        color-mix(in srgb, var(--frame-color, #ffffff) 90%, white);
+      border-radius: inherit;
+      box-shadow:
+        inset 0 0 0.35cqw color-mix(in srgb, var(--frame-color, #ffffff) 62%, transparent),
+        0 0 0.35cqw color-mix(in srgb, var(--frame-color, #ffffff) 42%, transparent);
+    }  
+    
+    .photocard-aspect:has(.frame-glowing-trim) {
+      overflow: visible;
     }
 
     .sticker-selected {
       outline: 2px dashed #f43f5e;
       outline-offset: 4px;
     }
+    
     .sticker-control-handle {
       position: absolute;
       bottom: -12px;
@@ -109,6 +129,7 @@
       cursor: se-resize;
       z-index: 50;
     }
+    
     .sticker-delete-handle {
       position: absolute;
       top: -12px;
@@ -134,7 +155,6 @@
       pointer-events: none;
     }
 
-    /* Mobile custom touch dragging utilities */
     .touch-dragging-active {
       position: fixed !important;
       z-index: 9999 !important;
@@ -152,335 +172,1116 @@
 
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-  </style>
-</head>
-<body class="h-full flex flex-col font-sans antialiased selection:bg-brand-400 selection:text-white bg-pastel-bg text-slate-700 select-none">
 
-  <!-- Header Section -->
-  <header class="bg-white/90 border-b border-pink-100 sticky top-0 z-50 backdrop-blur-md shadow-xs">
-    <div class="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between">
-      <div class="flex items-center space-x-2.5">
-        <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-pink-300 via-rose-300 to-sky-300 flex items-center justify-center text-white shadow-sm">
-          <i class="fa-solid fa-compact-disc text-sm"></i>
+    #delete-confirm-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(15, 23, 42, 0.45);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+
+    #delete-confirm-modal.show {
+      display: flex;
+    }
+
+    .delete-confirm-card {
+      width: min(100%, 340px);
+      background: #ffffff;
+      border: 1px solid #fecdd3;
+      border-radius: 22px;
+      padding: 22px;
+      box-shadow: 0 20px 45px rgba(15, 23, 42, 0.18);
+      text-align: center;
+      animation: deleteModalIn 0.18s ease-out;
+    }
+
+    @keyframes deleteModalIn {
+      from { opacity: 0; transform: scale(0.94) translateY(8px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .delete-confirm-icon {
+      width: 52px;
+      height: 52px;
+      margin: 0 auto 12px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff1f2;
+      color: #f43f5e;
+      font-size: 20px;
+    }
+
+    .delete-confirm-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .delete-confirm-actions button {
+      min-height: 44px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .delete-confirm-cancel {
+      background: #ffffff;
+      color: #64748b;
+      border: 1px solid #e2e8f0;
+    }
+
+    .delete-confirm-delete {
+      background: #f43f5e;
+      color: #ffffff;
+      border: 1px solid #f43f5e;
+    }
+
+    .delete-confirm-delete:active {
+      transform: scale(0.98);
+    }
+
+    @keyframes gachaCardReveal {
+      0% { transform: rotateY(180deg) scale(0.8); opacity: 0; }
+      50% { opacity: 0.5; }
+      100% { transform: rotateY(0deg) scale(1); opacity: 1; }
+    }
+
+    .gacha-card-reveal {
+      animation: gachaCardReveal 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      transform-origin: center;
+    }
+
+    @keyframes gachaShimmer {
+      0% { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+
+    .gacha-shimmer-effect {
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      background-size: 200% 100%;
+      animation: gachaShimmer 1.5s ease-in-out;
+    }
+
+    .bulk-select-checkbox {
+      position: absolute;
+      top: 0.5rem;
+      left: 0.5rem;
+      z-index: 30;
+      width: 20px;
+      height: 20px;
+      accent-color: #f43f5e;
+    }
+
+    .selected-for-bulk {
+      outline: 2px solid #f43f5e;
+      outline-offset: 2px;
+    }
+
+    .server-status-dot {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      margin-right: 4px;
+    }
+    </style>
+  </head>
+  <body class="h-full flex flex-col font-sans antialiased selection:bg-brand-400 selection:text-white bg-pastel-bg text-slate-700 select-none">
+    <!-- Delete Confirmation Modal -->
+    <div id="delete-confirm-modal" role="dialog" aria-modal="true" aria-labelledby="delete-confirm-title">
+      <div class="delete-confirm-card">
+        <div class="delete-confirm-icon">
+          <i class="fa-solid fa-trash"></i>
         </div>
-        <span class="font-bold text-base bg-gradient-to-r from-pink-500 via-rose-400 to-sky-400 bg-clip-text text-transparent">
-          mybinder studio
-        </span>
+        <h3 id="delete-confirm-title" class="text-base font-bold text-slate-800">
+          delete photocard?
+        </h3>
+        <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+          this will permanently remove the selected card(s) from your binder.
+        </p>
+        <div class="delete-confirm-actions">
+          <button type="button" class="delete-confirm-cancel" onclick="closeDeleteConfirm()">
+            cancel
+          </button>
+          <button type="button" class="delete-confirm-delete" onclick="confirmDeleteCard()">
+            delete
+          </button>
+        </div>
       </div>
     </div>
-
-    <!-- Navigation Bar -->
-    <nav class="flex border-t border-slate-100 overflow-x-auto bg-white/80 backdrop-blur">
-      <button onclick="switchTab('binder')" id="tab-btn-binder" class="nav-tab text-brand-500 border-brand-500 border-b-2 flex-1 min-w-[100px] py-2.5 text-xs font-bold flex items-center justify-center space-x-2 transition-all">
-        <i class="fa-solid fa-book-open"></i>
-        <span>my binder</span>
-      </button>
-      <button onclick="switchTab('studio')" id="tab-btn-studio" class="nav-tab text-slate-400 border-transparent border-b-2 flex-1 min-w-[100px] py-2.5 text-xs font-bold flex items-center justify-center space-x-2 transition-all hover:text-slate-600">
-        <i class="fa-solid fa-wand-magic-sparkles"></i>
-        <span>card studio</span>
-      </button>
-    </nav>
-  </header>
-
-  <!-- Workspace Container -->
-  <main class="flex-1 overflow-y-auto p-4 max-w-5xl w-full mx-auto">
-    
-    <!-- BINDER VIEW -->
-    <section id="view-binder" class="space-y-4">
-      
-      <!-- Dynamic Category Pill Navigation -->
-      <div id="group-pills-bar" class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1 px-0.5">
-        <!-- populated dynamically based purely on owned assets -->
-      </div>
-
-      <!-- Sorting Sub-header Row -->
-      <div class="flex items-center justify-between px-1 py-1 text-xs text-slate-500 font-medium">
-        <div class="flex items-center gap-2">
-          <span class="text-slate-400 font-medium">sort:</span>
-          <select id="sort-select" onchange="handleSortChange(this.value)" class="bg-white border border-slate-200 rounded-lg px-2.5 py-1 text-xs text-slate-700 font-semibold focus:outline-none focus:border-brand-400 cursor-pointer shadow-2xs">
-            <option value="date-desc">earned date (newest)</option>
-            <option value="date-asc">earned date (oldest)</option>
-            <option value="name-asc">card name (a-z)</option>
-            <option value="group-asc">group name (a-z)</option>
-            <option value="custom">custom (drag & drop)</option>
-          </select>
+    <!-- Header Section -->
+    <header class="bg-white/90 border-b border-pink-100 sticky top-0 z-50 backdrop-blur-md shadow-xs">
+      <div class="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between">
+        <div class="flex items-center space-x-2.5">
+          <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-pink-300 via-rose-300 to-sky-300 flex items-center justify-center text-white shadow-sm">
+            <i class="fa-solid fa-compact-disc text-sm"></i>
+          </div>
+          <span class="font-bold text-base bg-gradient-to-r from-pink-500 via-rose-400 to-sky-400 bg-clip-text text-transparent">          AnythingGacha studio
+</span>
         </div>
       </div>
-
-      <div id="drag-hint-banner" class="hidden text-[11px] text-brand-600 bg-brand-50 border border-brand-100 rounded-xl p-2 text-center font-medium">
-        <i class="fa-solid fa-hand-pointer mr-1"></i> drag and drop photocards to reorder your binder layout!
-      </div>
-
-      <!-- Photocard Binder Grid -->
-      <div id="binder-grid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3 sm:gap-4 p-1 relative">
-        <!-- populated dynamically -->
-      </div>
-
-      <div class="flex justify-center pt-4 pb-6">
-        <button onclick="exportBinderScreenshot()" class="px-4 py-2 bg-white hover:bg-slate-50 text-slate-600 rounded-full text-xs font-semibold flex items-center gap-2 border border-slate-200 shadow-xs transition">
-          <i class="fa-solid fa-camera text-brand-400"></i> snapshot page
+      <!-- Navigation Bar -->
+      <nav class="flex border-t border-slate-100 overflow-x-auto bg-white/80 backdrop-blur">
+        <button onclick="switchTab(&#39;binder&#39;)" id="tab-btn-binder" class="nav-tab text-brand-500 border-brand-500 border-b-2 flex-1 min-w-[100px] py-2.5 text-xs font-bold flex items-center justify-center space-x-2 transition-all">
+          <i class="fa-solid fa-book-open"></i>
+          <span>          my binder
+</span>
         </button>
-      </div>
-    </section>
-
-    <!-- CARD STUDIO VIEW -->
-    <section id="view-studio" class="hidden max-w-4xl mx-auto space-y-6">
-      <div class="bg-white p-6 rounded-2xl border border-pink-100 shadow-sm">
-        <h2 class="text-base font-bold text-slate-800 mb-1 flex items-center gap-2">
-          <i class="fa-solid fa-plus-circle text-brand-400"></i> card studio engine
-        </h2>
-        <p class="text-xs text-slate-400 mb-6">process, downsample, and save custom cards directly into local device storage.</p>
-
-        <form id="card-creator-form" class="grid grid-cols-1 md:grid-cols-12 gap-6" onsubmit="handleCardSubmit(event)">
-          <div class="md:col-span-5 flex flex-col items-center">
-            <div id="dropzone" class="w-full photocard-aspect max-w-[240px] bg-slate-50 border-2 border-dashed border-slate-200 hover:border-brand-300 rounded-2xl flex flex-col items-center justify-center p-4 text-center cursor-pointer relative overflow-hidden transition group shadow-inner">
-              <input type="file" id="image-input" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer z-10" onchange="handleFileSelect(event)">
-              <div id="dropzone-placeholder" class="flex flex-col items-center space-y-2 text-slate-400 group-hover:text-brand-400">
-                <i class="fa-solid fa-cloud-arrow-up text-3xl text-brand-300"></i>
-                <span class="text-xs font-medium">select or drop image asset</span>
-              </div>
-              <img id="card-preview-img" class="hidden absolute inset-0 w-full h-full object-cover rounded-xl disable-ios-save" alt="preview">
-            </div>
-            <div id="compression-stats" class="hidden mt-3 text-center text-[11px] text-slate-500 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200 w-full max-w-[240px]">
-              orig: <span id="stat-orig-size" class="text-slate-700">0 kb</span> &rarr; webp: <span id="stat-webp-size" class="text-brand-500 font-semibold">0 kb</span>
-            </div>
+        <button onclick="switchTab(&#39;gacha&#39;)" id="tab-btn-gacha" class="nav-tab text-slate-400 border-transparent border-b-2 flex-1 min-w-[100px] py-2.5 text-xs font-bold flex items-center justify-center space-x-2 transition-all hover:text-slate-600">
+          <i class="fa-solid fa-gift"></i>
+          <span>          gacha pull
+</span>
+        </button>
+        <button onclick="switchTab(&#39;studio&#39;)" id="tab-btn-studio" class="nav-tab text-slate-400 border-transparent border-b-2 flex-1 min-w-[100px] py-2.5 text-xs font-bold flex items-center justify-center space-x-2 transition-all hover:text-slate-600">
+          <i class="fa-solid fa-wand-magic-sparkles"></i>
+          <span>          card studio
+</span>
+        </button>
+      </nav>
+    </header>
+    <!-- Workspace Container -->
+    <main class="flex-1 overflow-y-auto p-4 max-w-5xl w-full mx-auto">
+      <!-- BINDER VIEW -->
+      <section id="view-binder" class="space-y-4">
+        <div id="group-pills-bar" class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1 px-0.5">
+        </div>
+        <div class="flex items-center justify-between px-1 py-1 text-xs text-slate-500 font-medium">
+          <div class="flex items-center gap-2">
+            <span class="text-slate-400 font-medium">            sort:
+</span>
+            <select id="sort-select" onchange="handleSortChange(this.value)" class="bg-white border border-slate-200 rounded-lg px-2.5 py-1 text-xs text-slate-700 font-semibold focus:outline-none focus:border-brand-400 cursor-pointer shadow-2xs">
+              <option value="date-desc">
+                earned date (newest)
+              </option>
+              <option value="date-asc">
+                earned date (oldest)
+              </option>
+              <option value="name-asc">
+                card name (a-z)
+              </option>
+              <option value="group-asc">
+                group name (a-z)
+              </option>
+              <option value="custom">
+                custom (drag &amp; drop)
+              </option>
+            </select>
           </div>
-
-          <div class="md:col-span-7 space-y-4">
-            <div>
-              <label class="block text-xs font-semibold text-slate-600 mb-1">character / artist name</label>
-              <input type="text" id="input-name" required placeholder="e.g. Seonghwa" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:outline-none focus:border-brand-400">
-            </div>
-            <div class="grid grid-cols-2 gap-3">
-              <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1">group / series name</label>
-                <input type="text" id="input-group" required placeholder="e.g. ATEEZ" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:outline-none focus:border-brand-400">
-              </div>
-              <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1">genre</label>
-                <select id="input-genre" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:outline-none focus:border-brand-400">
-                  <option value="k-pop">k-pop</option>
-                  <option value="j-pop">j-pop</option>
-                  <option value="vkei">vkei</option>
-                  <option value="vocaloid">vocaloid</option>
-                  <option value="anime">anime</option>
-                  <option value="other">other</option>
-                </select>
-              </div>
-            </div>
-            <div>
-              <label class="block text-xs font-semibold text-slate-600 mb-1">accent border tone</label>
-              <div class="flex items-center gap-2">
-                <input type="color" id="input-accent" value="#fb7185" class="h-8 w-10 bg-slate-50 border border-slate-200 rounded-lg p-0.5 cursor-pointer">
-                <span id="accent-hex-label" class="text-xs font-mono text-slate-400">#fb7185</span>
-              </div>
-            </div>
-            <button type="submit" id="save-card-btn" disabled class="w-full mt-2 py-2.5 bg-slate-100 text-slate-400 rounded-xl text-xs font-bold flex items-center justify-center space-x-2 cursor-not-allowed border border-slate-200 transition">
-              <i class="fa-solid fa-save"></i>
-              <span>commit photocard into storage</span>
+          <div id="bulk-actions-bar" class="hidden flex items-center gap-2">
+            <button onclick="toggleBulkSelectMode()" class="text-[11px] font-bold text-brand-500 hover:text-brand-600 bg-brand-50 px-2.5 py-1 rounded-lg border border-brand-200">
+              <span id="bulk-btn-text">              select
+</span>
+            </button>
+            <button onclick="bulkDeleteSelected()" id="bulk-delete-btn" class="hidden text-[11px] font-bold text-red-500 hover:text-red-600 bg-red-50 px-2.5 py-1 rounded-lg border border-red-200">
+              <i class="fa-solid fa-trash mr-1"></i>
+              delete
+            </button>
+            <button onclick="bulkExportSelected()" id="bulk-export-btn" class="hidden text-[11px] font-bold text-blue-500 hover:text-blue-600 bg-blue-50 px-2.5 py-1 rounded-lg border border-blue-200">
+              <i class="fa-solid fa-download mr-1"></i>
+              export
             </button>
           </div>
-        </form>
-      </div>
-    </section>
-
-    <!-- DECORATOR CANVAS VIEW -->
-    <section id="view-decorator" class="hidden max-w-5xl mx-auto space-y-4">
-      <div class="mb-2">
-        <button onclick="switchTab('binder')" class="text-xs font-semibold text-brand-500 hover:text-brand-600 flex items-center gap-2">
-          <i class="fa-solid fa-arrow-left"></i> back to my binder collection
-        </button>
-      </div>
-
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <div class="lg:col-span-5 bg-white p-4 rounded-2xl border border-pink-100 shadow-sm space-y-4 h-fit">
-          <div>
-            <h3 class="font-bold text-sm text-slate-800">toploader canvas workspace</h3>
-            <p class="text-[11px] text-slate-400">apply specialized frames, tweak stickers, or edit metadata properties instantly below.</p>
+        </div>
+        <div id="drag-hint-banner" class="hidden text-[11px] text-brand-600 bg-brand-50 border border-brand-100 rounded-xl p-2 text-center font-medium">
+          <i class="fa-solid fa-hand-pointer mr-1"></i>
+          drag and drop photocards to reorder your binder layout!
+        </div>
+        <div id="binder-grid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3 sm:gap-4 p-1 relative">
+        </div>
+      </section>
+      <!-- GACHA VIEW -->
+      <section id="view-gacha" class="hidden max-w-4xl mx-auto space-y-6">
+        <div class="bg-white p-6 rounded-2xl border border-pink-100 shadow-sm">
+          <h2 class="text-base font-bold text-slate-800 mb-1 flex items-center gap-2">
+            <i class="fa-solid fa-gift text-brand-400"></i>
+            Card Gacha Pull
+          </h2>
+          <p class="text-xs text-slate-400 mb-2">
+            pull real photocards from pinterest!
+          </p>
+          <!-- Server Status -->
+          <div id="server-status" class="text-[10px] mb-4 flex items-center">
+            <span class="server-status-dot bg-yellow-400" id="status-dot"></span>
+            <span id="status-text" class="text-slate-500">            checking server...
+</span>
           </div>
-
-          <div class="pt-2 border-t border-slate-100 space-y-3">
-            <h4 class="text-xs font-bold text-slate-600">modify photocard information</h4>
+          <!-- Daily Limit Display -->
+          <div class="mb-4 p-3 bg-blue-50 border border-blue-100 rounded-xl flex items-center justify-between">
+            <span class="text-xs font-semibold text-blue-700">            <i class="fa-solid fa-calendar-check mr-1"></i>
+            daily pulls remaining
+</span>
+            <span id="daily-pulls-remaining" class="text-lg font-bold text-blue-600">            10
+</span>
+          </div>
+          <!-- Saved Gacha Packs -->
+          <div class="mb-4 p-3 bg-slate-50 border border-slate-200 rounded-xl">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-semibold text-slate-600">              saved gacha packs
+</span>
+              <button onclick="saveCurrentGachaPack()" class="text-[10px] font-bold text-brand-500 hover:text-brand-600">
+                <i class="fa-solid fa-plus mr-1"></i>
+                save current
+              </button>
+            </div>
+            <div id="saved-packs-list" class="flex gap-2 overflow-x-auto no-scrollbar py-1">
+              <div class="text-[11px] text-slate-400 italic">
+                no saved packs yet
+              </div>
+            </div>
+          </div>
+          <form id="gacha-form" onsubmit="performGachaPull(event)" class="space-y-4">
             <div>
-              <label class="block text-[11px] font-semibold text-slate-500 mb-1">character / artist name</label>
-              <input type="text" id="edit-card-name" oninput="updateLiveTextPreview()" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:border-brand-400">
-            </div>
-            <div class="grid grid-cols-2 gap-3">
-              <div>
-                <label class="block text-[11px] font-semibold text-slate-500 mb-1">group / series</label>
-                <input type="text" id="edit-card-group" oninput="updateLiveTextPreview()" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:border-brand-400">
-              </div>
-              <div>
-                <label class="block text-[11px] font-semibold text-slate-500 mb-1">genre tag</label>
-                <select id="edit-card-genre" onchange="updateLiveTextPreview()" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:border-brand-400">
-                  <option value="k-pop">k-pop</option>
-                  <option value="j-pop">j-pop</option>
-                  <option value="vkei">vkei</option>
-                  <option value="vocaloid">vocaloid</option>
-                  <option value="anime">anime</option>
-                  <option value="other">other</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          
-          <div class="pt-3 border-t border-slate-100 space-y-3">
-            <label class="block text-xs font-semibold text-slate-500">apply overlay profile / frame</label>
-            <div class="grid grid-cols-2 gap-2">
-              <button onclick="applyFrameStyle('none')" class="p-2 bg-slate-50 hover:bg-slate-100 rounded-xl text-xs border border-slate-200 text-slate-600 font-medium">clear style</button>
-              <button onclick="applyFrameStyle('frame-classic-border')" class="p-2 bg-slate-50 hover:bg-slate-100 rounded-xl text-xs border border-slate-200 text-slate-600 font-medium">classic border</button>
-              <button onclick="applyFrameStyle('frame-starlight-trim')" class="p-2 bg-slate-50 hover:bg-slate-100 rounded-xl text-xs border border-slate-200 text-slate-600 font-medium">starlight trim</button>
-              <button onclick="applyFrameStyle('frame-double-lace')" class="p-2 bg-slate-50 hover:bg-slate-100 rounded-xl text-xs border border-slate-200 text-slate-600 font-medium">double lace</button>
-            </div>
-            
-            <div id="frame-color-picker-container" class="hidden space-y-1.5 pt-1">
-              <label class="block text-[11px] font-semibold text-slate-500">frame custom color</label>
-              <div class="flex items-center gap-2">
-                <input type="color" id="frame-color-input" value="#ffffff" oninput="updateFrameColor(this.value)" class="h-7 w-9 bg-slate-50 border border-slate-200 rounded cursor-pointer p-0.5">
-                <span id="frame-color-hex-label" class="text-xs font-mono text-slate-400">#ffffff</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="pt-3 border-t border-slate-100 space-y-2">
-            <div class="flex items-center justify-between">
-              <label class="block text-xs font-semibold text-slate-500">custom sticker drawer</label>
-              <label class="text-[11px] font-bold text-brand-500 bg-pink-50 hover:bg-pink-100 border border-pink-200 px-2 py-1 rounded-md cursor-pointer transition">
-                + upload stickers
-                <input type="file" id="sticker-upload-input" accept="image/*" multiple class="hidden" onchange="handleStickerUpload(event)">
+              <label class="block text-xs font-semibold text-slate-600 mb-1">
+                character / idol name (optional)
               </label>
+              <input type="text" id="gacha-name" placeholder="e.g. Seonghwa" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:outline-none focus:border-brand-400" />
             </div>
-            
-            <div id="sticker-horizontal-bar" class="flex gap-3 overflow-x-auto py-2 px-1 bg-slate-50 border border-slate-200 rounded-xl min-h-[72px] scroll-smooth">
-              <div class="text-[11px] text-slate-400 w-full text-center py-3 flex items-center justify-center">no custom stickers loaded. upload above.</div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 mb-1">
+                group / series name
+              </label>
+              <input type="text" id="gacha-group" required="" placeholder="e.g. ATEEZ" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:outline-none focus:border-brand-400" />
             </div>
-          </div>
-          
-          <div class="pt-4 border-t border-slate-100 flex flex-col gap-2">
-            <button onclick="saveDecorationsToDB()" class="w-full py-2.5 bg-brand-500 hover:bg-brand-600 text-white rounded-xl text-xs font-bold transition shadow-xs">
-              <i class="fa-solid fa-cloud-arrow-up mr-1"></i> save layer & info changes
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 mb-1">
+                genre
+              </label>
+              <select id="gacha-genre" required="" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:outline-none focus:border-brand-400">
+                <option value="K-Pop">
+                  K-Pop
+                </option>
+                <option value="J-Pop">
+                  J-Pop
+                </option>
+                <option value="Vkei">
+                  Vkei
+                </option>
+                <option value="Vocaloid">
+                  Vocaloid
+                </option>
+                <option value="Anime">
+                  Anime
+                </option>
+                <option value="Other">
+                  Other
+                </option>
+              </select>
+            </div>
+            <button type="submit" id="gacha-pull-btn" class="w-full py-2.5 bg-brand-500 hover:bg-brand-600 text-white rounded-xl text-xs font-bold transition shadow-xs flex items-center justify-center gap-2">
+              <i class="fa-solid fa-gift"></i>
+              <span>              pull 1 card (gacha)
+</span>
             </button>
-            <button onclick="deleteActiveCardFromDecorator()" class="w-full py-2 bg-white hover:bg-rose-50 text-rose-500 rounded-xl text-xs font-semibold border border-rose-200 transition">
-              <i class="fa-solid fa-trash mr-1"></i> delete card entirely
-            </button>
+          </form>
+          <!-- Gacha Results Display -->
+          <div id="gacha-result-container" class="hidden mt-4 p-4 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="text-xs font-bold text-slate-600 mb-3">
+              latest pull result
+            </h3>
+            <div id="gacha-result-card" class="flex items-center justify-center">
+            </div>
           </div>
         </div>
-
-        <div class="lg:col-span-7 flex justify-center items-center bg-white p-6 rounded-2xl border border-pink-100 shadow-sm min-h-[440px]">
-          <div id="decorator-workspace-container" class="relative photocard-aspect w-full max-w-[280px] bg-slate-100 rounded-xl shadow-md border border-slate-200 overflow-visible" style="touch-action: none;">
-            <div id="decorator-frame-layer" class="absolute inset-0 z-20 pointer-events-none"></div>
-            <div id="decorator-sticker-layer" class="absolute inset-0 z-35 rounded-xl overflow-hidden"></div>
-            <img id="decorator-base-img" src="" class="absolute inset-0 w-full h-full object-cover hidden rounded-xl disable-ios-save" alt="studio target context">
-            
-            <div id="decorator-text-overlay" class="absolute bottom-0 left-0 right-0 z-30 px-3 pb-3 pt-8 bg-gradient-to-t from-slate-900/80 via-slate-900/40 to-transparent rounded-b-2xl pointer-events-none hidden flex flex-col gap-0.5">
-              <div class="flex items-center justify-between gap-1">
-                <span id="preview-lbl-group" class="text-[10px] uppercase tracking-wider text-slate-200 font-semibold truncate">group</span>
-                <span id="preview-lbl-genre" class="text-[9px] font-bold text-brand-300 bg-slate-900/60 px-1.5 py-0.5 rounded border border-brand-300/30">tag</span>
+      </section>
+      <!-- CARD STUDIO VIEW -->
+      <section id="view-studio" class="hidden max-w-4xl mx-auto space-y-6">
+        <div class="bg-white p-6 rounded-2xl border border-pink-100 shadow-sm">
+          <h2 class="text-base font-bold text-slate-800 mb-1 flex items-center gap-2">
+            <i class="fa-solid fa-plus-circle text-brand-400"></i>
+            Card Studio Engine
+          </h2>
+          <p class="text-xs text-slate-400 mb-6">
+            process, downsample, and save custom cards directly into local device storage.
+          </p>
+          <form id="card-creator-form" class="grid grid-cols-1 md:grid-cols-12 gap-6" onsubmit="handleCardSubmit(event)">
+            <div class="md:col-span-5 flex flex-col items-center">
+              <div id="dropzone" class="w-full photocard-aspect max-w-[240px] bg-slate-50 border-2 border-dashed border-slate-200 hover:border-brand-300 rounded-2xl flex flex-col items-center justify-center p-4 text-center cursor-pointer relative overflow-hidden transition group shadow-inner">
+                <input type="file" id="image-input" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer z-10" onchange="handleFileSelect(event)" />
+                <div id="dropzone-placeholder" class="flex flex-col items-center space-y-2 text-slate-400 group-hover:text-brand-400">
+                  <i class="fa-solid fa-cloud-arrow-up text-3xl text-brand-300"></i>
+                  <span class="text-xs font-medium">                  select or drop image asset
+</span>
+                </div>
+                <img id="card-preview-img" class="hidden absolute inset-0 block w-full h-full object-cover rounded-xl disable-ios-save" alt="Preview" />
               </div>
-              <div id="preview-lbl-name" class="text-xs font-bold text-white truncate">name</div>
+              <div id="compression-stats" class="hidden mt-3 text-center text-[11px] text-slate-500 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200 w-full max-w-[240px]">
+                orig:
+                <span id="stat-orig-size" class="text-slate-700">                0 kb
+</span>
+                → webp:
+                <span id="stat-webp-size" class="text-brand-500 font-semibold">                0 kb
+</span>
+              </div>
             </div>
-
-            <div id="decorator-empty-state" class="absolute inset-0 flex flex-col items-center justify-center p-6 text-center text-slate-400">
-              <i class="fa-solid fa-layer-group text-3xl mb-2 text-slate-300"></i>
-              <p class="text-xs">no target card selected. load a card from your binder.</p>
+            <div class="md:col-span-7 space-y-4">
+              <div>
+                <label class="block text-xs font-semibold text-slate-600 mb-1">
+                  character / artist name
+                </label>
+                <input type="text" id="input-name" required="" placeholder="e.g. Seonghwa" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:outline-none focus:border-brand-400" />
+              </div>
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-600 mb-1">
+                    group / series name
+                  </label>
+                  <input type="text" id="input-group" required="" placeholder="e.g. ATEEZ" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:outline-none focus:border-brand-400" />
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-600 mb-1">
+                    genre
+                  </label>
+                  <select id="input-genre" required="" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:outline-none focus:border-brand-400">
+                    <option value="K-Pop">
+                      K-Pop
+                    </option>
+                    <option value="J-Pop">
+                      J-Pop
+                    </option>
+                    <option value="Vkei">
+                      Vkei
+                    </option>
+                    <option value="Vocaloid">
+                      Vocaloid
+                    </option>
+                    <option value="Anime">
+                      Anime
+                    </option>
+                    <option value="Other">
+                      Other
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <button type="submit" id="save-card-btn" disabled="" class="w-full mt-2 py-2.5 bg-slate-100 text-slate-400 rounded-xl text-xs font-bold flex items-center justify-center space-x-2 cursor-not-allowed border border-slate-200 transition">
+                <i class="fa-solid fa-save"></i>
+                <span>                commit photocard into storage
+</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+      <!-- DECORATOR CANVAS VIEW -->
+      <section id="view-decorator" class="hidden max-w-5xl mx-auto space-y-4">
+        <div class="mb-2">
+          <button onclick="switchTab(&#39;binder&#39;)" class="text-xs font-semibold text-brand-500 hover:text-brand-600 flex items-center gap-2">
+            <i class="fa-solid fa-arrow-left"></i>
+            back to my binder collection
+          </button>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div class="lg:col-span-5 bg-white p-4 rounded-2xl border border-pink-100 shadow-sm space-y-4 h-fit">
+            <div>
+              <h3 class="font-bold text-sm text-slate-800">
+                Toploader Canvas Workspace
+              </h3>
+              <p class="text-[11px] text-slate-400">
+                apply specialized frames, tweak stickers, or edit metadata properties instantly below.
+              </p>
+            </div>
+            <div class="pt-2 border-t border-slate-100 space-y-3">
+              <h4 class="text-xs font-bold text-slate-600">
+                modify photocard information
+              </h4>
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-500 mb-1">
+                  character / artist name
+                </label>
+                <input type="text" id="edit-card-name" oninput="updateLiveTextPreview()" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:border-brand-400" />
+              </div>
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-[11px] font-semibold text-slate-500 mb-1">
+                    group / series
+                  </label>
+                  <input type="text" id="edit-card-group" oninput="updateLiveTextPreview()" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:border-brand-400" />
+                </div>
+                <div>
+                  <label class="block text-[11px] font-semibold text-slate-500 mb-1">
+                    genre tag
+                  </label>
+                  <select id="edit-card-genre" onchange="updateLiveTextPreview()" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:border-brand-400">
+                    <option value="K-Pop">
+                      K-Pop
+                    </option>
+                    <option value="J-Pop">
+                      J-Pop
+                    </option>
+                    <option value="Vkei">
+                      Vkei
+                    </option>
+                    <option value="Vocaloid">
+                      Vocaloid
+                    </option>
+                    <option value="Anime">
+                      Anime
+                    </option>
+                    <option value="Other">
+                      Other
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="pt-3 border-t border-slate-100 space-y-3">
+              <label class="block text-xs font-semibold text-slate-500">
+                apply overlay profile / frame
+              </label>
+              <div class="grid grid-cols-2 gap-2">
+                <button onclick="applyFrameStyle(&#39;none&#39;)" class="p-2 bg-slate-50 hover:bg-slate-100 rounded-xl text-xs border border-slate-200 text-slate-600 font-medium">
+                  clear style
+                </button>
+                <button onclick="applyFrameStyle(&#39;frame-classic-border&#39;)" class="p-2 bg-slate-50 hover:bg-slate-100 rounded-xl text-xs border border-slate-200 text-slate-600 font-medium">
+                  classic border
+                </button>
+                <button onclick="applyFrameStyle(&#39;frame-glowing-trim&#39;)" class="p-2 bg-slate-50 hover:bg-slate-100 rounded-xl text-xs border border-slate-200 text-slate-600 font-medium">
+                  glowing trim
+                </button>
+              </div>
+              <div id="frame-color-picker-container" class="hidden space-y-1.5 pt-1">
+                <label class="block text-[11px] font-semibold text-slate-500">
+                  frame custom color
+                </label>
+                <div class="flex items-center gap-2">
+                  <input type="color" id="frame-color-input" value="#ffffff" oninput="updateFrameColor(this.value)" class="h-7 w-9 bg-slate-50 border border-slate-200 rounded cursor-pointer p-0.5" />
+                  <span id="frame-color-hex-label" class="text-xs font-mono text-slate-400">                  #ffffff
+</span>
+                </div>
+              </div>
+            </div>
+            <div class="pt-3 border-t border-slate-100 space-y-2">
+              <div class="flex items-center justify-between">
+                <label class="block text-xs font-semibold text-slate-500">
+                  custom sticker drawer
+                </label>
+                <label class="text-[11px] font-bold text-brand-500 bg-pink-50 hover:bg-pink-100 border border-pink-200 px-2 py-1 rounded-md cursor-pointer transition">
+                  + upload stickers
+                  <input type="file" id="sticker-upload-input" accept="image/*" multiple="" class="hidden" onchange="handleStickerUpload(event)" />
+                </label>
+              </div>
+              <div id="sticker-horizontal-bar" class="flex gap-3 overflow-x-auto py-2 px-1 bg-slate-50 border border-slate-200 rounded-xl min-h-[72px] scroll-smooth">
+                <div class="text-[11px] text-slate-400 w-full text-center py-3 flex items-center justify-center">
+                  no custom stickers loaded. upload above.
+                </div>
+              </div>
+            </div>
+            <div class="pt-4 border-t border-slate-100 flex flex-col gap-2">
+              <button onclick="saveDecorationsToDB()" class="w-full py-2.5 bg-brand-500 hover:bg-brand-600 text-white rounded-xl text-xs font-bold transition shadow-xs">
+                <i class="fa-solid fa-cloud-arrow-up mr-1"></i>
+                save layer &amp; info changes
+              </button>
+              <button onclick="deleteActiveCardFromDecorator()" class="w-full py-2 bg-white hover:bg-rose-50 text-rose-500 rounded-xl text-xs font-semibold border border-rose-200 transition">
+                <i class="fa-solid fa-trash mr-1"></i>
+                delete card entirely
+              </button>
+            </div>
+          </div>
+          <div class="lg:col-span-7 flex justify-center items-center bg-white p-6 rounded-2xl border border-pink-100 shadow-sm min-h-[440px]">
+            <div id="decorator-workspace-container" class="relative photocard-aspect w-full max-w-[280px] bg-white rounded-2xl shadow-md overflow-hidden" style="touch-action: none;">
+              <div id="decorator-frame-layer" class="absolute inset-0 rounded-2xl pointer-events-none" style="padding: var(--frame-thickness, 0px); box-sizing: border-box;">
+                <img id="decorator-base-img" src="" class="block w-full h-full object-cover hidden rounded-[inherit] disable-ios-save" alt="Studio Target Context" />
+              </div>
+              <div id="decorator-sticker-layer" class="absolute inset-0 z-35 rounded-2xl overflow-hidden">
+              </div>
+              <div id="decorator-text-overlay" class="absolute bottom-0 left-0 right-0 z-30 px-3 pb-3 pt-8 bg-gradient-to-t from-slate-900/80 via-slate-900/40 to-transparent rounded-b-2xl pointer-events-none hidden flex flex-col gap-0.5">
+                <div class="flex items-center justify-between gap-1">
+                  <span id="preview-lbl-group" class="text-[10px] uppercase tracking-wider text-slate-200 font-semibold truncate">                  GROUP
+</span>
+                  <span id="preview-lbl-genre" class="text-[9px] font-bold text-brand-300 bg-slate-900/60 px-1.5 py-0.5 rounded border border-brand-300/30">                  TAG
+</span>
+                </div>
+                <div id="preview-lbl-name" class="text-xs font-bold text-white truncate">
+                  Name
+                </div>
+              </div>
+              <div id="decorator-empty-state" class="absolute inset-0 flex flex-col items-center justify-center p-6 text-center text-slate-400">
+                <i class="fa-solid fa-layer-group text-3xl mb-2 text-slate-300"></i>
+                <p class="text-xs">
+                  no target card selected. load a card from your binder.
+                </p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
-
-  </main>
-
-  <script>
-    console.log = () => {};
-    console.info = () => {};
-    console.warn = () => {};
-    console.error = () => {};
-
-    const DB_NAME = 'PhotocardBinderDB';
-    const DB_VERSION = 1;
+      </section>
+    </main>
+    <script>
+      // ============ CONFIGURATION ============
+    // CHANGE THIS TO YOUR RENDER URL AFTER DEPLOYING THE PYTHON BACKEND
+    const GACHA_SERVER_URL = &#39;https://s0ulcodes-pinterest-gacha-app.hf.space&#39;;
+    
+    // ============ CORE STATE ============
+    const DB_NAME = &#39;PhotocardBinderDB&#39;;
+    const DB_VERSION = 2;
     let dbInstance = null;
     let activeCompressedWebP = null;
     let decoratorActiveCard = null;
     let activeStickers = [];
     let runtimeStickerInventory = [];
-
-    let activeGroupFilter = 'All';
-    let activeSortMode = 'date-desc';
-    
-    // global variables handling hybrid mouse/touch grid sorting
+    let activeGroupFilter = &#39;All&#39;;
+    let activeSortMode = &#39;date-desc&#39;;
     let activeDisplayedCardsData = [];
     let touchSortTargetNode = null;
     let touchSortPlaceholderIndex = -1;
     let touchSortInitialX = 0;
     let touchSortInitialY = 0;
     let touchSortCurrentIndex = -1;
+    
+    // Gacha state
+    let dailyPullsRemaining = 15;
+    let lastPullDate = &#39;&#39;;
+    let savedGachaPacks = [];
+    let isBulkSelectMode = false;
+    let selectedCardIds = new Set();
+    let pendingBulkDeleteIds = [];
+    let serverOnline = false;
 
-    document.addEventListener('DOMContentLoaded', async () => {
+    // Genre-based search query templates
+    const GENRE_QUERY_TEMPLATES = {
+      &#39;K-Pop&#39;: (name, group) =&gt; name ? `${name} ${group} photocard` : `${group} photocard`,
+      &#39;J-Pop&#39;: (name, group) =&gt; name ? `${name} ${group}` : group,
+      &#39;Vkei&#39;: (name, group) =&gt; name ? `${name} ${group} cheki` : `${group} visual kei`,
+      &#39;Vocaloid&#39;: (name, group) =&gt; name ? `${name} ${group} card` : `${group} card illustration`,
+      &#39;Anime&#39;: (name, group) =&gt; name ? `${name} ${group} official art` : `${group} anime art`,
+      &#39;Other&#39;: (name, group) =&gt; name ? `${name} ${group}` : group
+    };
+
+    // Generate persistent client ID
+    function getClientId() {
+      let clientId = localStorage.getItem(&#39;kgacha_client_id&#39;);
+      if (!clientId) {
+        clientId = &#39;user_&#39; + Date.now() + &#39;_&#39; + Math.random().toString(36).substr(2, 9);
+        localStorage.setItem(&#39;kgacha_client_id&#39;, clientId);
+      }
+      return clientId;
+    }
+
+    // ============ INITIALIZATION ============
+    document.addEventListener(&#39;DOMContentLoaded&#39;, async () =&gt; {
       await initIndexedDB();
+      await loadGachaState();
       await loadBinderCards();
       renderStickerBar();
+      renderSavedPacks();
+      checkServerStatus();
 
-      document.getElementById('input-accent').addEventListener('input', (e) => {
-        document.getElementById('accent-hex-label').innerText = e.target.value;
-      });
-
-      const container = document.getElementById('decorator-workspace-container');
-      container.addEventListener('mousedown', (e) => {
-        if(e.target.id === 'decorator-workspace-container' || e.target.id === 'decorator-base-img') {
+      const container = document.getElementById(&#39;decorator-workspace-container&#39;);
+      container.addEventListener(&#39;mousedown&#39;, (e) =&gt; {
+        if(e.target.id === &#39;decorator-workspace-container&#39; || e.target.id === &#39;decorator-base-img&#39;) {
           clearStickerSelection();
         }
       });
 
-      const preventScroll = (e) => { e.preventDefault(); };
-      container.addEventListener('touchstart', preventScroll, { passive: false });
-      container.addEventListener('touchmove', preventScroll, { passive: false });
+      const preventScroll = (e) =&gt; { e.preventDefault(); };
+      container.addEventListener(&#39;touchstart&#39;, preventScroll, { passive: false });
+      container.addEventListener(&#39;touchmove&#39;, preventScroll, { passive: false });
     });
 
+    // ============ SERVER STATUS CHECK ============
+    async function checkServerStatus() {
+      const statusDot = document.getElementById(&#39;status-dot&#39;);
+      const statusText = document.getElementById(&#39;status-text&#39;);
+      
+      try {
+        const response = await fetch(`${GACHA_SERVER_URL}/api/stats`);
+        if (response.ok) {
+          serverOnline = true;
+          if (statusDot) statusDot.className = &#39;server-status-dot bg-green-500&#39;;
+          if (statusText) statusText.textContent = &#39;server connected (gacha active)&#39;;
+        } else {
+          throw new Error(&#39;Server error&#39;);
+        }
+      } catch (e) {
+        serverOnline = false;
+        if (statusDot) statusDot.className = &#39;server-status-dot bg-red-500&#39;;
+        if (statusText) statusText.textContent = &#39;server offline - pulls unavailable&#39;;
+      }
+    }
+
     function switchTab(tabName) {
-      document.querySelectorAll('main > section').forEach(el => el.classList.add('hidden'));
-      document.querySelectorAll('.nav-tab').forEach(btn => {
-        btn.classList.remove('text-brand-500', 'border-brand-500');
-        btn.classList.add('text-slate-400', 'border-transparent');
+      document.querySelectorAll(&#39;main &gt; section&#39;).forEach(el =&gt; el.classList.add(&#39;hidden&#39;));
+      document.querySelectorAll(&#39;.nav-tab&#39;).forEach(btn =&gt; {
+        btn.classList.remove(&#39;text-brand-500&#39;, &#39;border-brand-500&#39;);
+        btn.classList.add(&#39;text-slate-400&#39;, &#39;border-transparent&#39;);
       });
-      document.getElementById(`view-${tabName}`).classList.remove('hidden');
+      document.getElementById(`view-${tabName}`).classList.remove(&#39;hidden&#39;);
       
       const targetTabBtn = document.getElementById(`tab-btn-${tabName}`);
-      if (targetTabBtn) targetTabBtn.classList.add('text-brand-500', 'border-brand-500');
+      if (targetTabBtn) targetTabBtn.classList.add(&#39;text-brand-500&#39;, &#39;border-brand-500&#39;);
       
-      if (tabName === 'binder') loadBinderCards();
+      if (tabName === &#39;binder&#39;) loadBinderCards();
+      if (tabName === &#39;gacha&#39;) {
+        updateDailyPullsDisplay();
+        checkServerStatus();
+      }
     }
 
+    // ============ INDEXEDDB ============
     function initIndexedDB() {
-      return new Promise((resolve) => {
+      return new Promise((resolve) =&gt; {
         const request = indexedDB.open(DB_NAME, DB_VERSION);
-        request.onupgradeneeded = (e) => {
+        request.onupgradeneeded = (e) =&gt; {
           const db = e.target.result;
-          if (!db.objectStoreNames.contains('cards')) {
-            db.createObjectStore('cards', { keyPath: 'id' });
+          if (!db.objectStoreNames.contains(&#39;cards&#39;)) {
+            db.createObjectStore(&#39;cards&#39;, { keyPath: &#39;id&#39; });
+          }
+          if (!db.objectStoreNames.contains(&#39;gachaState&#39;)) {
+            db.createObjectStore(&#39;gachaState&#39;, { keyPath: &#39;key&#39; });
           }
         };
-        request.onsuccess = (e) => { dbInstance = e.target.result; resolve(dbInstance); };
+        request.onsuccess = (e) =&gt; { dbInstance = e.target.result; resolve(dbInstance); };
       });
     }
 
+    // ============ GACHA STATE MANAGEMENT ============
+    async function loadGachaState() {
+      if (!dbInstance) await initIndexedDB();
+      
+      const tx = dbInstance.transaction(&#39;gachaState&#39;, &#39;readonly&#39;);
+      const store = tx.objectStore(&#39;gachaState&#39;);
+      
+      const dailyState = await new Promise((resolve) =&gt; {
+        const req = store.get(&#39;dailyPulls&#39;);
+        req.onsuccess = () =&gt; resolve(req.result);
+        req.onerror = () =&gt; resolve(null);
+      });
+      
+      const packsData = await new Promise((resolve) =&gt; {
+        const req = store.get(&#39;savedPacks&#39;);
+        req.onsuccess = () =&gt; resolve(req.result);
+        req.onerror = () =&gt; resolve(null);
+      });
+
+      const today = new Date().toDateString();
+      
+      if (dailyState &amp;&amp; dailyState.date === today) {
+        dailyPullsRemaining = dailyState.remaining;
+        lastPullDate = dailyState.date;
+      } else {
+        dailyPullsRemaining = 10;
+        lastPullDate = today;
+        await saveGachaState();
+      }
+      
+      if (packsData) {
+        savedGachaPacks = packsData.packs || [];
+      }
+      
+      updateDailyPullsDisplay();
+    }
+
+    async function saveGachaState() {
+      if (!dbInstance) await initIndexedDB();
+      
+      const tx = dbInstance.transaction(&#39;gachaState&#39;, &#39;readwrite&#39;);
+      const store = tx.objectStore(&#39;gachaState&#39;);
+      
+      store.put({
+        key: &#39;dailyPulls&#39;,
+        date: new Date().toDateString(),
+        remaining: dailyPullsRemaining
+      });
+      
+      store.put({
+        key: &#39;savedPacks&#39;,
+        packs: savedGachaPacks
+      });
+      
+      return new Promise((resolve) =&gt; {
+        tx.oncomplete = resolve;
+      });
+    }
+
+    function updateDailyPullsDisplay() {
+      const display = document.getElementById(&#39;daily-pulls-remaining&#39;);
+      if (display) {
+        display.textContent = dailyPullsRemaining;
+      }
+      
+      const pullBtn = document.getElementById(&#39;gacha-pull-btn&#39;);
+      if (pullBtn) {
+        if (dailyPullsRemaining &lt;= 0 || !serverOnline) {
+          pullBtn.disabled = true;
+          pullBtn.classList.add(&#39;opacity-50&#39;, &#39;cursor-not-allowed&#39;);
+        } else {
+          pullBtn.disabled = false;
+          pullBtn.classList.remove(&#39;opacity-50&#39;, &#39;cursor-not-allowed&#39;);
+        }
+      }
+    }
+
+    // ============ MAIN GACHA PULL (USING RENDER BACKEND) ============
+    async function performGachaPull(event) {
+      event.preventDefault();
+      
+      if (!serverOnline) {
+        showGachaError(&#39;Server is offline. Please try again later.&#39;);
+        return;
+      }
+      
+      if (dailyPullsRemaining &lt;= 0) {
+        showGachaError(&#39;No daily pulls remaining! Come back tomorrow.&#39;);
+        return;
+      }
+      
+      const name = document.getElementById(&#39;gacha-name&#39;).value.trim();
+      const group = document.getElementById(&#39;gacha-group&#39;).value.trim();
+      const genre = document.getElementById(&#39;gacha-genre&#39;).value;
+      
+      if (!group) {
+        showGachaError(&#39;Please enter at least a group/series name.&#39;);
+        return;
+      }
+      
+      const pullBtn = document.getElementById(&#39;gacha-pull-btn&#39;);
+      pullBtn.disabled = true;
+      pullBtn.innerHTML = &#39;&lt;i class=&#34;fa-solid fa-spinner fa-spin&#34;&gt;&lt;/i&gt;&lt;span&gt;pulling card...&lt;/span&gt;&#39;;
+      
+      try {
+        const existingCards = await getAllLocalCards();
+        const excludedHashes = existingCards
+          .filter(card =&gt; card.sourceHash)
+          .map(card =&gt; card.sourceHash);
+        
+        const response = await fetch(`${GACHA_SERVER_URL}/api/pull`, {
+          method: &#39;POST&#39;,
+          headers: { &#39;Content-Type&#39;: &#39;application/json&#39; },
+          body: JSON.stringify({
+            name: name,
+            group: group,
+            genre: genre,
+            client_id: getClientId(),
+            excluded_hashes: excludedHashes
+          })
+        });
+        
+        const data = await response.json();
+        
+        if (!data.success) {
+          showGachaError(data.error || &#39;Pull failed!&#39;);
+          return;
+        }
+        
+        dailyPullsRemaining--;
+        await saveGachaState();
+        
+        const cardData = {
+          id: `card_${Date.now()}_${Math.random().toString(36).substr(2, 4)}`,
+          name: name || group,
+          group: group,
+          genre: genre,
+          imageData: data.image,
+          decorations: { 
+            toploaderFrame: &#39;none&#39;, 
+            frameColor: &#39;#ffffff&#39;, 
+            stickers: [] 
+          },
+          createdAt: Date.now(),
+          customOrder: existingCards.length,
+          sourceHash: data.hash,
+          sourceQuery: data.query
+        };
+        
+        if (!dbInstance) await initIndexedDB();
+        const tx = dbInstance.transaction(&#39;cards&#39;, &#39;readwrite&#39;);
+        tx.objectStore(&#39;cards&#39;).add(cardData);
+        
+        await new Promise((resolve) =&gt; {
+          tx.oncomplete = resolve;
+        });
+        
+        showGachaResult(cardData);
+        
+        confetti({
+          particleCount: 100,
+          spread: 90,
+          origin: { y: 0.6 },
+          colors: [&#39;#f43f5e&#39;, &#39;#3b82f6&#39;, &#39;#10b981&#39;, &#39;#f59e0b&#39;, &#39;#8b5cf6&#39;]
+        });
+        
+      } catch (error) {
+        console.error(&#39;Gacha pull failed:&#39;, error);
+        showGachaError(&#39;Could not connect to server. Please try again.&#39;);
+        await checkServerStatus();
+      } finally {
+        pullBtn.disabled = false;
+        pullBtn.innerHTML = &#39;&lt;i class=&#34;fa-solid fa-gift&#34;&gt;&lt;/i&gt;&lt;span&gt;pull 1 card (gacha)&lt;/span&gt;&#39;;
+        updateDailyPullsDisplay();
+      }
+    }
+
+    // ============ GACHA UI HELPERS ============
+    function showGachaError(message) {
+      const container = document.getElementById(&#39;gacha-result-container&#39;);
+      const cardDiv = document.getElementById(&#39;gacha-result-card&#39;);
+      
+      container.classList.remove(&#39;hidden&#39;);
+      cardDiv.innerHTML = `
+        &lt;div class=&#34;text-center p-4&#34;&gt;
+          &lt;i class=&#34;fa-solid fa-circle-exclamation text-3xl text-red-400 mb-2&#34;&gt;&lt;/i&gt;
+          &lt;p class=&#34;text-xs text-slate-600&#34;&gt;${message}&lt;/p&gt;
+        &lt;/div&gt;
+      `;
+    }
+
+    function showGachaResult(cardData) {
+      const container = document.getElementById(&#39;gacha-result-container&#39;);
+      const cardDiv = document.getElementById(&#39;gacha-result-card&#39;);
+      
+      container.classList.remove(&#39;hidden&#39;);
+      cardDiv.innerHTML = `
+        &lt;div class=&#34;text-center space-y-3&#34;&gt;
+          &lt;div class=&#34;gacha-card-reveal photocard-aspect w-48 mx-auto rounded-xl shadow-2xl overflow-hidden bg-white relative&#34;&gt;
+            &lt;div class=&#34;gacha-shimmer-effect absolute inset-0 z-10 pointer-events-none&#34;&gt;&lt;/div&gt;
+            &lt;img src=&#34;${cardData.imageData}&#34; class=&#34;block w-full h-full object-cover disable-ios-save&#34;&gt;
+            &lt;div class=&#34;absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900/90 to-transparent p-3&#34;&gt;
+              &lt;p class=&#34;text-xs font-bold text-white&#34;&gt;${cardData.name}&lt;/p&gt;
+              &lt;p class=&#34;text-[10px] text-slate-300&#34;&gt;${cardData.group} • ${cardData.genre}&lt;/p&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+          &lt;button onclick=&#34;switchTab(&#39;binder&#39;)&#34; class=&#34;text-xs font-bold text-brand-500 hover:text-brand-600&#34;&gt;
+            &lt;i class=&#34;fa-solid fa-book-open mr-1&#34;&gt;&lt;/i&gt; view in binder
+          &lt;/button&gt;
+        &lt;/div&gt;
+      `;
+    }
+
+    // ============ SAVED GACHA PACKS ============
+    async function saveCurrentGachaPack() {
+      const name = document.getElementById(&#39;gacha-name&#39;).value.trim();
+      const group = document.getElementById(&#39;gacha-group&#39;).value.trim();
+      const genre = document.getElementById(&#39;gacha-genre&#39;).value;
+      
+      if (!group) {
+        alert(&#39;Please enter at least a group/series name to save.&#39;);
+        return;
+      }
+      
+      const pack = {
+        id: `pack_${Date.now()}`,
+        name: name,
+        group: group,
+        genre: genre,
+        createdAt: Date.now()
+      };
+      
+      savedGachaPacks.push(pack);
+      await saveGachaState();
+      renderSavedPacks();
+    }
+
+    function loadGachaPack(pack) {
+      document.getElementById(&#39;gacha-name&#39;).value = pack.name || &#39;&#39;;
+      document.getElementById(&#39;gacha-group&#39;).value = pack.group || &#39;&#39;;
+      document.getElementById(&#39;gacha-genre&#39;).value = pack.genre || &#39;K-Pop&#39;;
+    }
+
+    async function deleteGachaPack(packId) {
+      savedGachaPacks = savedGachaPacks.filter(p =&gt; p.id !== packId);
+      await saveGachaState();
+      renderSavedPacks();
+    }
+
+    function renderSavedPacks() {
+      const container = document.getElementById(&#39;saved-packs-list&#39;);
+      if (!container) return;
+      
+      if (savedGachaPacks.length === 0) {
+        container.innerHTML = &#39;&lt;div class=&#34;text-[11px] text-slate-400 italic&#34;&gt;no saved packs yet&lt;/div&gt;&#39;;
+        return;
+      }
+      
+      container.innerHTML = savedGachaPacks.map(pack =&gt; `
+        &lt;div class=&#34;flex-shrink-0 bg-white border border-slate-200 rounded-lg px-3 py-2 flex items-center gap-2 cursor-pointer hover:border-brand-300 group&#34;&gt;
+          &lt;div onclick=&#34;loadGachaPack(${JSON.stringify(pack).replace(/&#34;/g, &#39;&amp;quot;&#39;)})&#34;&gt;
+            &lt;p class=&#34;text-xs font-semibold text-slate-700&#34;&gt;${pack.group}&lt;/p&gt;
+            &lt;p class=&#34;text-[10px] text-slate-400&#34;&gt;${pack.genre}&lt;/p&gt;
+          &lt;/div&gt;
+          &lt;button onclick=&#34;deleteGachaPack(&#39;${pack.id}&#39;)&#34; class=&#34;text-slate-400 hover:text-red-500&#34;&gt;
+            &lt;i class=&#34;fa-solid fa-xmark text-[10px]&#34;&gt;&lt;/i&gt;
+          &lt;/button&gt;
+        &lt;/div&gt;
+      `).join(&#39;&#39;);
+    }
+
+    // ============ BULK ACTIONS ============
+    function toggleBulkSelectMode() {
+      isBulkSelectMode = !isBulkSelectMode;
+      selectedCardIds.clear();
+      
+      const bulkBtn = document.getElementById(&#39;bulk-btn-text&#39;);
+      const bulkDeleteBtn = document.getElementById(&#39;bulk-delete-btn&#39;);
+      const bulkExportBtn = document.getElementById(&#39;bulk-export-btn&#39;);
+      
+      if (isBulkSelectMode) {
+        bulkBtn.textContent = &#39;cancel&#39;;
+        bulkDeleteBtn.classList.remove(&#39;hidden&#39;);
+        bulkExportBtn.classList.remove(&#39;hidden&#39;);
+      } else {
+        bulkBtn.textContent = &#39;select&#39;;
+        bulkDeleteBtn.classList.add(&#39;hidden&#39;);
+        bulkExportBtn.classList.add(&#39;hidden&#39;);
+      }
+      
+      loadBinderCards();
+    }
+
+    function toggleCardSelection(cardId, checkbox) {
+      if (checkbox.checked) {
+        selectedCardIds.add(cardId);
+      } else {
+        selectedCardIds.delete(cardId);
+      }
+      
+      const bulkDeleteBtn = document.getElementById(&#39;bulk-delete-btn&#39;);
+      if (bulkDeleteBtn) {
+        bulkDeleteBtn.textContent = selectedCardIds.size &gt; 0 
+          ? `delete (${selectedCardIds.size})` 
+          : &#39;delete&#39;;
+      }
+    }
+
+    function bulkDeleteSelected() {
+      if (selectedCardIds.size === 0) {
+        alert(&#39;No cards selected for deletion.&#39;);
+        return;
+      }
+      
+      pendingBulkDeleteIds = Array.from(selectedCardIds);
+      
+      const modal = document.getElementById(&#39;delete-confirm-modal&#39;);
+      const title = document.getElementById(&#39;delete-confirm-title&#39;);
+      if (title) {
+        title.textContent = `delete ${pendingBulkDeleteIds.length} photocards?`;
+      }
+      if (modal) {
+        modal.classList.add(&#39;show&#39;);
+      }
+    }
+
+    async function confirmDeleteCard() {
+      const cardIds = pendingBulkDeleteIds.length &gt; 0 
+        ? pendingBulkDeleteIds 
+        : (decoratorActiveCard ? [decoratorActiveCard.id] : []);
+      
+      closeDeleteConfirm();
+      
+      if (cardIds.length === 0) return;
+      
+      try {
+        if (!dbInstance) await initIndexedDB();
+        
+        const tx = dbInstance.transaction([&#39;cards&#39;], &#39;readwrite&#39;);
+        const store = tx.objectStore(&#39;cards&#39;);
+        
+        for (const cardId of cardIds) {
+          store.delete(cardId);
+        }
+        
+        await new Promise((resolve, reject) =&gt; {
+          tx.oncomplete = resolve;
+          tx.onerror = reject;
+        });
+        
+        if (decoratorActiveCard &amp;&amp; cardIds.includes(decoratorActiveCard.id)) {
+          decoratorActiveCard = null;
+          activeStickers = [];
+          
+          const baseImg = document.getElementById(&#39;decorator-base-img&#39;);
+          const textOverlay = document.getElementById(&#39;decorator-text-overlay&#39;);
+          const emptyState = document.getElementById(&#39;decorator-empty-state&#39;);
+          
+          if (baseImg) baseImg.classList.add(&#39;hidden&#39;);
+          if (textOverlay) textOverlay.classList.add(&#39;hidden&#39;);
+          if (emptyState) emptyState.classList.remove(&#39;hidden&#39;);
+        }
+        
+        selectedCardIds.clear();
+        pendingBulkDeleteIds = [];
+        
+        if (isBulkSelectMode) {
+          toggleBulkSelectMode();
+        }
+        
+        switchTab(&#39;binder&#39;);
+        
+      } catch (error) {
+        console.error(&#39;Delete failed:&#39;, error);
+        alert(&#39;Delete operation failed.&#39;);
+      }
+    }
+
+    function bulkExportSelected() {
+      if (selectedCardIds.size === 0) {
+        alert(&#39;No cards selected for export.&#39;);
+        return;
+      }
+      
+      const selectedCards = activeDisplayedCardsData.filter(card =&gt; selectedCardIds.has(card.id));
+      
+      if (selectedCards.length === 0) {
+        alert(&#39;No matching cards found.&#39;);
+        return;
+      }
+      
+      const exportData = {
+        exportedAt: new Date().toISOString(),
+        cardCount: selectedCards.length,
+        cards: selectedCards.map(card =&gt; ({
+          name: card.name,
+          group: card.group,
+          genre: card.genre,
+          createdAt: card.createdAt
+        }))
+      };
+      
+      const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: &#39;application/json&#39; });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement(&#39;a&#39;);
+      a.href = url;
+      a.download = `kgacha-export-${Date.now()}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function closeDeleteConfirm() {
+      const modal = document.getElementById(&#39;delete-confirm-modal&#39;);
+      if (modal) modal.classList.remove(&#39;show&#39;);
+    }
+
+    // ============ COMPRESSION &amp; CARD CREATION ============
     function compressImageOnUpload(file) {
-      return new Promise((resolve) => {
+      return new Promise((resolve) =&gt; {
         const reader = new FileReader();
-        reader.onload = (e) => {
+        reader.onload = (e) =&gt; {
           const img = new Image();
-          img.onload = () => {
-            const canvas = document.createElement('canvas');
-            canvas.width = 600;
-            canvas.height = 900;
-            const ctx = canvas.getContext('2d');
-            const scale = Math.max(600 / img.width, 900 / img.height);
-            const x = (600 / 2) - (img.width / 2) * scale;
-            const y = (900 / 2) - (img.height / 2) * scale;
-            ctx.fillStyle = '#f8fafc';
-            ctx.fillRect(0, 0, 600, 900);
+          img.onload = () =&gt; {
+            const canvas = document.createElement(&#39;canvas&#39;);
+            const targetWidth = 600;
+            const targetHeight = 840; // Exact 2.5 / 3.5 ratio match
+            canvas.width = targetWidth;
+            canvas.height = targetHeight;
+            const ctx = canvas.getContext(&#39;2d&#39;);
+            
+            // Zoom &amp; crop to fill entire photocard canvas perfectly
+            const scale = Math.max(targetWidth / img.width, targetHeight / img.height);
+            const x = (targetWidth - img.width * scale) / 2;
+            const y = (targetHeight - img.height * scale) / 2;
+            
             ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
-            const webpBase64 = canvas.toDataURL('image/webp', 0.80);
+            const webpBase64 = canvas.toDataURL(&#39;image/webp&#39;, 0.80);
             resolve({
               webpBase64,
               origSizeKB: (file.size / 1024).toFixed(1),
@@ -499,55 +1300,56 @@
       const { webpBase64, origSizeKB, webpSizeKB } = await compressImageOnUpload(file);
       activeCompressedWebP = webpBase64;
       
-      const previewImg = document.getElementById('card-preview-img');
+      const previewImg = document.getElementById(&#39;card-preview-img&#39;);
       previewImg.src = webpBase64;
-      previewImg.classList.remove('hidden');
-      document.getElementById('dropzone-placeholder').classList.add('hidden');
+      previewImg.classList.remove(&#39;hidden&#39;);
+      document.getElementById(&#39;dropzone-placeholder&#39;).classList.add(&#39;hidden&#39;);
       
-      document.getElementById('stat-orig-size').innerText = `${origSizeKB} KB`;
-      document.getElementById('stat-webp-size').innerText = `${webpSizeKB} KB`;
-      document.getElementById('compression-stats').classList.remove('hidden');
+      document.getElementById(&#39;stat-orig-size&#39;).innerText = `${origSizeKB} KB`;
+      document.getElementById(&#39;stat-webp-size&#39;).innerText = `${webpSizeKB} KB`;
+      document.getElementById(&#39;compression-stats&#39;).classList.remove(&#39;hidden&#39;);
 
-      const saveBtn = document.getElementById('save-card-btn');
+      const saveBtn = document.getElementById(&#39;save-card-btn&#39;);
       saveBtn.disabled = false;
-      saveBtn.className = 'w-full mt-2 py-2.5 bg-brand-500 hover:bg-brand-600 text-white rounded-xl text-xs font-bold transition flex items-center justify-center space-x-2 shadow-xs cursor-pointer';
+      saveBtn.className = &#39;w-full mt-2 py-2.5 bg-brand-500 hover:bg-brand-600 text-white rounded-xl text-xs font-bold transition flex items-center justify-center space-x-2 shadow-xs cursor-pointer&#39;;
     }
 
     async function handleCardSubmit(event) {
       event.preventDefault();
-      if (!activeCompressedWebP || !dbInstance) return;
+      if (!activeCompressedWebP) return;
+      if (!dbInstance) await initIndexedDB();
 
       const existingCards = await getAllLocalCards();
       const cardData = {
         id: `card_${Date.now()}_${Math.random().toString(36).substr(2, 4)}`,
-        name: document.getElementById('input-name').value.trim(),
-        group: document.getElementById('input-group').value.trim(),
-        genre: document.getElementById('input-genre').value,
-        accentColor: document.getElementById('input-accent').value,
+        name: document.getElementById(&#39;input-name&#39;).value.trim(),
+        group: document.getElementById(&#39;input-group&#39;).value.trim(),
+        genre: document.getElementById(&#39;input-genre&#39;).value,
         imageData: activeCompressedWebP,
-        decorations: { toploaderFrame: 'none', frameColor: '#ffffff', stickers: [] },
+        decorations: { toploaderFrame: &#39;none&#39;, frameColor: &#39;#ffffff&#39;, stickers: [] },
         createdAt: Date.now(),
         customOrder: existingCards.length
       };
 
-      const tx = dbInstance.transaction('cards', 'readwrite');
-      tx.objectStore('cards').add(cardData);
-      tx.oncomplete = async () => {
-        document.getElementById('card-creator-form').reset();
-        document.getElementById('card-preview-img').classList.add('hidden');
-        document.getElementById('dropzone-placeholder').classList.remove('hidden');
-        document.getElementById('compression-stats').classList.add('hidden');
+      const tx = dbInstance.transaction(&#39;cards&#39;, &#39;readwrite&#39;);
+      tx.objectStore(&#39;cards&#39;).add(cardData);
+      tx.oncomplete = async () =&gt; {
+        document.getElementById(&#39;card-creator-form&#39;).reset();
+        document.getElementById(&#39;card-preview-img&#39;).classList.add(&#39;hidden&#39;);
+        document.getElementById(&#39;dropzone-placeholder&#39;).classList.remove(&#39;hidden&#39;);
+        document.getElementById(&#39;compression-stats&#39;).classList.add(&#39;hidden&#39;);
         activeCompressedWebP = null;
-        switchTab('binder');
+        switchTab(&#39;binder&#39;);
       };
     }
 
     function getAllLocalCards() {
-      return new Promise((resolve) => {
+      return new Promise((resolve) =&gt; {
         if (!dbInstance) return resolve([]);
-        const tx = dbInstance.transaction('cards', 'readonly');
-        const req = tx.objectStore('cards').getAll();
-        req.onsuccess = () => resolve(req.result);
+        const tx = dbInstance.transaction(&#39;cards&#39;, &#39;readonly&#39;);
+        const req = tx.objectStore(&#39;cards&#39;).getAll();
+        req.onsuccess = () =&gt; resolve(req.result || []);
+        req.onerror = () =&gt; resolve([]);
       });
     }
 
@@ -564,108 +1366,142 @@
     async function loadBinderCards() {
       const cards = await getAllLocalCards();
       
-      cards.forEach((c, idx) => {
-        if (typeof c.customOrder !== 'number') {
+      cards.forEach((c, idx) =&gt; {
+        if (typeof c.customOrder !== &#39;number&#39;) {
           c.customOrder = idx;
         }
       });
 
-      const dynamicGroups = Array.from(new Set(cards.map(c => c.group).filter(g => g && g.trim() !== '')));
-      dynamicGroups.sort((a, b) => a.localeCompare(b));
+      const dynamicGroups = Array.from(new Set(cards.map(c =&gt; c.group).filter(g =&gt; g &amp;&amp; g.trim() !== &#39;&#39;)));
+      dynamicGroups.sort((a, b) =&gt; a.localeCompare(b));
       
-      const allGroupOptions = ['All', ...dynamicGroups];
+      const allGroupOptions = [&#39;All&#39;, ...dynamicGroups];
 
       if (!allGroupOptions.includes(activeGroupFilter)) {
-        activeGroupFilter = 'All';
+        activeGroupFilter = &#39;All&#39;;
       }
 
-      const pillsContainer = document.getElementById('group-pills-bar');
-      pillsContainer.innerHTML = '';
+      const pillsContainer = document.getElementById(&#39;group-pills-bar&#39;);
+      pillsContainer.innerHTML = &#39;&#39;;
       
-      if (cards.length > 0) {
-        allGroupOptions.forEach(grp => {
-          const btn = document.createElement('button');
-          btn.onclick = () => setGroupFilter(grp);
+      if (cards.length &gt; 0) {
+        allGroupOptions.forEach(grp =&gt; {
+          const btn = document.createElement(&#39;button&#39;);
+          btn.onclick = () =&gt; setGroupFilter(grp);
           const isActive = activeGroupFilter === grp;
           
           btn.className = isActive
-            ? 'px-4 py-1.5 rounded-full text-xs font-semibold bg-blue-500 text-white shadow-xs transition flex-shrink-0'
-            : 'px-4 py-1.5 rounded-full text-xs font-semibold bg-white text-slate-500 border border-slate-200 hover:border-slate-300 transition flex-shrink-0';
+            ? &#39;px-4 py-1.5 rounded-full text-xs font-semibold bg-blue-500 text-white shadow-xs transition flex-shrink-0&#39;
+            : &#39;px-4 py-1.5 rounded-full text-xs font-semibold bg-white text-slate-500 border border-slate-200 hover:border-slate-300 transition flex-shrink-0&#39;;
           
-          btn.innerText = grp.toLowerCase();
+          btn.innerText = grp;
           pillsContainer.appendChild(btn);
         });
       }
 
       let displayedCards = cards;
-      if (activeGroupFilter !== 'All') {
-        displayedCards = cards.filter(c => c.group?.toLowerCase() === activeGroupFilter.toLowerCase());
+      if (activeGroupFilter !== &#39;All&#39;) {
+        displayedCards = cards.filter(c =&gt; c.group?.toLowerCase() === activeGroupFilter.toLowerCase());
       }
 
-      const hintBanner = document.getElementById('drag-hint-banner');
-      if (activeSortMode === 'custom') {
-        hintBanner.classList.remove('hidden');
-        displayedCards.sort((a, b) => a.customOrder - b.customOrder);
+      const hintBanner = document.getElementById(&#39;drag-hint-banner&#39;);
+      if (activeSortMode === &#39;custom&#39;) {
+        hintBanner.classList.remove(&#39;hidden&#39;);
+        displayedCards.sort((a, b) =&gt; a.customOrder - b.customOrder);
       } else {
-        hintBanner.classList.add('hidden');
-        if (activeSortMode === 'date-desc') {
-          displayedCards.sort((a, b) => b.createdAt - a.createdAt);
-        } else if (activeSortMode === 'date-asc') {
-          displayedCards.sort((a, b) => a.createdAt - b.createdAt);
-        } else if (activeSortMode === 'name-asc') {
-          displayedCards.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
-        } else if (activeSortMode === 'group-asc') {
-          displayedCards.sort((a, b) => (a.group || '').localeCompare(b.group || ''));
+        hintBanner.classList.add(&#39;hidden&#39;);
+        if (activeSortMode === &#39;date-desc&#39;) {
+          displayedCards.sort((a, b) =&gt; b.createdAt - a.createdAt);
+        } else if (activeSortMode === &#39;date-asc&#39;) {
+          displayedCards.sort((a, b) =&gt; a.createdAt - b.createdAt);
+        } else if (activeSortMode === &#39;name-asc&#39;) {
+          displayedCards.sort((a, b) =&gt; (a.name || &#39;&#39;).localeCompare(b.name || &#39;&#39;));
+        } else if (activeSortMode === &#39;group-asc&#39;) {
+          displayedCards.sort((a, b) =&gt; (a.group || &#39;&#39;).localeCompare(b.group || &#39;&#39;));
         }
       }
 
       activeDisplayedCardsData = [...displayedCards];
 
-      const grid = document.getElementById('binder-grid');
-      grid.innerHTML = '';
+      const grid = document.getElementById(&#39;binder-grid&#39;);
+      grid.innerHTML = &#39;&#39;;
 
-      if (!displayedCards.length) {
-        grid.innerHTML = `<div class="col-span-full py-12 text-center text-slate-400 text-xs">no photocard assets found. studio upload available above.</div>`;
+      const bulkBar = document.getElementById(&#39;bulk-actions-bar&#39;);
+      if (displayedCards.length &gt; 0) {
+        bulkBar.classList.remove(&#39;hidden&#39;);
+      } else {
+        bulkBar.classList.add(&#39;hidden&#39;);
+        grid.innerHTML = `&lt;div class=&#34;col-span-full py-12 text-center text-slate-400 text-xs&#34;&gt;no photocard assets found. try pulling from gacha or upload in studio!&lt;/div&gt;`;
         return;
       }
 
-      const isCustomSort = activeSortMode === 'custom';
+      if (!displayedCards.length) {
+        grid.innerHTML = `&lt;div class=&#34;col-span-full py-12 text-center text-slate-400 text-xs&#34;&gt;no matching cards in this category.&lt;/div&gt;`;
+        return;
+      }
 
-      displayedCards.forEach((card, index) => {
-        const slotContainer = document.createElement('div');
+      const isCustomSort = activeSortMode === &#39;custom&#39;;
+
+      displayedCards.forEach((card, index) =&gt; {
+        const slotContainer = document.createElement(&#39;div&#39;);
         slotContainer.dataset.cardId = card.id;
         slotContainer.dataset.index = index;
-        slotContainer.className = 'bg-white p-1 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col items-center justify-center relative overflow-visible transition transform cursor-pointer card-grid-item';
+        
+        slotContainer.className = &#39;w-full rounded-xl shadow-xs relative overflow-visible transition transform cursor-pointer card-grid-item&#39;;
 
-        let frameClass = card.decorations?.toploaderFrame || '';
-        let frameColor = card.decorations?.frameColor || '#ffffff';
+        if (isBulkSelectMode &amp;&amp; selectedCardIds.has(card.id)) {
+          slotContainer.classList.add(&#39;selected-for-bulk&#39;);
+        }
 
-        let stickerMarkup = '';
+        let frameClass = card.decorations?.toploaderFrame || &#39;&#39;;
+        if (frameClass === &#39;none&#39;) frameClass = &#39;&#39;;
+        let frameColor = card.decorations?.frameColor || &#39;#ffffff&#39;;
+
+        let stickerMarkup = &#39;&#39;;
         if (card.decorations?.stickers) {
-          card.decorations.stickers.forEach(stk => {
+          card.decorations.stickers.forEach(stk =&gt; {
             stickerMarkup += `
-              <div class="absolute select-none pointer-events-none origin-center flex items-center justify-center" style="left:${stk.x}%; top:${stk.y}%; transform: translate(-50%, -50%) scale(${stk.scale || 1.0}) rotate(${stk.rotation || 0}deg); width: 20%; height: 20%;">
-                <img src="${stk.imageSrc}" class="max-w-full max-h-full object-contain disable-ios-save">
-              </div>`;
+              &lt;div class=&#34;absolute select-none pointer-events-none origin-center flex items-center justify-center&#34; style=&#34;left:${stk.x}%; top:${stk.y}%; transform: translate(-50%, -50%) scale(${stk.scale || 1.0}) rotate(${stk.rotation || 0}deg); width: 20%; height: 20%;&#34;&gt;
+                &lt;img src=&#34;${stk.imageSrc}&#34; class=&#34;block max-w-full max-h-full object-contain disable-ios-save&#34;&gt;
+              &lt;/div&gt;`;
           });
         }
 
+        let bulkCheckboxHTML = &#39;&#39;;
+        if (isBulkSelectMode) {
+          bulkCheckboxHTML = `&lt;input type=&#34;checkbox&#34; class=&#34;bulk-select-checkbox&#34; ${selectedCardIds.has(card.id) ? &#39;checked&#39; : &#39;&#39;} onclick=&#34;event.stopPropagation(); toggleCardSelection(&#39;${card.id}&#39;, this)&#34;&gt;`;
+        }
+
         slotContainer.innerHTML = `
-          <div class="photocard-aspect w-full relative rounded-xl overflow-hidden bg-slate-100 pointer-events-none">
-            ${isCustomSort ? '<div class="absolute top-1.5 left-1.5 z-30 bg-slate-900/60 text-white rounded p-1 text-[9px] flex items-center justify-center pointer-events-none"><i class="fa-solid fa-grip-vertical"></i></div>' : ''}
-            <img src="${card.imageData}" class="absolute inset-0 w-full h-full object-cover disable-ios-save">
-            <div class="absolute inset-0 pointer-events-none z-20 ${frameClass}" style="--frame-color: ${frameColor}"></div>
-            <div class="absolute inset-0 overflow-hidden pointer-events-none z-20">${stickerMarkup}</div>
-          </div>
+          ${bulkCheckboxHTML}
+          &lt;div class=&#34;photocard-aspect w-full relative rounded-xl overflow-hidden bg-transparent pointer-events-none&#34;&gt;
+            &lt;div class=&#34;absolute inset-0 rounded-xl ${frameClass}&#34; style=&#34;--frame-color: ${frameColor}; background-color: ${frameColor}; padding: var(--frame-thickness, 0px); box-sizing: border-box;&#34;&gt;
+              &lt;img src=&#34;${card.imageData}&#34; class=&#34;block w-full h-full object-cover rounded-[inherit] disable-ios-save&#34;&gt;
+            &lt;/div&gt;
+            ${isCustomSort &amp;&amp; !isBulkSelectMode ? &#39;&lt;div class=&#34;absolute top-1.5 left-1.5 z-30 bg-slate-900/60 text-white rounded p-1 text-[9px] flex items-center justify-center pointer-events-none&#34;&gt;&lt;i class=&#34;fa-solid fa-grip-vertical&#34;&gt;&lt;/i&gt;&lt;/div&gt;&#39; : &#39;&#39;}
+            &lt;div class=&#34;absolute inset-0 overflow-hidden pointer-events-none z-20&#34;&gt;${stickerMarkup}&lt;/div&gt;
+          &lt;/div&gt;
         `;
 
-        if (isCustomSort) {
-          slotContainer.addEventListener('pointerdown', (e) => {
-            if(e.target.tagName === 'BUTTON' || e.target.tagName === 'INPUT') return;
+        if (isBulkSelectMode) {
+          slotContainer.addEventListener(&#39;click&#39;, (e) =&gt; {
+            if (e.target.tagName === &#39;INPUT&#39;) return;
+            const checkbox = slotContainer.querySelector(&#39;.bulk-select-checkbox&#39;);
+            checkbox.checked = !checkbox.checked;
+            toggleCardSelection(card.id, checkbox);
+            if (checkbox.checked) {
+              slotContainer.classList.add(&#39;selected-for-bulk&#39;);
+            } else {
+              slotContainer.classList.remove(&#39;selected-for-bulk&#39;);
+            }
+          });
+        } else if (isCustomSort) {
+          slotContainer.addEventListener(&#39;pointerdown&#39;, (e) =&gt; {
+            if(e.target.tagName === &#39;BUTTON&#39; || e.target.tagName === &#39;INPUT&#39;) return;
             setupUnifiedGridSorting(e, slotContainer, index);
           });
         } else {
-          slotContainer.addEventListener('click', () => {
+          slotContainer.addEventListener(&#39;click&#39;, () =&gt; {
             openDecoratorForCard(card.id);
           });
         }
@@ -674,13 +1510,13 @@
       });
     }
 
+    // ============ DRAG &amp; DROP SORTING ============
     function setupUnifiedGridSorting(e, node, index) {
       e.preventDefault();
       
       let hasMovedSignificantly = false;
-      
-      const grid = document.getElementById('binder-grid');
-      const items = Array.from(grid.querySelectorAll('.card-grid-item'));
+      const grid = document.getElementById(&#39;binder-grid&#39;);
+      const items = Array.from(grid.querySelectorAll(&#39;.card-grid-item&#39;));
       const originalRect = node.getBoundingClientRect();
       
       touchSortTargetNode = node;
@@ -694,16 +1530,16 @@
         const deltaX = moveEvent.clientX - touchSortInitialX;
         const deltaY = moveEvent.clientY - touchSortInitialY;
         
-        if (!hasMovedSignificantly && Math.hypot(deltaX, deltaY) > 8) {
+        if (!hasMovedSignificantly &amp;&amp; Math.hypot(deltaX, deltaY) &gt; 8) {
           hasMovedSignificantly = true;
           
-          node.classList.add('touch-dragging-active');
+          node.classList.add(&#39;touch-dragging-active&#39;);
           node.style.width = `${originalRect.width}px`;
           node.style.height = `${originalRect.height}px`;
           
-          items.forEach((item, idx) => {
+          items.forEach((item, idx) =&gt; {
             if (idx === touchSortPlaceholderIndex) {
-              item.classList.add('touch-drop-indicator');
+              item.classList.add(&#39;touch-drop-indicator&#39;);
             }
           });
         }
@@ -719,44 +1555,44 @@
         const dragCenterX = originalRect.left + deltaX + originalRect.width / 2;
         const dragCenterY = originalRect.top + deltaY + originalRect.height / 2;
         
-        items.forEach((item, idx) => {
+        items.forEach((item, idx) =&gt; {
           if (item === node) return;
           const r = item.getBoundingClientRect();
           const itemCenterX = r.left + r.width / 2;
           const itemCenterY = r.top + r.height / 2;
           
           const dist = Math.hypot(dragCenterX - itemCenterX, dragCenterY - itemCenterY);
-          if (dist < closestDistance && dist < Math.max(r.width, r.height) * 1.2) {
+          if (dist &lt; closestDistance &amp;&amp; dist &lt; Math.max(r.width, r.height) * 1.2) {
             closestDistance = dist;
             targetIndex = idx;
           }
         });
         
         if (targetIndex !== touchSortPlaceholderIndex) {
-          items.forEach(item => item.classList.remove('touch-drop-indicator'));
+          items.forEach(item =&gt; item.classList.remove(&#39;touch-drop-indicator&#39;));
           touchSortPlaceholderIndex = targetIndex;
-          items[touchSortPlaceholderIndex].classList.add('touch-drop-indicator');
+          items[touchSortPlaceholderIndex].classList.add(&#39;touch-drop-indicator&#39;);
         }
       }
 
       async function pointerUpHandler() {
-        window.removeEventListener('pointermove', pointerMoveHandler);
-        window.removeEventListener('pointerup', pointerUpHandler);
+        window.removeEventListener(&#39;pointermove&#39;, pointerMoveHandler);
+        window.removeEventListener(&#39;pointerup&#39;, pointerUpHandler);
         
         if (!hasMovedSignificantly) {
           openDecoratorForCard(activeDisplayedCardsData[index].id);
           return;
         }
         
-        node.classList.remove('touch-dragging-active');
-        node.style.position = '';
-        node.style.zIndex = '';
-        node.style.width = '';
-        node.style.height = '';
-        node.style.left = '';
-        node.style.top = '';
+        node.classList.remove(&#39;touch-dragging-active&#39;);
+        node.style.position = &#39;&#39;;
+        node.style.zClass = &#39;&#39;;
+        node.style.width = &#39;&#39;;
+        node.style.height = &#39;&#39;;
+        node.style.left = &#39;&#39;;
+        node.style.top = &#39;&#39;;
         
-        items.forEach(item => item.classList.remove('touch-drop-indicator'));
+        items.forEach(item =&gt; item.classList.remove(&#39;touch-drop-indicator&#39;));
 
         if (touchSortPlaceholderIndex !== touchSortCurrentIndex) {
           await executeCardIndexShift(touchSortCurrentIndex, touchSortPlaceholderIndex);
@@ -767,8 +1603,8 @@
         touchSortTargetNode = null;
       }
 
-      window.addEventListener('pointermove', pointerMoveHandler);
-      window.addEventListener('pointerup', pointerUpHandler);
+      window.addEventListener(&#39;pointermove&#39;, pointerMoveHandler);
+      window.addEventListener(&#39;pointerup&#39;, pointerUpHandler);
     }
 
     async function executeCardIndexShift(fromIndex, toIndex) {
@@ -779,28 +1615,29 @@
 
       const allCards = await getAllLocalCards();
       
-      activeDisplayedCardsData.forEach((c, idx) => {
-        const found = allCards.find(item => item.id === c.id);
+      activeDisplayedCardsData.forEach((c, idx) =&gt; {
+        const found = allCards.find(item =&gt; item.id === c.id);
         if (found) {
           found.customOrder = idx;
         }
       });
 
-      const tx = dbInstance.transaction('cards', 'readwrite');
-      const store = tx.objectStore('cards');
-      allCards.forEach(card => store.put(card));
+      const tx = dbInstance.transaction(&#39;cards&#39;, &#39;readwrite&#39;);
+      const store = tx.objectStore(&#39;cards&#39;);
+      allCards.forEach(card =&gt; store.put(card));
 
-      tx.oncomplete = () => {
+      tx.oncomplete = () =&gt; {
         loadBinderCards();
       };
     }
 
+    // ============ DECORATOR ============
     async function openDecoratorForCard(cardId) {
-      document.querySelectorAll('main > section').forEach(el => el.classList.add('hidden'));
-      document.getElementById('view-decorator').classList.remove('hidden');
-      document.querySelectorAll('.nav-tab').forEach(btn => {
-        btn.classList.remove('text-brand-500', 'border-brand-500');
-        btn.classList.add('text-slate-400', 'border-transparent');
+      document.querySelectorAll(&#39;main &gt; section&#39;).forEach(el =&gt; el.classList.add(&#39;hidden&#39;));
+      document.getElementById(&#39;view-decorator&#39;).classList.remove(&#39;hidden&#39;);
+      document.querySelectorAll(&#39;.nav-tab&#39;).forEach(btn =&gt; {
+        btn.classList.remove(&#39;text-brand-500&#39;, &#39;border-brand-500&#39;);
+        btn.classList.add(&#39;text-slate-400&#39;, &#39;border-transparent&#39;);
       });
       loadCardIntoDecorator(cardId);
     }
@@ -808,46 +1645,46 @@
     async function loadCardIntoDecorator(cardId) {
       if (!cardId) return;
       const cards = await getAllLocalCards();
-      decoratorActiveCard = cards.find(c => c.id === cardId);
+      decoratorActiveCard = cards.find(c =&gt; c.id === cardId);
       if (!decoratorActiveCard) return;
 
-      document.getElementById('decorator-empty-state').classList.add('hidden');
-      const baseImg = document.getElementById('decorator-base-img');
+      document.getElementById(&#39;decorator-empty-state&#39;).classList.add(&#39;hidden&#39;);
+      const baseImg = document.getElementById(&#39;decorator-base-img&#39;);
       baseImg.src = decoratorActiveCard.imageData;
-      baseImg.classList.remove('hidden');
-      document.getElementById('decorator-text-overlay').classList.remove('hidden');
+      baseImg.classList.remove(&#39;hidden&#39;);
+      document.getElementById(&#39;decorator-text-overlay&#39;).classList.remove(&#39;hidden&#39;);
 
-      document.getElementById('edit-card-name').value = decoratorActiveCard.name || '';
-      document.getElementById('edit-card-group').value = decoratorActiveCard.group || '';
-      document.getElementById('edit-card-genre').value = decoratorActiveCard.genre || 'k-pop';
+      document.getElementById(&#39;edit-card-name&#39;).value = decoratorActiveCard.name || &#39;&#39;;
+      document.getElementById(&#39;edit-card-group&#39;).value = decoratorActiveCard.group || &#39;&#39;;
+      document.getElementById(&#39;edit-card-genre&#39;).value = decoratorActiveCard.genre || &#39;K-Pop&#39;;
 
       updateLiveTextPreview();
 
-      const targetFrame = decoratorActiveCard.decorations?.toploaderFrame || 'none';
-      const targetColor = decoratorActiveCard.decorations?.frameColor || '#ffffff';
+      const targetFrame = decoratorActiveCard.decorations?.toploaderFrame || &#39;none&#39;;
+      const targetColor = decoratorActiveCard.decorations?.frameColor || &#39;#ffffff&#39;;
       
-      document.getElementById('frame-color-input').value = targetColor;
-      document.getElementById('frame-color-hex-label').innerText = targetColor;
+      document.getElementById(&#39;frame-color-input&#39;).value = targetColor;
+      document.getElementById(&#39;frame-color-hex-label&#39;).innerText = targetColor;
 
       applyFrameStyle(targetFrame);
       updateFrameColor(targetColor);
       
-      document.getElementById('decorator-sticker-layer').innerHTML = '';
+      document.getElementById(&#39;decorator-sticker-layer&#39;).innerHTML = &#39;&#39;;
       activeStickers = [];
 
       if (decoratorActiveCard.decorations?.stickers) {
-        decoratorActiveCard.decorations.stickers.forEach(s => instantiateStickerNode(s.imageSrc, s.x, s.y, s.scale || 1.0, s.rotation || 0));
+        decoratorActiveCard.decorations.stickers.forEach(s =&gt; instantiateStickerNode(s.imageSrc, s.x, s.y, s.scale || 1.0, s.rotation || 0));
       }
     }
 
     function updateLiveTextPreview() {
-      const nameVal = document.getElementById('edit-card-name').value.trim() || 'name';
-      const groupVal = document.getElementById('edit-card-group').value.trim() || 'group';
-      const genreVal = document.getElementById('edit-card-genre').value;
+      const nameVal = document.getElementById(&#39;edit-card-name&#39;).value.trim() || &#39;Name&#39;;
+      const groupVal = document.getElementById(&#39;edit-card-group&#39;).value.trim() || &#39;GROUP&#39;;
+      const genreVal = document.getElementById(&#39;edit-card-genre&#39;).value;
 
-      document.getElementById('preview-lbl-name').innerText = nameVal;
-      document.getElementById('preview-lbl-group').innerText = groupVal;
-      document.getElementById('preview-lbl-genre').innerText = genreVal;
+      document.getElementById(&#39;preview-lbl-name&#39;).innerText = nameVal;
+      document.getElementById(&#39;preview-lbl-group&#39;).innerText = groupVal;
+      document.getElementById(&#39;preview-lbl-genre&#39;).innerText = genreVal;
 
       if (decoratorActiveCard) {
         decoratorActiveCard.name = nameVal;
@@ -857,27 +1694,36 @@
     }
 
     function applyFrameStyle(styleName) {
-      const layer = document.getElementById('decorator-frame-layer');
-      const picker = document.getElementById('frame-color-picker-container');
+      const layer = document.getElementById(&#39;decorator-frame-layer&#39;);
+      const picker = document.getElementById(&#39;frame-color-picker-container&#39;);
       
-      layer.className = 'absolute inset-0 z-20 pointer-events-none rounded-2xl';
+      layer.className = &#39;absolute inset-0 rounded-2xl pointer-events-none&#39;;
       
-      if (styleName !== 'none') {
+      if (styleName &amp;&amp; styleName !== &#39;none&#39;) {
         layer.classList.add(styleName);
-        if (picker) picker.classList.remove('hidden');
+        if (picker) picker.classList.remove(&#39;hidden&#39;);
       } else {
-        if (picker) picker.classList.add('hidden');
+        if (picker) picker.classList.add(&#39;hidden&#39;);
+      }
+
+      const container = document.getElementById(&#39;decorator-workspace-container&#39;);
+      if (container) {
+        container.style.overflow = styleName === &#39;frame-glowing-trim&#39; ? &#39;visible&#39; : &#39;hidden&#39;;
       }
       
       if (decoratorActiveCard) {
+        if (!decoratorActiveCard.decorations) decoratorActiveCard.decorations = {};
         decoratorActiveCard.decorations.toploaderFrame = styleName;
       }
     }
 
     function updateFrameColor(colorHex) {
-      const layer = document.getElementById('decorator-frame-layer');
-      if(layer) layer.style.setProperty('--frame-color', colorHex);
-      document.getElementById('frame-color-hex-label').innerText = colorHex;
+      const layer = document.getElementById(&#39;decorator-frame-layer&#39;);
+      if(layer) {
+        layer.style.setProperty(&#39;--frame-color&#39;, colorHex);
+        layer.style.backgroundColor = colorHex;
+      }
+      document.getElementById(&#39;frame-color-hex-label&#39;).innerText = colorHex;
       if (decoratorActiveCard) {
         if(!decoratorActiveCard.decorations) decoratorActiveCard.decorations = {};
         decoratorActiveCard.decorations.frameColor = colorHex;
@@ -886,9 +1732,9 @@
 
     function handleStickerUpload(event) {
       const files = Array.from(event.target.files);
-      files.forEach(file => {
+      files.forEach(file =&gt; {
         const reader = new FileReader();
-        reader.onload = (e) => {
+        reader.onload = (e) =&gt; {
           const stickerObj = {
             id: `stk_inv_${Date.now()}_${Math.random().toString(36).substr(2,4)}`,
             src: e.target.result
@@ -898,33 +1744,35 @@
         };
         reader.readAsDataURL(file);
       });
-      event.target.value = '';
+      event.target.value = &#39;&#39;;
     }
 
     function renderStickerBar() {
-      const bar = document.getElementById('sticker-horizontal-bar');
-      bar.innerHTML = '';
+      const bar = document.getElementById(&#39;sticker-horizontal-bar&#39;);
+      if (!bar) return;
+      
+      bar.innerHTML = &#39;&#39;;
       
       if (runtimeStickerInventory.length === 0) {
-        bar.innerHTML = `<div class="text-[11px] text-slate-400 w-full text-center py-3 flex items-center justify-center">no custom stickers loaded. upload above.</div>`;
+        bar.innerHTML = `&lt;div class=&#34;text-[11px] text-slate-400 w-full text-center py-3 flex items-center justify-center&#34;&gt;no custom stickers loaded. upload above.&lt;/div&gt;`;
         return;
       }
 
-      runtimeStickerInventory.forEach(stk => {
-        const container = document.createElement('div');
-        container.className = 'relative flex-shrink-0 w-12 h-12 bg-white border border-slate-200 rounded-lg p-1 flex items-center justify-center cursor-pointer hover:border-brand-300 group shadow-2xs';
-        container.onclick = () => addStickerToCanvas(stk.src);
+      runtimeStickerInventory.forEach(stk =&gt; {
+        const container = document.createElement(&#39;div&#39;);
+        container.className = &#39;relative flex-shrink-0 w-12 h-12 bg-white border border-slate-200 rounded-lg p-1 flex items-center justify-center cursor-pointer hover:border-brand-300 group shadow-2xs&#39;;
+        container.onclick = () =&gt; addStickerToCanvas(stk.src);
 
-        const img = document.createElement('img');
+        const img = document.createElement(&#39;img&#39;);
         img.src = stk.src;
-        img.className = 'max-w-full max-h-full object-contain pointer-events-none disable-ios-save';
+        img.className = &#39;block max-w-full max-h-full object-contain pointer-events-none disable-ios-save&#39;;
         
-        const delBtn = document.createElement('button');
-        delBtn.className = 'absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-slate-200 text-slate-600 hover:text-rose-500 border border-slate-300 flex items-center justify-center text-[9px] opacity-100 transition-opacity';
-        delBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
-        delBtn.onclick = (e) => {
+        const delBtn = document.createElement(&#39;button&#39;);
+        delBtn.className = &#39;absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-slate-200 text-slate-600 hover:text-rose-500 border border-slate-300 flex items-center justify-center text-[9px] opacity-100 transition-opacity&#39;;
+        delBtn.innerHTML = &#39;&lt;i class=&#34;fa-solid fa-xmark&#34;&gt;&lt;/i&gt;&#39;;
+        delBtn.onclick = (e) =&gt; {
           e.stopPropagation();
-          runtimeStickerInventory = runtimeStickerInventory.filter(item => item.id !== stk.id);
+          runtimeStickerInventory = runtimeStickerInventory.filter(item =&gt; item.id !== stk.id);
           renderStickerBar();
         };
 
@@ -940,72 +1788,72 @@
     }
 
     function clearStickerSelection() {
-      document.querySelectorAll('#decorator-sticker-layer > div').forEach(el => {
-        el.classList.remove('sticker-selected');
-        const handles = el.querySelectorAll('.sticker-control-handle, .sticker-delete-handle');
-        handles.forEach(h => h.classList.add('hidden'));
+      document.querySelectorAll(&#39;#decorator-sticker-layer &gt; div&#39;).forEach(el =&gt; {
+        el.classList.remove(&#39;sticker-selected&#39;);
+        const handles = el.querySelectorAll(&#39;.sticker-control-handle, .sticker-delete-handle&#39;);
+        handles.forEach(h =&gt; h.classList.add(&#39;hidden&#39;));
       });
     }
 
     function instantiateStickerNode(imageSrc, x, y, scale, rotation) {
       const stickerId = `stk_${Date.now()}_${Math.random().toString(36).substr(2,4)}`;
-      const node = document.createElement('div');
+      const node = document.createElement(&#39;div&#39;);
       node.id = stickerId;
-      node.className = 'absolute select-none z-30 p-1 origin-center flex items-center justify-center cursor-move';
+      node.className = &#39;absolute select-none z-30 p-1 origin-center flex items-center justify-center cursor-move&#39;;
       node.style.left = `${x}%`;
       node.style.top = `${y}%`;
-      node.style.width = '20%';
-      node.style.height = '20%';
+      node.style.width = &#39;20%&#39;;
+      node.style.height = &#39;20%&#39;;
       node.style.transform = `translate(-50%, -50%) scale(${scale}) rotate(${rotation}deg)`;
       
-      const img = document.createElement('img');
+      const img = document.createElement(&#39;img&#39;);
       img.src = imageSrc;
-      img.className = 'max-w-full max-h-full object-contain pointer-events-none disable-ios-save';
+      img.className = &#39;block max-w-full max-h-full object-contain pointer-events-none disable-ios-save&#39;;
       node.appendChild(img);
 
       const metadata = { id: stickerId, imageSrc, x, y, scale, rotation };
       activeStickers.push(metadata);
 
-      const transformHandle = document.createElement('div');
-      transformHandle.className = 'sticker-control-handle hidden';
-      transformHandle.innerHTML = '<i class="fa-solid fa-arrows-up-down-left-right"></i>';
+      const transformHandle = document.createElement(&#39;div&#39;);
+      transformHandle.className = &#39;sticker-control-handle hidden&#39;;
+      transformHandle.innerHTML = &#39;&lt;i class=&#34;fa-solid fa-arrows-up-down-left-right&#34;&gt;&lt;/i&gt;&#39;;
       node.appendChild(transformHandle);
 
-      const deleteHandle = document.createElement('div');
-      deleteHandle.className = 'sticker-delete-handle hidden';
-      deleteHandle.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+      const deleteHandle = document.createElement(&#39;div&#39;);
+      deleteHandle.className = &#39;sticker-delete-handle hidden&#39;;
+      deleteHandle.innerHTML = &#39;&lt;i class=&#34;fa-solid fa-xmark&#34;&gt;&lt;/i&gt;&#39;;
       node.appendChild(deleteHandle);
 
-      const selectAction = (e) => {
-        if(e.target.closest('.sticker-control-handle') || e.target.closest('.sticker-delete-handle')) return;
+      const selectAction = (e) =&gt; {
+        if(e.target.closest(&#39;.sticker-control-handle&#39;) || e.target.closest(&#39;.sticker-delete-handle&#39;)) return;
         clearStickerSelection();
-        node.classList.add('sticker-selected');
-        transformHandle.classList.remove('hidden');
-        deleteHandle.classList.remove('hidden');
+        node.classList.add(&#39;sticker-selected&#39;);
+        transformHandle.classList.remove(&#39;hidden&#39;);
+        deleteHandle.classList.remove(&#39;hidden&#39;);
         startStickerDrag(e, node, metadata);
       };
 
-      node.addEventListener('mousedown', selectAction);
-      node.addEventListener('touchstart', selectAction, { passive: false });
+      node.addEventListener(&#39;mousedown&#39;, selectAction);
+      node.addEventListener(&#39;touchstart&#39;, selectAction, { passive: false });
 
-      transformHandle.addEventListener('mousedown', (e) => { e.stopPropagation(); startStickerTransform(e, node, metadata); });
-      transformHandle.addEventListener('touchstart', (e) => { e.stopPropagation(); startStickerTransform(e, node, metadata); }, { passive: false });
+      transformHandle.addEventListener(&#39;mousedown&#39;, (e) =&gt; { e.stopPropagation(); startStickerTransform(e, node, metadata); });
+      transformHandle.addEventListener(&#39;touchstart&#39;, (e) =&gt; { e.stopPropagation(); startStickerTransform(e, node, metadata); }, { passive: false });
 
-      const triggerRemoveSticker = (e) => {
+      const triggerRemoveSticker = (e) =&gt; {
         e.preventDefault();
         e.stopPropagation();
         node.remove();
-        activeStickers = activeStickers.filter(s => s.id !== stickerId);
+        activeStickers = activeStickers.filter(s =&gt; s.id !== stickerId);
       };
 
-      deleteHandle.addEventListener('click', triggerRemoveSticker);
-      deleteHandle.addEventListener('touchstart', triggerRemoveSticker, { passive: false });
+      deleteHandle.addEventListener(&#39;click&#39;, triggerRemoveSticker);
+      deleteHandle.addEventListener(&#39;touchstart&#39;, triggerRemoveSticker, { passive: false });
 
-      document.getElementById('decorator-sticker-layer').appendChild(node);
+      document.getElementById(&#39;decorator-sticker-layer&#39;).appendChild(node);
     }
 
     function startStickerDrag(e, node, metadata) {
-      const container = document.getElementById('decorator-workspace-container');
+      const container = document.getElementById(&#39;decorator-workspace-container&#39;);
       const rect = container.getBoundingClientRect();
       
       function moveHandler(moveEvent) {
@@ -1025,20 +1873,20 @@
       }
 
       function endHandler() {
-        window.removeEventListener('mousemove', moveHandler);
-        window.removeEventListener('mouseup', endHandler);
-        window.removeEventListener('touchmove', moveHandler);
-        window.removeEventListener('touchend', endHandler);
+        window.removeEventListener(&#39;mousemove&#39;, moveHandler);
+        window.removeEventListener(&#39;mouseup&#39;, endHandler);
+        window.removeEventListener(&#39;touchmove&#39;, moveHandler);
+        window.removeEventListener(&#39;touchend&#39;, endHandler);
       }
 
-      window.addEventListener('mousemove', moveHandler);
-      window.addEventListener('mouseup', endHandler);
-      window.addEventListener('touchmove', moveHandler, { passive: false });
-      window.addEventListener('touchend', endHandler);
+      window.addEventListener(&#39;mousemove&#39;, moveHandler);
+      window.addEventListener(&#39;mouseup&#39;, endHandler);
+      window.addEventListener(&#39;touchmove&#39;, moveHandler, { passive: false });
+      window.addEventListener(&#39;touchend&#39;, endHandler);
     }
 
     function startStickerTransform(e, node, metadata) {
-      const container = document.getElementById('decorator-workspace-container');
+      const container = document.getElementById(&#39;decorator-workspace-container&#39;);
       const containerRect = container.getBoundingClientRect();
       
       const centerX = containerRect.left + (metadata.x / 100) * containerRect.width;
@@ -1073,83 +1921,56 @@
       }
 
       function transformEndHandler() {
-        window.removeEventListener('mousemove', transformMoveHandler);
-        window.removeEventListener('mouseup', transformEndHandler);
-        window.removeEventListener('touchmove', transformMoveHandler);
-        window.removeEventListener('touchend', transformEndHandler);
+        window.removeEventListener(&#39;mousemove&#39;, transformMoveHandler);
+        window.removeEventListener(&#39;mouseup&#39;, transformEndHandler);
+        window.removeEventListener(&#39;touchmove&#39;, transformMoveHandler);
+        window.removeEventListener(&#39;touchend&#39;, transformEndHandler);
       }
 
-      window.addEventListener('mousemove', transformMoveHandler);
-      window.addEventListener('mouseup', transformEndHandler);
-      window.addEventListener('touchmove', transformMoveHandler, { passive: false });
-      window.addEventListener('touchend', transformEndHandler);
+      window.addEventListener(&#39;mousemove&#39;, transformMoveHandler);
+      window.addEventListener(&#39;mouseup&#39;, transformEndHandler);
+      window.addEventListener(&#39;touchmove&#39;, transformMoveHandler, { passive: false });
+      window.addEventListener(&#39;touchend&#39;, transformEndHandler);
     }
 
     async function saveDecorationsToDB() {
       if (!decoratorActiveCard) return;
       clearStickerSelection();
       
+      if (!dbInstance) await initIndexedDB();
       decoratorActiveCard.decorations.stickers = activeStickers;
-      const tx = dbInstance.transaction('cards', 'readwrite');
-      tx.objectStore('cards').put(decoratorActiveCard);
-      tx.oncomplete = () => { 
+      
+      const tx = dbInstance.transaction(&#39;cards&#39;, &#39;readwrite&#39;);
+      tx.objectStore(&#39;cards&#39;).put(decoratorActiveCard);
+      tx.oncomplete = () =&gt; { 
         confetti({ particleCount: 30, spread: 50, origin: { y: 0.8 } }); 
       };
     }
 
     function deleteActiveCardFromDecorator() {
-      if (!decoratorActiveCard || !dbInstance) return;
-      if (!confirm('are you sure you want to completely delete this photocard?')) return;
+      if (!decoratorActiveCard || !decoratorActiveCard.id) {
+        alert(&#39;No card is currently selected.&#39;);
+        return;
+      }
 
-      const tx = dbInstance.transaction('cards', 'readwrite');
-      tx.objectStore('cards').delete(decoratorActiveCard.id);
+      pendingBulkDeleteIds = [decoratorActiveCard.id];
       
-      tx.oncomplete = () => {
-        decoratorActiveCard = null;
-        document.getElementById('decorator-empty-state').classList.remove('hidden');
-        document.getElementById('decorator-base-img').classList.add('hidden');
-        document.getElementById('decorator-text-overlay').classList.add('hidden');
-        switchTab('binder');
-      };
+      const modal = document.getElementById(&#39;delete-confirm-modal&#39;);
+      const title = document.getElementById(&#39;delete-confirm-title&#39;);
+      if (title) {
+        title.textContent = &#39;delete this photocard?&#39;;
+      }
+      if (modal) {
+        modal.classList.add(&#39;show&#39;);
+      }
     }
 
-    function exportBinderScreenshot() {
-      const grid = document.getElementById('binder-grid');
-
-      const container = document.createElement('div');
-      container.className = 'grid grid-cols-5 gap-4 p-1 max-w-[800px]';
-      container.style.position = 'fixed';
-      container.style.left = '-9999px';
-      container.style.top = '0';
-      container.style.zIndex = '-1';
-
-      const cards = grid.querySelectorAll('.card-grid-item');
-      cards.forEach(card => {
-        const inner = card.querySelector('.photocard-aspect');
-        if (inner) {
-          const clone = inner.cloneNode(true);
-          container.appendChild(clone);
-        }
-      });
-
-      document.body.appendChild(container);
-
-      requestAnimationFrame(() => {
-        html2canvas(container, {
-          useCORS: true,
-          backgroundColor: '#faf8f9',
-          scale: Math.max(1, window.devicePixelRatio),
-          logging: false
-        }).then(canvas => {
-          document.body.removeChild(container);
-          const link = document.createElement('a');
-          link.download = `binder_page_snapshot_${Date.now()}.png`;
-          link.href = canvas.toDataURL();
-          link.click();
-        });
-      });
-    }
-  </script>
-
-</body>
+    document.addEventListener(&#39;click&#39;, function(e) {
+      const modal = document.getElementById(&#39;delete-confirm-modal&#39;);
+      if (modal &amp;&amp; e.target === modal) {
+        closeDeleteConfirm();
+      }
+    });
+    </script>
+  </body>
 </html>
