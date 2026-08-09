@@ -7,7 +7,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkFueXRoaW5nR2FjaGEgU3R1ZGlvIiwKICAic2hvcnRfbmFtZSI6ICJHYWNoYSBTdHVkaW8iLAogICJkZXNjcmlwdGlvbiI6ICJHYWNoYSBhbmQgY29sbGVjdCBwaG90b2NhcmRzIiwKICAic3RhcnRfdXJsIjogIi4iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiNmNDNmNWUiLAogICJ0aGVtZV9jb2xvciI6ICIjZjQzZjVlIiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sLDxzdmcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJyB2aWV3Qm94PScwIDAgNTEyIDUxMic+PHJlY3Qgd2lkdGg9JzUxMicgaGVpZ2h0PSc1MTInIHJ4PSc2MCcgZmlsbD0nI2Y0M2Y1ZScvPjx0ZXh0IHg9JzI1NicgeT0nMzQwJyBmb250LXNpemU9JzI4MCcgdGV4dC1hbmNob3I9J21pZGRsZScgZmlsbD0nd2hpdGUnIGZvbnQtZmFtaWx5PSdzYW5zLXNlcmlmJz7imqA8L3RleHQ+PC9zdmc+IgogICAgfQogIF0KfQ==">
-  <title>AnythingGacha Studio & Binder</title>
+  <title>AnythingGacha Studio</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -110,12 +110,12 @@
       </div>
     </div>
   </div>
-  <!-- Three platform download buttons -->
-  <div id="desktop-dl-bar">
-    <span class="dl-label">Download:</span>
-    <button onclick="downloadApp('windows')"><i class="fa-brands fa-windows"></i> .exe</button>
-    <button onclick="downloadApp('mac')"><i class="fa-brands fa-apple"></i> .dmg</button>
-    <button onclick="downloadApp('linux')"><i class="fa-brands fa-linux"></i> .AppImage</button>
+  <!-- Windows-only download button (hidden by default) -->
+  <div id="desktop-dl-bar" style="display: none;">
+    <span class="dl-label">Get the app:</span>
+    <button onclick="downloadWindowsApp()">
+      <i class="fa-brands fa-windows"></i> Windows
+    </button>
   </div>
   <div id="delete-confirm-modal" role="dialog" aria-modal="true">
     <div class="delete-confirm-card">
@@ -193,7 +193,6 @@
               <div id="dropzone-placeholder" class="flex flex-col items-center space-y-2 text-slate-400 group-hover:text-brand-400"><i class="fa-solid fa-cloud-arrow-up text-3xl text-brand-300"></i><span class="text-xs font-medium">select or drop image asset</span></div>
               <img id="card-preview-img" class="hidden absolute inset-0 block w-full h-full object-cover rounded-xl disable-ios-save" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="">
             </div>
-            <div id="compression-stats" class="hidden mt-3 text-center text-[11px] text-slate-500 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200 w-full max-w-[240px]">orig: <span id="stat-orig-size" class="text-slate-700">0 kb</span> → webp: <span id="stat-webp-size" class="text-brand-500 font-semibold">0 kb</span></div>
           </div>
           <div class="md:col-span-7 space-y-4">
             <div><label class="block text-xs font-semibold text-slate-600 mb-1">character / artist name</label><input type="text" id="input-name" required placeholder="e.g. Seonghwa" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:outline-none focus:border-brand-400"></div>
@@ -341,35 +340,45 @@
         }
       }
 
-      function detectPlatform() {
-        isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-        isPWA = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-        if (isMobile && !isPWA) setTimeout(() => document.getElementById('pwa-banner').classList.add('show'), 3000);
-        if (!isMobile) document.getElementById('desktop-dl-bar').style.display = 'flex';
+      function isWindowsPC() {
+        const platform = navigator.platform || '';
+        const userAgent = navigator.userAgent || '';
+        return platform.indexOf('Win') > -1 || userAgent.indexOf('Windows') > -1;
       }
 
-      // Three-platform download function
-      const DOWNLOADS = {
-        windows: '/AnythingGacha.exe',
-        mac: '/AnythingGacha.dmg',
-        linux: '/AnythingGacha.AppImage'
-      };
+      function isRunningInElectron() {
+        const userAgent = navigator.userAgent || '';
+        return userAgent.indexOf('Electron') > -1;
+      }
 
-      window.downloadApp = (platform) => {
-        const url = DOWNLOADS[platform];
-        const names = { windows: 'Windows', mac: 'macOS', linux: 'Linux' };
-        const extensions = { windows: 'exe', mac: 'dmg', linux: 'AppImage' };
+     function detectPlatform() {
+        isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+        isPWA = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
         
-        showToast(`📥 Downloading for ${names[platform]}...`, 'info', 2000);
+        if (isMobile && !isPWA) {
+          setTimeout(() => document.getElementById('pwa-banner').classList.add('show'), 3000);
+        }
         
+        // Only show Windows download button if:
+        // 1. User is on Windows PC
+        // 2. User is NOT already running the Electron app
+        // 3. User is NOT on mobile
+        if (!isMobile && isWindowsPC() && !isRunningInElectron()) {
+          document.getElementById('desktop-dl-bar').style.display = 'flex';
+        }
+      }
+
+      // Windows-only download function
+      window.downloadWindowsApp = () => {
+        showToast('Downloading AnythingGacha.exe for Windows...', 'info', 3000);
         setTimeout(() => {
           const a = document.createElement('a');
-          a.href = url;
-          a.download = `AnythingGacha_Studio_${names[platform]}.${extensions[platform]}`;
+          a.href = '/AnythingGacha.exe';
+          a.download = 'AnythingGacha_Studio.exe';
           document.body.appendChild(a);
           a.click();
           document.body.removeChild(a);
-        }, 300);
+        }, 500);
       };
 
       window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; if (isMobile && !isPWA) document.getElementById('pwa-banner').classList.add('show'); });
@@ -419,7 +428,7 @@
           dbInstance.transaction('cards', 'readwrite').objectStore('cards').add(card);
           document.getElementById('gacha-result-container').classList.remove('hidden');
           document.getElementById('gacha-result-card').innerHTML = `<div class="text-center space-y-3"><div class="gacha-card-reveal photocard-aspect w-48 mx-auto rounded-xl shadow-2xl overflow-hidden bg-white relative"><div class="gacha-shimmer-effect absolute inset-0 z-10"></div><img src="${card.imageData}" class="block w-full h-full object-cover disable-ios-save"><div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900/90 to-transparent p-3"><p class="text-xs font-bold text-white">${card.name}</p><p class="text-[10px] text-slate-300">${card.group} • ${card.genre}</p></div></div><button onclick="switchTab('binder')" class="text-xs font-bold text-brand-500">view in binder</button></div>`;
-          showToast(`✨ "${card.name}" added!`, 'success');
+          showToast(`"${card.name}" added!`, 'success');
           confetti({ particleCount: 100, spread: 90, origin: { y: 0.6 } });
         } catch (err) { showToast('Connection failed.', 'info'); checkServer(); }
         finally { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-gift"></i><span>pull 1 card (gacha)</span>'; updateDailyDisplay(); }
@@ -433,7 +442,7 @@
         savedGachaPacks.push({ id: 'p' + Date.now(), name, group, genre, createdAt: Date.now() });
         await saveGachaState();
         renderPacks();
-        showToast(`📦 Saved: ${group}`, 'success');
+        showToast(`Saved: ${group}`, 'success');
       };
       window.loadGachaPack = (p) => { document.getElementById('gacha-name').value = p.name || ''; document.getElementById('gacha-group').value = p.group || ''; document.getElementById('gacha-genre').value = p.genre || 'K-Pop'; showToast(`Loaded: ${p.group}`, 'info', 1500); };
       window.deleteGachaPack = async (id) => { savedGachaPacks = savedGachaPacks.filter(p => p.id !== id); await saveGachaState(); renderPacks(); };
@@ -610,8 +619,8 @@
       window.deleteActiveCardFromDecorator = () => { if (!decoratorActiveCard?.id) return; pendingBulkDeleteIds = [decoratorActiveCard.id]; document.getElementById('delete-confirm-title').textContent = 'delete this card?'; document.getElementById('delete-confirm-modal').classList.add('show'); };
 
       function compressImage(file) { return new Promise(r => { const reader = new FileReader(); reader.onload = (e) => { const img = new Image(); img.onload = () => { const c = document.createElement('canvas'); c.width = 600; c.height = 840; const ctx = c.getContext('2d'); const s = Math.max(600/img.width, 840/img.height); ctx.drawImage(img, (600-img.width*s)/2, (840-img.height*s)/2, img.width*s, img.height*s); const w = c.toDataURL('image/webp', 0.8); r({ webp: w, orig: (file.size/1024).toFixed(1), webpSize: (Math.round((w.length*3)/4)/1024).toFixed(1) }); }; img.src = e.target.result; }; reader.readAsDataURL(file); }); }
-      window.handleFileSelect = async (e) => { const f = e.target.files[0]; if (!f) return; const { webp, orig, webpSize } = await compressImage(f); activeCompressedWebP = webp; document.getElementById('card-preview-img').src = webp; document.getElementById('card-preview-img').classList.remove('hidden'); document.getElementById('dropzone-placeholder').classList.add('hidden'); document.getElementById('stat-orig-size').innerText = orig + ' KB'; document.getElementById('stat-webp-size').innerText = webpSize + ' KB'; document.getElementById('compression-stats').classList.remove('hidden'); const btn = document.getElementById('save-card-btn'); btn.disabled = false; btn.className = 'w-full mt-2 py-2.5 bg-brand-500 hover:bg-brand-600 text-white rounded-xl text-xs font-bold transition flex items-center justify-center space-x-2 shadow-xs cursor-pointer'; };
-      window.handleCardSubmit = async (e) => { e.preventDefault(); if (!activeCompressedWebP) return; if (!dbInstance) await initDB(); const cards = await getCards(); const card = { id: 'c' + Date.now() + Math.random().toString(36).substr(2,4), name: document.getElementById('input-name').value.trim(), group: document.getElementById('input-group').value.trim(), genre: document.getElementById('input-genre').value, imageData: activeCompressedWebP, decorations: { toploaderFrame: 'none', frameColor: '#ffffff', stickers: [] }, createdAt: Date.now(), customOrder: cards.length, favorite: false }; dbInstance.transaction('cards', 'readwrite').objectStore('cards').add(card); document.getElementById('card-creator-form').reset(); document.getElementById('card-preview-img').classList.add('hidden'); document.getElementById('dropzone-placeholder').classList.remove('hidden'); document.getElementById('compression-stats').classList.add('hidden'); activeCompressedWebP = null; showToast(`✨ "${card.name}" created!`, 'success'); switchTab('binder'); };
+      window.handleFileSelect = async (e) => { const f = e.target.files[0]; if (!f) return; const { webp, orig, webpSize } = await compressImage(f); activeCompressedWebP = webp; document.getElementById('card-preview-img').src = webp; document.getElementById('card-preview-img').classList.remove('hidden'); document.getElementById('dropzone-placeholder').classList.add('hidden'); const btn = document.getElementById('save-card-btn'); btn.disabled = false; btn.className = 'w-full mt-2 py-2.5 bg-brand-500 hover:bg-brand-600 text-white rounded-xl text-xs font-bold transition flex items-center justify-center space-x-2 shadow-xs cursor-pointer'; };
+      window.handleCardSubmit = async (e) => { e.preventDefault(); if (!activeCompressedWebP) return; if (!dbInstance) await initDB(); const cards = await getCards(); const card = { id: 'c' + Date.now() + Math.random().toString(36).substr(2,4), name: document.getElementById('input-name').value.trim(), group: document.getElementById('input-group').value.trim(), genre: document.getElementById('input-genre').value, imageData: activeCompressedWebP, decorations: { toploaderFrame: 'none', frameColor: '#ffffff', stickers: [] }, createdAt: Date.now(), customOrder: cards.length, favorite: false }; dbInstance.transaction('cards', 'readwrite').objectStore('cards').add(card); document.getElementById('card-creator-form').reset(); document.getElementById('card-preview-img').classList.add('hidden'); document.getElementById('dropzone-placeholder').classList.remove('hidden'); activeCompressedWebP = null; showToast(`"${card.name}" created!`, 'success'); switchTab('binder'); };
 
       document.addEventListener('DOMContentLoaded', async () => {
         await requestPersist();
