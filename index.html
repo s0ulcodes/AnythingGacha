@@ -405,11 +405,12 @@
       }
 
       window.downloadWindowsApp = () => {
-        showToast('Downloading AnythingGacha.exe for Windows...', 'info', 3000);
+        showToast('Downloading AnythingGacha.exe from GitHub...', 'info', 3000);
         setTimeout(() => {
           const a = document.createElement('a');
-          a.href = '/AnythingGacha.exe';
-          a.download = 'AnythingGacha_Studio.exe';
+          a.href = 'https://github.com/s0ulcodes/anythinggacha/releases/latest/download/AnythingGacha.exe';
+          a.target = '_blank';
+          a.rel = 'noopener';
           document.body.appendChild(a);
           a.click();
           document.body.removeChild(a);
