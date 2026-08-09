@@ -11,7 +11,7 @@ function createWindow() {
       nodeIntegration: false,
       contextIsolation: true
     },
-    title: 'AnythingGacha Studio',
+    title: 'AnythingGacha',
     autoHideMenuBar: true,
     icon: __dirname + '/icon.ico' // Custom icon
   });

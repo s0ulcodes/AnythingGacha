@@ -34,7 +34,7 @@
 | Windows | [AnythingGacha.exe](https://anythinggacha.pages.dev/AnythingGacha.exe) |
 | Web | [Play in Browser](https://anythinggacha.pages.dev) |
 
-> **Mac & Linux users**: Please use the web version. The downloadable app is Windows-only (built via GitHub Actions).
+> **Mac & Linux users**: Please use the web version. The downloadable app is Windows-only.
 
 ---
 
@@ -48,6 +48,20 @@
 | Storage | IndexedDB (browser) |
 | Hosting | Cloudflare Pages (frontend), Hugging Face Spaces (backend) |
 
+---
+
+## 📂 Project Structure
+
+- index.html - Main web app
+- main.js - Electron entry point
+- package.json - Build configuration
+- icon.ico - App icon
+
+## Backend
+
+The Pinterest image search and card processing API lives in a separate repo:
+- **Repo:** [anythinggacha-backend](https://github.com/s0ulcodes/pinterest-gacha-app)
+- **Deployed on:** [Hugging Face Spaces](https://huggingface.co/spaces/s0ulcodes/pinterest-gacha-app)
 ---
 
 ## Building the Windows App

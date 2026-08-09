@@ -21,7 +21,7 @@
   "homepage": "https://github.com/s0ulcodes/anythinggacha#readme",
   "build": {
     "appId": "com.anythinggacha.studio",
-    "productName": "AnythingGacha Studio",
+    "productName": "AnythingGacha",
     "directories": {
       "output": "dist"
     },
