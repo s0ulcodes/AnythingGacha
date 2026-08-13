@@ -1,4 +1,4 @@
-# AnythingGacha Studio
+# AnythingGacha
 
 **Collect anything.** A photocard gacha game and binder web app where you can pull, collect, decorate, and organize photocards from any fandom.
 
