@@ -50,7 +50,7 @@
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 - index.html - Main web app
 - main.js - Electron entry point
